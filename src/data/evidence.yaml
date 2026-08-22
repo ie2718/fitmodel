@@ -1,0 +1,1612 @@
+# 证据库：每一条可展示、可入分的数据都必须有对应记录。
+# 字段：
+# - id: ev-<类别>-<序号>
+# - metric: 必须是 metrics.yaml 中已注册的指标 id
+# - subject: 模型家族 id（对应 models.yaml）
+# - variant: 具体模型变体名（评分实体）
+# - value: 原始值
+# - source / source_url: 来源与可回查链接
+# - retrieved_at: 采集日期
+# - verified: 是否已对照原文核实（agent 采集后人工抽查置 true）
+# - notes: 口径说明、异常备注
+#
+# 维护规则见 /AGENTS.md：新证据必须带 source_url 与 retrieved_at，否则构建不通过。
+
+# ===== Arena 总榜 / 编码 / 写作（arena.ai，2026-08-15 采集）=====
+
+- id: ev-arena-001
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-fable-5
+  value: 1506
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 总榜第 1；创意写作类目第 1。
+
+- id: ev-arena-002
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-fable-5
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-003
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-fable-5
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-004
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1505
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 页面表格显示编码类目第 3，但页脚注明编码第 1 为该模型，两处口径不一致，待复核。
+
+- id: ev-arena-005
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 按表格口径记录为 3；页脚注释称其为编码第 1，冲突待复核。
+
+- id: ev-arena-006
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-007
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 1502
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-008
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-009
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-010
+  metric: arena_elo_overall
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 1498
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 厂商与国内可用性待核实，产品映射暂缺。
+
+- id: ev-arena-011
+  metric: arena_rank_coding
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-012
+  metric: arena_rank_writing
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-013
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6
+  value: 1497
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-014
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-015
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-016
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7
+  value: 1494
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-017
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-018
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-019
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-5-high
+  value: 1493
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-020
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-high
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-021
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-high
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-022
+  metric: arena_elo_overall
+  subject: qwen
+  variant: qwen3.8-max
+  value: 1491
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-023
+  metric: arena_rank_coding
+  subject: qwen
+  variant: qwen3.8-max
+  value: 13
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-024
+  metric: arena_rank_writing
+  subject: qwen
+  variant: qwen3.8-max
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-025
+  metric: arena_elo_overall
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 1490
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-026
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-027
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-028
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-5-max
+  value: 1489
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-029
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-max
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-arena-030
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-max
+  value: 16
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-08-15
+  verified: true
+
+# ===== Claude 官方定价（platform.claude.com，2026-08-15 采集，USD/百万 tokens）=====
+
+- id: ev-price-001
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-fable-5
+  value: 10
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-002
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-fable-5
+  value: 50
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-003
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-opus-5
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-004
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-opus-5
+  value: 25
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-005
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-opus-4-6
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-006
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-opus-4-6
+  value: 25
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-007
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-sonnet-5
+  value: 2
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 官方公告该价格由促销转为长期价格。
+
+- id: ev-price-008
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-sonnet-5
+  value: 10
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-009
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-haiku-4-5
+  value: 1
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-010
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-haiku-4-5
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+# ===== OpenAI 官方定价（developers.openai.com，2026-08-15 采集）=====
+
+- id: ev-price-011
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-sol
+  value: 5
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-012
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-sol
+  value: 30
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-013
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-terra
+  value: 2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-014
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-terra
+  value: 12
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-015
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-luna
+  value: 0.2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-016
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-luna
+  value: 1.2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+# ===== Google Gemini 官方定价（ai.google.dev，2026-08-15 采集）=====
+
+- id: ev-price-017
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 2
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 提示 ≤200k tokens 档位。
+
+- id: ev-price-018
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 12
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-019
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-3.6-flash
+  value: 0.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 促销价至 2026-12-31，之后 $1.50。
+
+- id: ev-price-020
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-3.6-flash
+  value: 3.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 促销价至 2026-12-31，之后 $7.50。
+
+- id: ev-price-021
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-2.5-pro
+  value: 1.25
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+- id: ev-price-022
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-2.5-pro
+  value: 10
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+# ===== DeepSeek 官方定价（api-docs.deepseek.com，2026-08-15 采集）=====
+
+- id: ev-price-023
+  metric: price_input_usd_m
+  subject: deepseek
+  variant: deepseek-v4-pro
+  value: 0.435
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 缓存未命中价；2026-08-16 起改峰谷计价，峰时约为该价 3 倍。
+
+- id: ev-price-024
+  metric: price_output_usd_m
+  subject: deepseek
+  variant: deepseek-v4-pro
+  value: 0.87
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 同上，峰谷计价调整中。
+
+- id: ev-price-025
+  metric: price_input_usd_m
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 0.14
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+  notes: 缓存未命中价。
+
+- id: ev-price-026
+  metric: price_output_usd_m
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 0.28
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-15
+  verified: true
+
+# ===== SWE-bench Verified（swebench.com bash-only 榜单，mini-SWE-agent 口径，2026-08-22 采集）=====
+# 页面为 JS 渲染，经浏览器 agent 读取；官方最近一轮运行多为 2026-02（见各条 notes 的运行日期）。
+# verified 均为 false，待人工抽查。
+
+- id: ev-sweb-001
+  metric: swe_verified
+  subject: claude
+  variant: claude-opus-4-5-high
+  value: 76.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 榜单第 1；官方运行 2026-02-17。
+
+- id: ev-sweb-002
+  metric: swe_verified
+  subject: gemini
+  variant: gemini-3-flash-high
+  value: 75.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 榜单第 2；官方运行 2026-02-17。
+
+- id: ev-sweb-003
+  metric: swe_verified
+  subject: minimax
+  variant: minimax-m2-5-high
+  value: 75.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 榜单并列第 2（开源权重）；官方运行 2026-02-17。
+
+- id: ev-sweb-004
+  metric: swe_verified
+  subject: claude
+  variant: claude-opus-4-6
+  value: 75.6
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 榜单第 4；官方运行 2026-02-17。
+
+- id: ev-sweb-005
+  metric: swe_verified
+  subject: claude
+  variant: claude-opus-4-5-medium
+  value: 74.4
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2025-11-24。
+
+- id: ev-sweb-006
+  metric: swe_verified
+  subject: gemini
+  variant: gemini-3-pro-preview
+  value: 74.2
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2025-11-18。
+
+- id: ev-sweb-007
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5.2-codex
+  value: 72.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2026-02-19。
+
+- id: ev-sweb-008
+  metric: swe_verified
+  subject: glm
+  variant: glm-5-high
+  value: 72.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 开源权重；官方运行 2026-02-17。
+
+- id: ev-sweb-009
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5.2-high
+  value: 72.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2026-02-17；同变体 2025-12-11 运行为 71.8，取最新。
+
+- id: ev-sweb-010
+  metric: swe_verified
+  subject: claude
+  variant: claude-sonnet-4-5-high
+  value: 71.4
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2026-02-17。
+
+- id: ev-sweb-011
+  metric: swe_verified
+  subject: kimi
+  variant: kimi-k2-5-high
+  value: 70.8
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 开源权重；官方运行 2026-02-17。
+
+- id: ev-sweb-012
+  metric: swe_verified
+  subject: deepseek
+  variant: deepseek-v3-2-high
+  value: 70.0
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 开源权重；官方运行 2026-02-17。
+
+- id: ev-sweb-013
+  metric: swe_verified
+  subject: gemini
+  variant: gemini-3-pro-high
+  value: 69.6
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2026-02-26。
+
+- id: ev-sweb-014
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5.2
+  value: 69.0
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2025-12-11。
+
+- id: ev-sweb-015
+  metric: swe_verified
+  subject: claude
+  variant: claude-opus-4
+  value: 67.6
+  source: swebench.com 榜单（bash-only / mini-SWE-agent）
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方运行 2025-08-02。
+
+# ===== arena.ai 全量刷新（总榜/编码/写作/Agent，2026-08-22 采集，verified: false 待抽查）=====
+
+- id: ev-arena-031
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-fable-5
+  value: 1508
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 总榜第 1
+
+- id: ev-arena-032
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1504
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-033
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 1502
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-034
+  metric: arena_elo_overall
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 1498
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-035
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6
+  value: 1497
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-036
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7
+  value: 1494
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-037
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-5-high
+  value: 1493
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-038
+  metric: arena_elo_overall
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 1491
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-039
+  metric: arena_elo_overall
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 1490
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜，替代 3.6 成为主力 Flash
+
+- id: ev-arena-040
+  metric: arena_elo_overall
+  subject: kimi
+  variant: kimi-k3-max
+  value: 1489
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-041
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-5-max
+  value: 1487
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-042
+  metric: arena_elo_overall
+  subject: glm
+  variant: glm-5.3-max
+  value: 1487
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜；MIT 许可
+
+- id: ev-arena-043
+  metric: arena_elo_overall
+  subject: qwen
+  variant: qwen3.8-max
+  value: 1481
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 现第 19 名，较 08-15 下滑
+
+- id: ev-arena-044
+  metric: arena_elo_overall
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 1481
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 现第 20 名
+
+- id: ev-arena-045
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-046
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 上一轮表格/页脚口径冲突已消除，现明确第 2
+
+- id: ev-arena-047
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-fable-5
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-048
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-049
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-050
+  metric: arena_rank_coding
+  subject: kimi
+  variant: kimi-k3-max
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-051
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-high
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-052
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-053
+  metric: arena_rank_coding
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-054
+  metric: arena_rank_coding
+  subject: glm
+  variant: glm-5.3-max
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-055
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-max
+  value: 18
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-056
+  metric: arena_rank_coding
+  subject: qwen
+  variant: qwen3.8-max
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 较 08-15 的 13 名下滑
+
+- id: ev-arena-057
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-fable-5
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-058
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-059
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜；票数较少（Preliminary 标记）
+
+- id: ev-arena-060
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-061
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3-pro
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-062
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-063
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-064
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-065
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新上榜
+
+- id: ev-arena-066
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-high
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-067
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-068
+  metric: arena_rank_writing
+  subject: qwen
+  variant: qwen3.8-max
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 较 08-15 的 8 名下滑
+
+- id: ev-arena-069
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-max
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/text
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-arena-070
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-opus-5-high
+  value: 12.47
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-071
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-opus-5-max
+  value: 12.0
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-072
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-fable-5-high
+  value: 11.57
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-073
+  metric: arena_agent_improvement
+  subject: kimi
+  variant: kimi-k3-max
+  value: 10.41
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-074
+  metric: arena_agent_improvement
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 9.74
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-075
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 9.55
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-076
+  metric: arena_agent_improvement
+  subject: gpt
+  variant: gpt-5.5-xhigh
+  value: 8.51
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-077
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 8.12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-078
+  metric: arena_agent_improvement
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 7.74
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+- id: ev-arena-079
+  metric: arena_agent_improvement
+  subject: claude
+  variant: claude-opus-4-7
+  value: 7.4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard/agent
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: Agent Arena top 10
+
+# ===== 官方定价全量巡检（2026-08-22 采集；对照 08-15 快照，变动项见 notes）=====
+
+# Anthropic（platform.claude.com）：价格与 08-15 一致；新增 Opus 4.8 档；Sonnet 5 促销价确认转长期。
+
+- id: ev-price-027
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-fable-5
+  value: 10
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 与 08-15 记录一致，本次仅刷新采集日期。
+
+- id: ev-price-028
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-fable-5
+  value: 50
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-029
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-opus-5
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: fast 模式 $10/$50 另计。
+
+- id: ev-price-030
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-opus-5
+  value: 25
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-031
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-opus-4-6
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-032
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-opus-4-6
+  value: 25
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-033
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-sonnet-5
+  value: 2
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 官方页面确认 $2/$10 已由促销价转为长期标准价。
+
+- id: ev-price-034
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-sonnet-5
+  value: 10
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-035
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-haiku-4-5
+  value: 1
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-036
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-haiku-4-5
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-037
+  metric: price_input_usd_m
+  subject: claude
+  variant: claude-opus-4-8
+  value: 5
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新入价格变体（arena 编码榜 claude-opus-4-8-high 第 8 名的基座 SKU）；fast 模式 $10/$50 另计。
+
+- id: ev-price-038
+  metric: price_output_usd_m
+  subject: claude
+  variant: claude-opus-4-8
+  value: 25
+  source: Anthropic 官方定价文档
+  source_url: https://platform.claude.com/docs/en/docs/about-claude/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+# OpenAI（developers.openai.com）：gpt-5.6-sol 降价（$5/$30 → $4/$20）。
+
+- id: ev-price-039
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-sol
+  value: 4
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 降价：08-15 记录为 $5；长上下文档加价至 $8。
+
+- id: ev-price-040
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-sol
+  value: 20
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 降价：08-15 记录为 $30；长上下文档加价至 $30。
+
+- id: ev-price-041
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-terra
+  value: 2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 与 08-15 记录一致。
+
+- id: ev-price-042
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-terra
+  value: 12
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-043
+  metric: price_input_usd_m
+  subject: gpt
+  variant: gpt-5.6-luna
+  value: 0.2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-044
+  metric: price_output_usd_m
+  subject: gpt
+  variant: gpt-5.6-luna
+  value: 1.2
+  source: OpenAI 官方定价文档
+  source_url: https://developers.openai.com/api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+# Google（ai.google.dev）：价格与 08-15 一致；新增 gemini-3.7-flash（当前主力 Flash）。
+
+- id: ev-price-045
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-3.7-flash
+  value: 0.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 新入价格变体（arena 总榜 gemini-3.7-flash-high 1490、写作第 3 的基座 SKU）；促销价至 2026-12-31，之后 $1.50。
+
+- id: ev-price-046
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-3.7-flash
+  value: 3.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 促销价至 2026-12-31，之后 $7.50。
+
+- id: ev-price-047
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-3.6-flash
+  value: 0.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 促销价至 2026-12-31，之后 $1.50；与 08-15 记录一致。
+
+- id: ev-price-048
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-3.6-flash
+  value: 3.75
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 促销价至 2026-12-31，之后 $7.50。
+
+- id: ev-price-049
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 2
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 提示 ≤200k tokens 档位；与 08-15 记录一致。
+
+- id: ev-price-050
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 12
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+- id: ev-price-051
+  metric: price_input_usd_m
+  subject: gemini
+  variant: gemini-2.5-pro
+  value: 1.25
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 提示 ≤200k tokens 档位。
+
+- id: ev-price-052
+  metric: price_output_usd_m
+  subject: gemini
+  variant: gemini-2.5-pro
+  value: 10
+  source: Google 官方定价文档
+  source_url: https://ai.google.dev/gemini-api/docs/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+
+# DeepSeek（api-docs.deepseek.com）：2026-08-16 起峰谷计价且整体上调，旧证据（v4-pro $0.435/$0.87、
+# v4-flash $0.14/$0.28）已失效。口径：取「峰时缓存未命中价」为标准值——峰时段 UTC 01:00-04:00 /
+# 06:00-10:00 对应北京时间 09:00-12:00 / 14:00-18:00，即本站读者的工作时段；谷时价记入 notes。
+# 该口径为 agent 决定，待人工确认。
+
+- id: ev-price-053
+  metric: price_input_usd_m
+  subject: deepseek
+  variant: deepseek-v4-pro
+  value: 1.32
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 涨价（08-15 记录 $0.435）；峰时缓存未命中价，谷时 $0.66。
+
+- id: ev-price-054
+  metric: price_output_usd_m
+  subject: deepseek
+  variant: deepseek-v4-pro
+  value: 3.96
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 涨价（08-15 记录 $0.87）；峰时价，谷时 $1.98。
+
+- id: ev-price-055
+  metric: price_input_usd_m
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 0.44
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 涨价（08-15 记录 $0.14）；峰时缓存未命中价，谷时 $0.22。
+
+- id: ev-price-056
+  metric: price_output_usd_m
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 1.32
+  source: DeepSeek 官方定价文档
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-08-22
+  verified: false
+  notes: 涨价（08-15 记录 $0.28）；峰时价，谷时 $0.66。

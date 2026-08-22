@@ -1,0 +1,267 @@
+# 产品与工具库：知识工作者实际使用的入口（App、订阅、IDE、Agent）。
+# models_used 引用 models.yaml 中的 id。
+# 维护规则见 /AGENTS.md。
+
+- id: kimi
+  name: Kimi
+  vendor: 月之暗面
+  category: chat
+  models_used: [kimi]
+  pricing: 免费为主（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://www.kimi.com
+  notes: 长文档、长网页分析与中文写作的首选免费入口之一。
+
+- id: doubao
+  name: 豆包
+  vendor: 字节跳动
+  category: chat
+  models_used: [doubao]
+  pricing: 免费（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://www.doubao.com
+  notes: 日常中文写作自然顺滑，App 体验好，多模态齐全。
+
+- id: deepseek
+  name: DeepSeek
+  vendor: 深度求索
+  category: chat
+  models_used: [deepseek]
+  pricing: 网页/App 免费，API 低价（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://chat.deepseek.com
+  notes: 免费对话 + 低价 API，性价比标杆。
+
+- id: zhipu-qingyan
+  name: 智谱清言
+  vendor: 智谱
+  category: chat
+  models_used: [glm]
+  pricing: 免费 + 会员（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://chatglm.cn
+  notes: GLM 系列的官方对话入口。
+
+- id: qwen
+  name: 通义千问
+  vendor: 阿里巴巴
+  category: chat
+  models_used: [qwen]
+  pricing: 免费 + 会员（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://www.tongyi.com
+  notes: Qwen 系列官方入口，工具生态丰富。
+
+- id: yuanbao
+  name: 腾讯元宝
+  vendor: 腾讯
+  category: chat
+  models_used: [hunyuan, deepseek]
+  pricing: 免费（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://yuanbao.tencent.com
+  notes: 联网搜索 + 微信生态内容源。
+
+- id: chatgpt
+  name: ChatGPT
+  vendor: OpenAI
+  category: chat
+  models_used: [gpt]
+  pricing: 免费 + Plus 约 $20/月（待核实）
+  free_tier: 有限免费额度
+  availability_cn: restricted
+  url: https://chatgpt.com
+  notes: 生态最全：图像生成、数据分析、深度研究、GPTs。
+
+- id: claude-pro
+  name: Claude（Pro 订阅）
+  vendor: Anthropic
+  category: chat
+  models_used: [claude]
+  pricing: Pro 约 $20/月（待核实）
+  free_tier: 有限免费额度
+  availability_cn: restricted
+  url: https://claude.ai
+  notes: 长文写作与 Artifacts 实时预览，编程对话强。
+
+- id: gemini-app
+  name: Gemini
+  vendor: Google
+  category: chat
+  models_used: [gemini]
+  pricing: 免费 + Google AI 会员（待核实）
+  free_tier: 免费额度较慷慨
+  availability_cn: restricted
+  url: https://gemini.google.com
+  notes: 超长上下文、多模态、深度研究，与 Google 生态打通。
+
+- id: claude-code
+  name: Claude Code
+  vendor: Anthropic
+  category: coding
+  models_used: [claude]
+  pricing: 随 Claude Pro/Max 订阅或 API 计费（待核实）
+  free_tier: 无
+  availability_cn: restricted
+  url: https://claude.com/product/claude-code
+  notes: 终端 Agent 编程标杆，长任务与工具调用稳定。
+
+- id: glm-coding-plan
+  name: GLM Coding 套餐
+  vendor: 智谱
+  category: coding
+  models_used: [glm]
+  pricing: 低价订阅（待核实）
+  free_tier: 视套餐而定
+  availability_cn: direct
+  url: https://bigmodel.cn
+  notes: 面向 Claude Code 等编码工具的国产高性价比模型订阅。
+
+- id: cursor
+  name: Cursor
+  vendor: Anysphere
+  category: coding
+  models_used: [claude, gpt, gemini]
+  pricing: 免费试用 + 约 $20/月起（待核实）
+  free_tier: 有限
+  availability_cn: direct
+  url: https://cursor.com
+  notes: 最主流的 AI IDE，可切换多家模型。
+
+- id: github-copilot
+  name: GitHub Copilot
+  vendor: GitHub / Microsoft
+  category: coding
+  models_used: [gpt, claude]
+  pricing: 免费档 + 约 $10/月起（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://github.com/features/copilot
+  notes: IDE 集成最广，学生与开源维护者可免费。
+
+- id: codebuddy
+  name: 腾讯 CodeBuddy
+  vendor: 腾讯
+  category: coding
+  models_used: [hunyuan]
+  pricing: 免费额度 + 订阅（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://copilot.tencent.com
+  notes: 国产 AI IDE，国内网络友好。
+
+- id: trae
+  name: Trae
+  vendor: 字节跳动
+  category: coding
+  models_used: [doubao, deepseek]
+  pricing: 免费额度 + 订阅（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://www.trae.ai
+  notes: 字节系 AI IDE，国内可直接使用。
+
+- id: v0
+  name: v0
+  vendor: Vercel
+  category: coding
+  models_used: []
+  pricing: 免费额度 + 订阅（待核实）
+  free_tier: 有
+  availability_cn: restricted
+  url: https://v0.app
+  notes: 描述即生成前端界面，可导出代码。
+
+- id: lovable
+  name: Lovable
+  vendor: Lovable
+  category: coding
+  models_used: [claude]
+  pricing: 免费额度 + 订阅（待核实）
+  free_tier: 有
+  availability_cn: restricted
+  url: https://lovable.dev
+  notes: 对话式全栈原型生成，非程序员友好。
+
+- id: perplexity
+  name: Perplexity
+  vendor: Perplexity
+  category: search
+  models_used: [gpt, claude, gemini]
+  pricing: 免费 + Pro 约 $20/月（待核实）
+  free_tier: 有
+  availability_cn: restricted
+  url: https://www.perplexity.ai
+  notes: AI 搜索问答标杆，答案带引用来源。
+
+- id: metaso
+  name: 秘塔 AI 搜索
+  vendor: 秘塔科技
+  category: search
+  models_used: []
+  pricing: 免费 + 会员（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://metaso.cn
+  notes: 国产 AI 搜索，无广告、来源清晰，支持研究模式。
+
+- id: gamma
+  name: Gamma
+  vendor: Gamma
+  category: office
+  models_used: []
+  pricing: 免费额度 + 订阅（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://gamma.app
+  notes: 大纲一键生成幻灯片，排版自动优化。
+
+- id: tongyi-tingwu
+  name: 通义听悟
+  vendor: 阿里巴巴
+  category: office
+  models_used: [qwen]
+  pricing: 免费时长 + 会员（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://tingwu.aliyun.com
+  notes: 语音转写 + 章节速览 + 待办提取。
+
+- id: feishu-minutes
+  name: 飞书妙记
+  vendor: 字节跳动
+  category: office
+  models_used: [doubao]
+  pricing: 随飞书订阅（待核实）
+  free_tier: 有限
+  availability_cn: direct
+  url: https://www.feishu.cn/product/minutes
+  notes: 会议录制、转写、智能纪要，与飞书协同打通。
+
+- id: jimeng
+  name: 即梦
+  vendor: 字节跳动
+  category: creative
+  models_used: [doubao]
+  pricing: 免费额度 + 会员（待核实）
+  free_tier: 有
+  availability_cn: direct
+  url: https://jimeng.jianying.com
+  notes: 中文提示词理解好的图像/视频生成。
+
+- id: midjourney
+  name: Midjourney
+  vendor: Midjourney
+  category: creative
+  models_used: []
+  pricing: 约 $10/月起（待核实）
+  free_tier: 无
+  availability_cn: restricted
+  url: https://www.midjourney.com
+  notes: 艺术质感标杆，需 Discord/Web 入口。

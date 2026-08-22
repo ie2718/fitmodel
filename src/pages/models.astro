@@ -1,0 +1,117 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { AVAIL } from '../lib/meta';
+import { getEngine } from '../lib/engine';
+
+const models = (await getCollection('models')).sort((a, b) =>
+  a.data.origin === b.data.origin
+    ? a.data.name.localeCompare(b.data.name, 'zh-CN')
+    : a.data.origin === 'cn'
+      ? -1
+      : 1,
+);
+const products = (await getCollection('products')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name, 'zh-CN'),
+);
+
+// 全场景通用排名（均等权重作为参考）
+const engine = await getEngine();
+const generalRank = engine.rank({ general: 0.5, coding: 0.25, writing: 0.25 });
+---
+
+<Base title="模型库 — FitModel" description="国内外主流大模型与 AI 工具的结构化数据：定价、国内可用性、通用排名。">
+  <header class="page-header">
+    <h1>模型库</h1>
+    <p class="summary">每条数据可溯源到证据库中的原始记录。「待采集」字段将在下轮维护补齐。</p>
+  </header>
+
+  <section>
+    <h2 class="section-title">大模型</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>模型</th>
+            <th>厂商</th>
+            <th>API 价格（入/出, $/M）</th>
+            <th>国内可用</th>
+            <th>通用排名</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            models.map((m) => {
+              const best = [...generalRank]
+                .filter((r) => r.entity.subject === m.data.id)
+                .sort((a, b) => (b.fit ?? 0) - (a.fit ?? 0))[0];
+              const pin = best?.entity.facts['price_input_usd_m'];
+              const pout = best?.entity.facts['price_output_usd_m'];
+              return (
+                <tr>
+                  <td>
+                    {m.data.name}
+                    {best && <div class="sub">{best.entity.variant}</div>}
+                  </td>
+                  <td>{m.data.vendor}</td>
+                  <td class="num">
+                    {pin && pout && !pin.stale && !pout.stale
+                      ? `$${pin.value} / $${pout.value}`
+                      : '待采集'}
+                  </td>
+                  <td>
+                    <span class={`badge ${AVAIL[m.data.availability_cn]?.cls}`}>
+                      {AVAIL[m.data.availability_cn]?.label}
+                    </span>
+                  </td>
+                  <td class="num">{best ? best.fit?.toFixed(0) : '—'}</td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="note">通用排名按 通用 50% · 编码 25% · 写作 25% 计算，仅供参考；场景页权重各不相同。</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">产品与工具</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>产品</th>
+            <th>定价</th>
+            <th>免费额度</th>
+            <th>国内可用</th>
+            <th>背后模型</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            products.map((p) => (
+              <tr>
+                <td>
+                  {p.data.url ? (
+                    <a href={p.data.url} target="_blank" rel="noopener">{p.data.name} ↗</a>
+                  ) : (
+                    p.data.name
+                  )}
+                </td>
+                <td>{p.data.pricing}</td>
+                <td class="dim">{p.data.free_tier || '—'}</td>
+                <td>
+                  <span class={`badge ${AVAIL[p.data.availability_cn]?.cls}`}>
+                    {AVAIL[p.data.availability_cn]?.label}
+                  </span>
+                </td>
+                <td class="dim">{p.data.models_used.length ? p.data.models_used.join('、') : '未公开'}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Base>

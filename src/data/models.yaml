@@ -1,0 +1,163 @@
+# 大模型家族库：厂商背景与可用性信息。
+# 具体版本/价格证据见 evidence.yaml（入分数据一律以证据库为准）。
+# needs_verification=false 表示已有 2026-08-15 采集的官方/榜单证据支撑。
+
+- id: claude
+  name: Claude 系列
+  vendor: Anthropic
+  origin: global
+  context: 以官方文档为准（证据采集中）
+  api_pricing: 旗舰 Opus/Fable $5–10/百万输入、$25–50/百万输出；Sonnet 5 $2/$10 已转长期标准价（官方，2026-08-22）
+  subscription: Claude Pro 约 $20/月（待核实）
+  availability_cn: restricted
+  strengths: [Arena 总榜第一梯队, 编码与写作类目领先]
+  current_version: Opus 4.x–4.8 / Opus 5 / Fable 5 系列
+  needs_verification: false
+
+- id: gpt
+  name: GPT 系列
+  vendor: OpenAI
+  origin: global
+  context: 长上下文档另有加价（官方文档）
+  api_pricing: 5.6 系 $0.2–4/百万输入、$1.2–20/百万输出；sol 于 2026-08 间降价（官方，2026-08-22）
+  subscription: ChatGPT Plus 约 $20/月（待核实）
+  availability_cn: restricted
+  strengths: [生态与工具集成广, 多档位价差大]
+  current_version: GPT-5.6 系列（sol/terra/luna）
+  needs_verification: false
+
+- id: gemini
+  name: Gemini 系列
+  vendor: Google
+  origin: global
+  context: 以官方文档为准（证据采集中）
+  api_pricing: 3.7/3.6 Flash $0.75/$3.75（促销至 2026-12-31）；3.1 Pro Preview $2/$12（官方，2026-08-22）
+  subscription: Google AI 会员（待核实）
+  availability_cn: restricted
+  strengths: [Flash 档价格低, 免费额度慷慨, 多模态]
+  current_version: 3.x 系列（3.7 Flash 为当前主力）
+  needs_verification: false
+
+- id: deepseek
+  name: DeepSeek 系列
+  vendor: 深度求索
+  origin: cn
+  context: 以官方文档为准（证据采集中）
+  api_pricing: V4 峰谷计价（2026-08-16 起）：Flash 峰 $0.44/$1.32、谷 $0.22/$0.66；Pro 峰 $1.32/$3.96、谷 $0.66/$1.98（官方，2026-08-22）
+  availability_cn: direct
+  strengths: [价格显著低于同档, 网页端免费]
+  current_version: V4 系列
+  needs_verification: false
+
+- id: qwen
+  name: 通义千问 Qwen
+  vendor: 阿里巴巴
+  origin: cn
+  context: 多档位（证据采集中）
+  api_pricing: 待采集（百炼平台）
+  availability_cn: direct
+  strengths: [Arena 总榜前 20（qwen3.8-max，2026-08-22 第 19 名）, 全尺寸开源]
+  current_version: Qwen3.8-Max（Arena 榜，2026-08）
+  needs_verification: false
+
+- id: muse-spark
+  name: Muse Spark
+  vendor: 待核实
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [Arena 总榜前十（2026-08）]
+  current_version: muse-spark-1.2
+  needs_verification: true
+  notes: Arena 榜单新面孔，厂商与国内可用性核实中；产品映射暂缺。
+
+- id: glm
+  name: GLM 系列
+  vendor: 智谱
+  origin: cn
+  context: 以官方为准（证据采集中）
+  api_pricing: 待采集（定价页为动态渲染，需人工/agent 二次采集）
+  subscription: GLM Coding 套餐（待核实）
+  availability_cn: direct
+  strengths: [编程与 Agent 定位, 订阅制编码套餐]
+  current_version: 待核实
+  needs_verification: true
+
+- id: kimi
+  name: Kimi
+  vendor: 月之暗面
+  origin: cn
+  context: 以长文本著称（官方窗口数据待采集）
+  api_pricing: 待采集（K3/K2.x 定价页为分页动态渲染）
+  availability_cn: direct
+  strengths: [长文档处理, 中文写作]
+  current_version: K3 / K2.x 系列（待核实）
+  needs_verification: true
+
+- id: doubao
+  name: 豆包大模型
+  vendor: 字节跳动
+  origin: cn
+  context: 以官方为准（证据采集中）
+  api_pricing: 火山方舟按量计费（待采集）
+  availability_cn: direct
+  strengths: [中文日常写作, 多模态, App 体验]
+  current_version: 待核实
+  needs_verification: true
+
+- id: hunyuan
+  name: 腾讯混元
+  vendor: 腾讯
+  origin: cn
+  context: 以官方为准
+  api_pricing: 待采集
+  availability_cn: direct
+  strengths: [腾讯生态集成]
+  current_version: 待核实
+  needs_verification: true
+
+- id: ernie
+  name: 文心大模型
+  vendor: 百度
+  origin: cn
+  context: 以官方为准
+  api_pricing: 千帆平台按量计费（待采集）
+  availability_cn: direct
+  strengths: [中文知识, 百度搜索生态]
+  current_version: 待核实
+  needs_verification: true
+
+- id: minimax
+  name: MiniMax 系列
+  vendor: MiniMax
+  origin: cn
+  context: 以官方为准
+  api_pricing: 待采集
+  availability_cn: direct
+  strengths: [长文本, 语音与视频多模态]
+  current_version: 待核实
+  needs_verification: true
+
+- id: grok
+  name: Grok 系列
+  vendor: xAI
+  origin: global
+  context: 以官方为准
+  api_pricing: 待采集
+  subscription: X Premium 捆绑（待核实）
+  availability_cn: restricted
+  strengths: [实时信息接入 X]
+  current_version: 待核实
+  needs_verification: true
+
+- id: llama
+  name: Llama 系列
+  vendor: Meta
+  origin: global
+  context: 取决于部署
+  api_pricing: 开放权重，可免费自部署
+  availability_cn: direct
+  strengths: [开放权重, 可本地部署与微调]
+  current_version: 待核实
+  needs_verification: true

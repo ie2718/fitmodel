@@ -1,0 +1,91 @@
+# 更新日志
+
+- id: cl-2026-08-22-home-cards
+  date: 2026-08-22
+  title: 首页速查表改版为「速查卡」目录式卡片
+  entries:
+    - 信息架构：15 行长表改为按 5 大类分组（写作/编程/研究/办公/创意）的卡片网格，桌面双列、移动端单列；每卡目录式序号 + 场景名 + 三档答案
+    - 信息层级：每卡「最强」为 18px 加粗主答案（朱红方块标记），性价比/免费为细线分隔的两行次级信息（免费加绿方块）；暂不评分的场景用虚线边框卡片说明原因
+    - 首屏：宋体大标题（系统宋体栈，未引入外部字体）+ 副标题 + 证据戳（证据条数/采集日期/算法生成，自底部注释上移）+ 搜索框；报纸式双细线分隔
+    - 颜色克制：全页仅三个语义色点（朱红=最强、绿=免费、墨色=悬停描边），无渐变、无阴影、卡片直角
+    - 纯展示层重构：数据、权重、排名计算未动，推荐结论与改版前完全一致
+    - 浏览器实测（880px / 375px）：无横向溢出、无重叠、长模型名无破版，暗色模式沿用全局变量
+
+- id: cl-2026-08-22-sync-mechanism
+  date: 2026-08-22
+  title: 建立每周定期同步机制；新增鲜度巡检命令
+  entries:
+    - 新增 `npm run check:freshness`（scripts/check-freshness.mjs）：按指标报告最新采集日期、时效窗口余量、待人工抽查条数；任何指标超过 freshness_days 即非零退出，可作定时同步与 CI 的门禁
+    - AGENTS.md 新增「定期同步机制」章节并改造采集流程（增加步骤 0 巡检 / 步骤 6 复核）：每周一 09:00 自动同步白名单全部来源，触发式采集不受周期限制；促销价到期前一周复核
+    - 创建每周一 09:00 的维护 agent 定时任务，自动执行完整采集流程（巡检 → 采集 → 写证据 → 构建 → 波及分析 → 留痕 → 复核）
+    - 当前巡检基线：8 个注册指标中 7 个有据且全部新鲜，1 个缺口（context_window_k 零证据，待人工决定补采或降级），94 条证据待人工抽查置 verified
+    - 纯流程与工具变更，未改评分数据，排名无变化
+
+- id: cl-2026-08-22-price-refresh
+  date: 2026-08-22
+  title: 官方定价全量重采（4 家厂商，30 条证据）：gpt-5.6-sol 降价、DeepSeek 峰谷涨价
+  entries:
+    - "采集范围：Anthropic / OpenAI / Google / DeepSeek 官方定价页（tier 1），追加 ev-price-027~056 共 30 条（verified: false 待抽查）；价格证据采集日期由 08-15 刷新至 08-22"
+    - OpenAI：gpt-5.6-sol 降价 $5/$30 → $4/$20（长上下文档 $8/$30 另计）；terra / luna 价格不变
+    - DeepSeek：2026-08-16 起峰谷计价且整体上调——v4-pro $0.435/$0.87 → 峰时 $1.32/$3.96（谷时 $0.66/$1.98），v4-flash $0.14/$0.28 → 峰时 $0.44/$1.32（谷时 $0.22/$0.66）；口径取「峰时缓存未命中价」（峰时段对应北京 09:00–12:00 / 14:00–18:00 工作时段），谷时价记入 notes，该口径待人工确认
+    - Google：新增 gemini-3.7-flash $0.75/$3.75（促销至 2026-12-31，之后 $1.50/$7.50）；其余不变
+    - Anthropic：价格全部不变；新增 claude-opus-4-8 $5/$25（fast 模式 $10/$50）；确认 Sonnet 5 $2/$10 促销价转长期标准价
+    - models.yaml 同步四家 api_pricing 摘要与 current_version；修正 qwen strengths（总榜前十 → 第 19 名，08-22 口径）
+    - 构建校验通过（150 条证据，无域外/过期/冲突告警）；npm run check:freshness 全部有据指标「新鲜」
+    - 波及分析：全部场景的维度权重（writing/general/coding/long_context）不含 cost 维度，价格只影响性价比分与展示——各场景三档推荐与完整排名均无变化；首页速查表结论不变，证据数 120 → 150
+    - 已知限制：arena 榜变体名带 -high 后缀（如 gemini-3.7-flash-high）与官方定价 SKU 名（gemini-3.7-flash）是不同评分实体，价格与榜单战绩未合并（沿用 3.6 先例）；合并需引擎支持变体别名，留待人工决策
+
+- id: cl-2026-08-22-arena-refresh
+  date: 2026-08-22
+  title: arena.ai 全量刷新 + 新增 Agent 榜；修正数据时效
+  entries:
+    - 人工反馈榜单数据非最新，复查来源站：arena.ai 总榜更新日期为 2026-08-22（394 模型 / 790 万票），本站证据停留在 08-15 快照
+    - "刷新 arena_elo_overall / arena_rank_coding / arena_rank_writing 三指标共 36 条证据（ev-arena-031~066，verified: false），旧值被 latest 聚合自动取代"
+    - 新上榜变体入库：kimi-k3-max、glm-5.3-max、gemini-3.7-flash-high、gpt-5.6-sol-xhigh、claude-opus-4-8-high、muse-spark-1.1、gemini-3-pro、gemini-3.1-pro-preview
+    - qwen3.8-max 总榜 1491→1481（第 19 名）、编码 13→25、写作 8→12；上轮编码榜口径冲突（表格第 3 vs 页脚第 1）已消除
+    - 新注册指标 arena_agent_improvement（Agent Arena 净改进率，10 条证据）：挂在独立 agent 维度，未被任何场景引用，暂仅榜单展示，是否接入评分待人工确认
+    - 复查 swebench.com：官方 bash-only 与全量榜最新运行均为 2026-02，来源站自 2 月后未更新，已有证据即为最新
+    - "波及分析：编码类场景 Top1 由 claude-fable-5 变为 claude-opus-4-5-high（SWE-bench 76.8% 居首 + 新编码榜分布），fable-5 降至第 5；写作类场景 Top3 不变，第 4-5 位变为 gemini-3-pro / gemini-3.7-flash-high；多数场景性价比档变为 gemini-3.1-pro-preview（$1/$6 + 写作第 7）；免费档无变化"
+
+- id: cl-2026-08-22-leaderboards
+  date: 2026-08-22
+  title: 新增「榜单」栏目；采集 SWE-bench Verified 证据
+  entries:
+    - 新增 /leaderboards 页面：镜像 Arena 总榜 / 编码榜 / 创意写作榜、SWE-bench Verified（bash-only）四个国际公开评测榜单，原始值 + 来源链接 + 采集日期
+    - "swebench.com 页面为 JS 渲染，经浏览器 agent 读取 bash-only（mini-SWE-agent）口径榜单，追加 15 条 swe_verified 证据（ev-sweb-001~015，verified: false 待人工抽查）"
+    - SWE-bench 首次入据补上 GLM 5、Kimi K2.5、DeepSeek V3.2、MiniMax M2.5 等模型的独立基准数据；官方最近一轮运行多为 2026-02，运行日期已记入各条 notes
+    - 构建校验通过，无域外/过期告警；指标均为已注册指标，未新增 metrics.yaml 条目
+    - "波及分析：swe_verified 进入 coding 维度，4 个编程类场景（IDE 编码 / Agent 工程 / 原型 / 代码审查）Top1 不变（claude-fable-5），第 2–5 名重排：claude-opus-4-5-high、minimax-m2-5-high、gemini-3-flash-high 升至 2–4 位，claude-opus-4-7-high 降至 4–5 位；性价比档与免费档无变化"
+    - 方法论页「局限」同步更新 SWE-bench 采集状态
+
+- id: cl-2026-08-22-ui-min
+  date: 2026-08-22
+  title: 全站极简化改版
+  entries:
+    - 首页改为「场景 × 最强/性价比/免费」一张速查表，删除精选卡片区与快捷标签
+    - 场景页推荐压缩为三行文字，删除领奖台区块；完整排名与数据依据改为默认折叠
+    - 模型库删除统计卡与证据条数/状态列
+    - 移除外部字体、纸纹背景、入场动效与卡片装饰
+    - 纯视觉与信息架构重构，未改动 evidence/metrics/权重，排名结果无变化
+
+- id: cl-2026-08-15-v2
+  date: 2026-08-15
+  title: 证据驱动重构：从编辑推荐到数据计算
+  entries:
+    - 新增 metrics.yaml（8 个注册指标）和 evidence.yaml（62 条可溯源证据）
+    - 新增 scoring.ts 评分引擎：校验 → 百分位归一化 → 场景适配分 / 置信度 / 性价比
+    - 15 个场景页重构：删除手写推荐结论，改为由维度权重 + 证据计算生成三档推荐
+    - 新增 /methodology 方法论页：完整公示采集、校验、算法流程
+    - 采集真实数据：Arena 总榜前 10（Elo + 编码/写作排名）、Claude/GPT/Gemini/DeepSeek 官方定价
+    - GLM/Kimi 官方定价页为 JS 渲染未拿到，标记「需二次采集」
+    - "会议纪要与图像生成场景因专项指标未建库，暂关闭评分（scoring_disabled: true）"
+    - 首页与场景页视觉重设计：数据编辑部风格
+
+- id: cl-2026-08-15-init
+  date: 2026-08-15
+  title: 站点初版
+  entries:
+    - 建立「场景 → 分档推荐」信息架构：5 大类 15 个场景
+    - 模型库收录 13 个模型系列、23 个产品/工具（客观数据均待核实）
+    - 全部场景为草稿状态，等待首轮人工复审后转为已验证
+    - 建立 agent 维护协议（AGENTS.md）：agent 管数据，人工批结论

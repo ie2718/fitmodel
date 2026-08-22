@@ -1,0 +1,341 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { CATEGORIES } from '../lib/meta';
+import { getEngine } from '../lib/engine';
+import { computePicks } from '../lib/picks';
+
+const engine = await getEngine();
+const scenarios = await getCollection('scenarios');
+const models = await getCollection('models');
+const products = await getCollection('products');
+const evidence = await getCollection('evidence');
+
+const picksOf = (e: (typeof scenarios)[number]) => {
+  if (e.data.scoring_disabled) return null;
+  const weights = Object.fromEntries((e.data.dimensions ?? []).map((x) => [x.id, x.weight]));
+  return computePicks(engine, weights, models as never, products as never, e.data.category);
+};
+
+const catOrder = new Map(CATEGORIES.map((c, i) => [c.id, i]));
+const sorted = [...scenarios].sort(
+  (a, b) =>
+    (catOrder.get(a.data.category) ?? 99) - (catOrder.get(b.data.category) ?? 99) ||
+    a.data.title.localeCompare(b.data.title, 'zh-CN'),
+);
+const idxOf = new Map(sorted.map((s, i) => [s.id, i + 1]));
+
+const groups = CATEGORIES.map((cat) => ({
+  cat,
+  items: sorted.filter((s) => s.data.category === cat.id),
+})).filter((g) => g.items.length > 0);
+
+const latestEvidence = evidence.reduce(
+  (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
+  evidence[0]?.data.retrieved_at ?? new Date(),
+);
+const shortTitle = (t: string) => t.split('：')[0];
+
+const searchData = sorted.map((e) => ({
+  t: e.data.title,
+  s: e.data.summary,
+  c: CATEGORIES.find((c) => c.id === e.data.category)?.label ?? '',
+  u: `/scenarios/${e.id}/`,
+}));
+---
+
+<Base>
+  <div class="home">
+    <section class="hero">
+      <h1>该用什么 AI？</h1>
+      <p class="sub">按任务查推荐，全部由公开数据计算。</p>
+      <p class="stamp mono">
+        {evidence.length} 条公开证据 · 采集至 {latestEvidence.toLocaleDateString('zh-CN')} · 排名由算法生成
+      </p>
+      <div class="search-box">
+        <input id="q" type="search" placeholder="写论文、做 PPT、写代码…" autocomplete="off" />
+      </div>
+      <div class="search-results" id="results" hidden></div>
+    </section>
+
+    {
+      groups.map(({ cat, items }) => (
+        <section class="cat">
+          <header>
+            <h2 class="cat-label">{cat.label}</h2>
+            <span class="cat-desc">{cat.desc}</span>
+          </header>
+          <ul class="cards">
+            {items.map((e) => {
+              const picks = picksOf(e);
+              const top = picks?.top ?? null;
+              const value =
+                picks?.valuePick && picks.valuePick.entity.key !== top?.entity.key
+                  ? picks.valuePick
+                  : null;
+              const free = picks?.freePick ?? null;
+              return (
+                <li class={`card${picks === null ? ' wip' : ''}`}>
+                  <span class="idx mono">{String(idxOf.get(e.id)).padStart(2, '0')}</span>
+                  <h3>
+                    <a href={`/scenarios/${e.id}/`}>{shortTitle(e.data.title)}</a>
+                  </h3>
+                  {picks === null ? (
+                    <p class="na">专项指标建库中，暂不评分——先看场景页建议。</p>
+                  ) : (
+                    <>
+                      <p class="pick">
+                        <span class="tier t-top">最强</span>
+                        <span class="v">{top ? top.entity.variant : '—'}</span>
+                      </p>
+                      <div class="alts">
+                        <p>
+                          <span class="tier">性价比</span>
+                          <span class="v">{value ? value.entity.variant : '—'}</span>
+                        </p>
+                        <p>
+                          <span class="tier t-free">免费</span>
+                          <span class="v">{free ? free.product.name : '—'}</span>
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))
+    }
+
+    <p class="note">
+      「免费」= 有免费额度且国内可直接用的产品中最优；性价比与最强为同一模型时不重复列出。指标口径与算法见<a
+        href="/methodology">方法论</a>。
+    </p>
+  </div>
+
+  <script type="application/json" id="search-data" set:html={JSON.stringify(searchData)} />
+  <script>
+    const data = JSON.parse(document.getElementById('search-data')?.textContent ?? '[]');
+    const input = document.getElementById('q')!;
+    const results = document.getElementById('results')!;
+
+    function render(items: { t: string; s: string; c: string; u: string }[]) {
+      results.innerHTML = '';
+      for (const item of items) {
+        const a = document.createElement('a');
+        a.className = 'search-result';
+        a.href = item.u;
+        const t = document.createElement('div');
+        t.className = 't';
+        t.textContent = `${item.c} · ${item.t}`;
+        const s = document.createElement('div');
+        s.className = 's';
+        s.textContent = item.s;
+        a.append(t, s);
+        results.append(a);
+      }
+      results.hidden = items.length === 0;
+    }
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) {
+        results.hidden = true;
+        return;
+      }
+      render(
+        data.filter((d: { t: string; s: string; c: string; u: string }) =>
+          `${d.t} ${d.s} ${d.c}`.toLowerCase().includes(q),
+        ).slice(0, 8),
+      );
+    });
+  </script>
+</Base>
+
+<style>
+  /* 「速查卡」：宋体提问 + 分类目录 + 卡片答案。颜色只给三个语义点：
+     朱红=最强、绿=免费、墨=悬停；其余纸白细线。 */
+  .home {
+    --serif: 'Songti SC', 'STSong', 'Source Han Serif SC', 'Noto Serif SC', 'Noto Serif CJK SC',
+      'SimSun', serif;
+  }
+
+  /* ---------- 首屏 ---------- */
+  .hero {
+    padding: 6px 0 24px;
+    border-bottom: 3px double var(--ink);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 6.4vw, 44px);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    margin: 4px 0 8px;
+  }
+  .hero .sub {
+    margin: 0 0 10px;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  .stamp {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .stamp::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: 0;
+  }
+  .hero .search-box input {
+    border-radius: 0;
+  }
+
+  /* ---------- 分类目录 ---------- */
+  .cat {
+    margin-top: 34px;
+  }
+  .cat header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+  }
+  .cat-label {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .cat-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ---------- 卡片 ---------- */
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 600px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card {
+    position: relative;
+    border: 1px solid var(--hairline);
+    padding: 14px 16px 12px;
+    transition:
+      border-color 0.16s ease,
+      background-color 0.16s ease;
+  }
+  .card:hover {
+    border-color: var(--ink);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
+  }
+  .card.wip {
+    border-style: dashed;
+  }
+  .card .idx {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .card h3 {
+    margin: 0 2.6em 9px 0;
+    font-size: 15.5px;
+    line-height: 1.45;
+    font-weight: 600;
+  }
+  .card h3 a {
+    text-decoration: none;
+  }
+  .card h3 a:hover {
+    color: var(--accent);
+  }
+
+  .tier {
+    flex: none;
+    width: 3.6em;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .t-top {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .t-top::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: 0.5px;
+  }
+  .t-free::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: var(--ok);
+    margin: 0 8px 0 1px;
+    vertical-align: 0.5px;
+  }
+
+  .pick {
+    display: flex;
+    align-items: baseline;
+    margin: 0;
+  }
+  .pick .v {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .alts {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid var(--hairline);
+  }
+  .alts p {
+    display: flex;
+    align-items: baseline;
+    margin: 0 0 5px;
+  }
+  .alts p:last-child {
+    margin-bottom: 0;
+  }
+  .alts .v {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-2);
+    overflow-wrap: anywhere;
+  }
+
+  .na {
+    margin: 2px 0 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>

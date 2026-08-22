@@ -1,0 +1,106 @@
+# 指标注册表：所有可入评分的指标必须先在此登记。
+# 未登记的指标不得进入评分，只能作为文字信息展示（防止「幽灵数据」）。
+#
+# 字段说明：
+# - dimension: 归属的能力维度（general/coding/writing/long_context/cost）
+# - direction: higher=越高越好 / lower=越低越好
+# - source_tier: 允许入分的最低来源层级（1=官方一手 2=独立基准 3=聚合二手）
+# - freshness_days: 超过该天数的数据视为过期，只展示不入分
+# - plausible: 取值合理域，域外视为采集错误，构建时报错
+# - aggregator: 同一指标同一对象多条证据时的聚合方式（latest=取最新）
+
+- id: arena_elo_overall
+  label: Arena 总榜 Elo
+  dimension: general
+  unit: elo
+  direction: higher
+  source_tier: 2
+  freshness_days: 90
+  plausible: [800, 1700]
+  aggregator: latest
+  source: arena.ai（原 LMArena）人类盲测投票
+  description: 真人盲测对比投票产生的 Elo 排名，反映综合人类偏好。
+
+- id: arena_rank_coding
+  label: Arena 编码榜排名
+  dimension: coding
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 500]
+  aggregator: latest
+  source: arena.ai 编码类目
+  description: 编码类目盲测排名，数值越小越强。
+
+- id: arena_rank_writing
+  label: Arena 创意写作榜排名
+  dimension: writing
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 500]
+  aggregator: latest
+  source: arena.ai 创意写作类目
+  description: 创意写作类目盲测排名，数值越小越强。
+
+- id: arena_agent_improvement
+  label: Arena Agent 榜净改进率
+  dimension: agent
+  unit: percent
+  direction: higher
+  source_tier: 2
+  freshness_days: 90
+  plausible: [0, 50]
+  aggregator: latest
+  source: arena.ai Agent Arena（agentic 任务）
+  description: 模型在 Agent Arena agentic 任务中的净改进率（%）。维度 agent 未被任何场景引用，暂仅榜单展示，接入评分需人工确认。
+
+- id: swe_verified
+  label: SWE-bench Verified 解决率
+  dimension: coding
+  unit: percent
+  direction: higher
+  source_tier: 2
+  freshness_days: 120
+  plausible: [0, 100]
+  aggregator: latest
+  source: swebench.com / 各厂商官方报告
+  description: 真实 GitHub issue 自动修复率。证据采集中，暂无数据。
+
+- id: context_window_k
+  label: 上下文窗口（千 tokens）
+  dimension: long_context
+  unit: k tokens
+  direction: higher
+  source_tier: 1
+  freshness_days: 90
+  plausible: [4, 15000]
+  aggregator: latest
+  source: 各厂商官方文档
+  description: 官方标称上下文长度。证据采集中，暂无数据。
+
+- id: price_input_usd_m
+  label: API 输入价（USD/百万 tokens）
+  dimension: cost
+  unit: USD/M
+  direction: lower
+  source_tier: 1
+  freshness_days: 30
+  plausible: [0, 200]
+  aggregator: latest
+  source: 各厂商官方定价页
+  description: 标准档输入价格，不含缓存与批量折扣。
+
+- id: price_output_usd_m
+  label: API 输出价（USD/百万 tokens）
+  dimension: cost
+  unit: USD/M
+  direction: lower
+  source_tier: 1
+  freshness_days: 30
+  plausible: [0, 200]
+  aggregator: latest
+  source: 各厂商官方定价页
+  description: 标准档输出价格。

@@ -1,0 +1,17 @@
+---
+const path = Astro.url.pathname;
+const cur = (p: string) => (p === '/' ? path === '/' : path.startsWith(p) ? 'cur' : '');
+---
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="/">FitModel</a>
+    <nav class="site-nav">
+      <a href="/" class={cur('/')}>场景</a>
+      <a href="/leaderboards" class={cur('/leaderboards')}>榜单</a>
+      <a href="/models" class={cur('/models')}>模型</a>
+      <a href="/methodology" class={cur('/methodology')}>方法</a>
+      <a href="/changelog" class={cur('/changelog')}>更新</a>
+    </nav>
+  </div>
+</header>

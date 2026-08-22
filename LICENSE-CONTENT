@@ -1,0 +1,18 @@
+# 内容许可:CC BY 4.0
+
+本仓库中以下内容采用 Creative Commons Attribution 4.0 International(CC BY 4.0)授权:
+
+- `src/content/scenarios/*.md` —— 场景页正文与推荐结论
+- `src/data/*.yaml` —— 模型库、产品库、指标定义、证据库、更新日志
+
+即:你可以自由复制、修改与再分发这些内容(包括商用),但必须注明来源(给出本仓库链接与作者署名)并标明是否做过修改。
+
+完整许可文本:https://creativecommons.org/licenses/by/4.0/legalcode.zh-Hans
+
+## 代码许可
+
+仓库中除此之外的代码与配置(`src/lib/`、`src/pages/`、`src/components/`、`scripts/`、构建配置等)采用 MIT 许可,见 [LICENSE](./LICENSE)。
+
+## 数据来源说明
+
+`src/data/evidence.yaml` 中的证据采集自第三方公开来源(arena.ai 榜单、SWE-bench、各厂商官方定价页),每条均带 `source_url` 可回查。再分发本站数据时,请同时保留原始来源标注;各来源站点自身的服务条款对其数据的使用另有约束,以来源站条款为准。

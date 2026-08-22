@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'FitModel · 选型指南 — 按任务选对 AI 模型与工具',
+  description = '写作用什么模型？编程用什么 Agent？每个场景的推荐都由可溯源的公开数据计算生成：免费够用、性价比、最强三档，附完整方法论。',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main class="container">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

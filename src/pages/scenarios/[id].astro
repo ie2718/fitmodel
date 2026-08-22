@@ -1,0 +1,237 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { freshness } from '../../lib/meta';
+import { confidenceLabel, type FitResult } from '../../lib/scoring';
+import { getEngine } from '../../lib/engine';
+import { computePicks } from '../../lib/picks';
+
+export async function getStaticPaths() {
+  const items = await getCollection('scenarios');
+  return items.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const engine = await getEngine();
+const metrics = await getCollection('metrics');
+const metricMeta = new Map(metrics.map((m) => [m.data.id, m.data]));
+const models = await getCollection('models');
+const products = await getCollection('products');
+const modelById = new Map(models.map((m) => [m.id, m.data]));
+
+const fresh = freshness(d.last_verified);
+
+const weights = Object.fromEntries((d.dimensions ?? []).map((x) => [x.id, x.weight]));
+const picks = d.scoring_disabled
+  ? null
+  : computePicks(engine, weights, models as never, products as never, d.category);
+const ranked: FitResult[] = picks?.ranked ?? [];
+const top = picks?.top ?? null;
+const valuePick = picks?.valuePick ?? null;
+const freePick = picks?.freePick ?? null;
+
+const productsFor = (subject: string) =>
+  products.filter((p) => p.data.models_used.includes(subject));
+const primaryProduct = (subject: string) =>
+  productsFor(subject).find((p) => ['chat', 'coding'].includes(p.data.category)) ??
+  productsFor(subject)[0];
+
+function factLine(r: FitResult, n = 2): string {
+  return Object.values(r.entity.facts)
+    .filter((f) => !f.stale)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .map((f) => {
+      const meta = metricMeta.get(f.metric);
+      return `${meta?.label ?? f.metric} ${f.value}${meta?.unit === 'rank' ? ' 名' : ''}`;
+    })
+    .join('；');
+}
+
+const priceStr = (r: FitResult) => {
+  const pin = r.entity.facts['price_input_usd_m'];
+  const pout = r.entity.facts['price_output_usd_m'];
+  return pin && pout ? `API $${pin.value}/$${pout.value} 每百万 tokens` : '';
+};
+
+const citationIds = new Set<string>();
+for (const r of ranked.slice(0, 8)) {
+  for (const f of Object.values(r.entity.facts)) citationIds.add(f.evidId);
+}
+const evidenceEntries = (await getCollection('evidence'))
+  .filter((e) => citationIds.has(e.data.id))
+  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const dimShort: Record<string, string> = {
+  general: '通用',
+  coding: '编码',
+  writing: '写作',
+  long_context: '长文',
+};
+const fmtFit = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(0));
+const weightLine = d.dimensions
+  .map((x) => `${dimShort[x.id] ?? x.id} ${Math.round(x.weight * 100)}%`)
+  .join(' · ');
+---
+
+<Base title={`${d.title} — FitModel`} description={d.summary}>
+  <article>
+    <header class="page-header">
+      <h1>{d.title}</h1>
+      <p class="summary">{d.summary}</p>
+      <div class="meta-row">
+        <span class={`badge ${fresh.cls}`}>{fresh.label}</span>
+        {d.status === 'draft' && <span>草稿 · 权重待复审</span>}
+        {weightLine && <span>权重：{weightLine}</span>}
+      </div>
+    </header>
+
+    {
+      d.scoring_disabled ? (
+        <>
+          <div class="callout">
+            <strong>本场景暂不评分。</strong>
+            {d.scoring_note}
+          </div>
+          <section>
+            <h2 class="section-title">避坑与建议</h2>
+            <p class="note">以下为编辑经验，不参与排名。</p>
+            {d.pitfalls.length > 0 && (
+              <ul class="plain">
+                {d.pitfalls.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            )}
+            <div class="prose">
+              <Content />
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <section>
+            <h2 class="section-title">推荐</h2>
+            <dl class="answer">
+              {top && (
+                <div class="row">
+                  <dt>最强</dt>
+                  <dd>
+                    {top.entity.variant}
+                    <span class="dim">
+                      适配 {fmtFit(top.fit)} · 置信度{confidenceLabel(top.confidence).label}
+                      {priceStr(top) && ` · ${priceStr(top)}`}
+                    </span>
+                  </dd>
+                </div>
+              )}
+              {top && (
+                <p class="why">
+                  依据：{factLine(top)}。
+                  {primaryProduct(top.entity.subject)?.data.name
+                    ? ` 入口产品：${primaryProduct(top.entity.subject)!.data.name}。`
+                    : ''}
+                </p>
+              )}
+              {valuePick && valuePick.entity.key !== top?.entity.key && (
+                <div class="row">
+                  <dt>性价比</dt>
+                  <dd>
+                    {valuePick.entity.variant}
+                    <span class="dim">
+                      适配 {fmtFit(valuePick.fit)}{priceStr(valuePick) && ` · ${priceStr(valuePick)}`}
+                    </span>
+                  </dd>
+                </div>
+              )}
+              {freePick && (
+                <div class="row">
+                  <dt>免费</dt>
+                  <dd>
+                    {freePick.product.name}
+                    <span class="dim">
+                      底座 {freePick.best.entity.variant} · {freePick.product.free_tier}
+                    </span>
+                  </dd>
+                </div>
+              )}
+              {!top && <div class="callout">证据采集中：该场景暂无足够数据生成排名。</div>}
+            </dl>
+          </section>
+
+          {ranked.length > 0 && (
+            <details class="fold">
+              <summary>完整排名（{ranked.length} 个模型变体）</summary>
+              <div class="inner table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>模型</th>
+                      <th>适配分</th>
+                      <th>置信度</th>
+                      <th>API 价格（入/出, $/M）</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ranked.map((r, i) => {
+                      const pin = r.entity.facts['price_input_usd_m'];
+                      const pout = r.entity.facts['price_output_usd_m'];
+                      const cl = confidenceLabel(r.confidence);
+                      return (
+                        <tr>
+                          <td class="num">{i + 1}</td>
+                          <td>
+                            {r.entity.variant}
+                            <div class="sub">
+                              {modelById.get(r.entity.subject)?.name ?? '厂商核实中'}
+                            </div>
+                          </td>
+                          <td class="num">{fmtFit(r.fit)}</td>
+                          <td class="dim">{cl.label}</td>
+                          <td class="num">{pin && pout ? `${pin.value} / ${pout.value}` : '—'}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          )}
+
+          <details class="fold">
+            <summary>数据依据（{evidenceEntries.length} 条，可回查原文）</summary>
+            <ul class="evidence-list">
+              {evidenceEntries.map((e) => (
+                <li>
+                  <span>{metricMeta.get(e.data.metric)?.label ?? e.data.metric} <strong class="num">{e.data.value}</strong></span>
+                  <a href={e.data.source_url} target="_blank" rel="noopener">{e.data.source} ↗</a>
+                  <span class="mono">{e.data.retrieved_at.toLocaleDateString('zh-CN')}</span>
+                  {e.data.notes && <span class="dim">※ {e.data.notes}</span>}
+                </li>
+              ))}
+            </ul>
+          </details>
+
+          <section>
+            <h2 class="section-title">避坑与建议</h2>
+            <p class="note">以下为编辑经验，不参与排名。</p>
+            {d.pitfalls.length > 0 && (
+              <ul class="plain">
+                {d.pitfalls.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            )}
+            <div class="prose">
+              <Content />
+            </div>
+          </section>
+        </>
+      )
+    }
+  </article>
+</Base>

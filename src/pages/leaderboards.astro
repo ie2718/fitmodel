@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const evidence = await getCollection('evidence');
+const metrics = await getCollection('metrics');
+const models = await getCollection('models');
+const modelById = new Map(models.map((m) => [m.id, m.data]));
+
+const metricById = new Map(metrics.map((m) => [m.data.id, m.data]));
+
+/** 榜单定义：展示顺序 */
+const BOARDS = [
+  {
+    metric: 'arena_elo_overall',
+    title: 'Arena 总榜 Elo',
+    desc: '真人盲测投票产生的 Elo，反映综合人类偏好。',
+  },
+  {
+    metric: 'arena_rank_coding',
+    title: 'Arena 编码榜',
+    desc: '编码类目盲测排名，名次越小越强。',
+  },
+  {
+    metric: 'arena_rank_writing',
+    title: 'Arena 创意写作榜',
+    desc: '创意写作类目盲测排名，名次越小越强。',
+  },
+  {
+    metric: 'arena_agent_improvement',
+    title: 'Arena Agent 榜（净改进率）',
+    desc: 'agentic 任务的净改进率。该指标暂未接入场景评分（维度待人工确认）。',
+  },
+  {
+    metric: 'swe_verified',
+    title: 'SWE-bench Verified（bash-only）',
+    desc: '真实 GitHub issue 的自动解决率；官方 mini-SWE-agent 统一环境口径，横向可比模型本身。来源站最新一轮官方运行为 2026-02，此后未更新。',
+  },
+] as const;
+
+const boards = BOARDS.map((b) => {
+  const def = metricById.get(b.metric);
+  // 同一变体取最新一条（与评分引擎的 latest 聚合口径一致）
+  const latest = new Map<string, (typeof evidence)[number]['data'] & { id: string }>();
+  for (const e of evidence.filter((x) => x.data.metric === b.metric)) {
+    const key = `${e.data.subject}::${e.data.variant}`;
+    const prev = latest.get(key);
+    if (!prev || e.data.retrieved_at > prev.retrieved_at) {
+      latest.set(key, { ...e.data, id: e.id });
+    }
+  }
+  const rows = [...latest.values()].sort((a, b2) =>
+    def?.direction === 'lower' ? a.value - b2.value : b2.value - a.value,
+  );
+  return { ...b, def, rows };
+});
+
+const fmtValue = (v: number, unit: string) =>
+  unit === 'rank' ? `第 ${v} 名` : unit === 'percent' ? `${v}%` : String(v);
+
+const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_000);
+---
+
+<Base
+  title="榜单 — FitModel"
+  description="国际公开评测榜单镜像：Arena 人类偏好 Elo、SWE-bench Verified 真实任务解决率，原始数据全部可回查。"
+>
+  <header class="page-header">
+    <h1>榜单</h1>
+    <p class="summary">
+      国际公开评测的原始数据，每条可回查来源。这些指标在时效与合理域规则内同时作为场景评分输入。
+    </p>
+  </header>
+
+  {
+    boards.map((b) => (
+      <section>
+        <h2 class="section-title">{b.title}</h2>
+        <p class="note" style="margin:0 0 8px">{b.desc}</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>模型</th>
+                <th>{b.def?.unit === 'rank' ? '名次' : '数值'}</th>
+                <th>来源</th>
+                <th>采集</th>
+              </tr>
+            </thead>
+            <tbody>
+              {b.rows.map((r, i) => {
+                const stale =
+                  b.def && daysSince(r.retrieved_at) > b.def.freshness_days;
+                return (
+                  <tr>
+                    <td class="num">{i + 1}</td>
+                    <td>
+                      {r.variant}
+                      <div class="sub">
+                        {modelById.get(r.subject)?.name ?? r.subject}
+                        {r.notes && ` · ${r.notes}`}
+                      </div>
+                    </td>
+                    <td class="num">
+                      {fmtValue(r.value, b.def?.unit ?? '')}
+                      {stale && <span class="dim"> 已过期，仅展示</span>}
+                    </td>
+                    <td>
+                      <a href={r.source_url} target="_blank" rel="noopener">
+                        {r.source} ↗
+                      </a>
+                    </td>
+                    <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))
+  }
+
+  <p class="note">
+    榜单口径与入分规则见<a href="/methodology">方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
+    与本站采集日期（retrieved_at）是两回事。
+  </p>
+</Base>

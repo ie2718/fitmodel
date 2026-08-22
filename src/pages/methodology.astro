@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="方法论 — FitModel · 选型指南"
+  description="FitModel 如何从公开数据生成推荐：采集来源、校验规则、归一化与评分算法、置信度体系，完整公示。"
+>
+  <article>
+    <header class="page-header">
+      <h1>推荐是怎么算出来的</h1>
+      <p class="summary">
+        FitModel 的每一条推荐结论都由可溯源的公开数据经确定性算法计算生成——本页公示完整流程。
+      </p>
+    </header>
+
+    <section>
+      <h2 class="section-title">目标与边界</h2>
+      <p class="section-sub">
+        声明局限比展示公式更重要。以下是本站**做不到**和**不打算做**的事：
+      </p>
+      <ul class="plain">
+        <li>不做主观评测：没有「我觉得 XX 写得最好」这种内容。人类偏好的数据来自 arena.ai 的盲测投票，不是我们的编辑。</li>
+        <li>不做私有基准：所有数据都来自公开渠道（官方文档、独立基准站），可独立验证。</li>
+        <li>不保证绝对正确：数据会过期、采集可能有遗漏、来源可能有误。我们用置信度分数诚实地表达这种不确定。</li>
+        <li>不替代实测：排名反映的是统计倾向，个人体验因任务、提示方式、产品形态而异。排名是起点，不是终点。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">第一步：数据采集</h2>
+
+      <p><strong>来源白名单</strong> — 只从以下渠道取数，禁止从自媒体转述或论坛帖子取值：</p>
+      <ul class="plain">
+        <li><strong>官方一手</strong>（tier 1）：各厂商 API 定价页、模型文档、发布博客。用于价格、上下文窗口等技术规格。</li>
+        <li><strong>独立基准</strong>（tier 2）：<a href="https://arena.ai/leaderboard" target="_blank" rel="noopener">arena.ai</a>（原 LMArena）人类盲测投票、<a href="https://swebench.com" target="_blank" rel="noopener">SWE-bench</a> 真实 issue 修复率等。用于能力排名。</li>
+        <li><strong>聚合二手</strong>（tier 3）：Artificial Analysis 等聚合站。仅作为交叉参考，权重降低。</li>
+      </ul>
+
+      <p style="margin-top:18px"><strong>采集规则</strong></p>
+      <ul class="plain">
+        <li>每条证据必须包含：指标 id、模型变体名、原始值、来源名、可回查 URL、采集日期。</li>
+        <li>不确定的值一律标 <code class="num">verified: false</code>，允许展示但不允许参与评分。</li>
+        <li>JS 渲染的页面（如智谱定价页）标注「需二次采集」，用浏览器 agent 或人工获取。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">第二步：校验</h2>
+
+      <p><strong>指标注册制</strong> — 所有可入分的指标必须先在 <code class="num">metrics.yaml</code> 注册：</p>
+      <div class="formula">
+指标 id：arena_elo_overall
+合理域：[800, 1700]       ← 超出此域的数据被标记为「域外」，仅展示不入分
+时效窗口：90 天          ← 超过 90 天未更新的证据标记为「过期」，仅展示不入分
+方向：higher              ← Elo 越高越好（反之为 lower）
+来源层级：tier 2          ← 该指标只接受独立基准来源，tier 1 官方文档不入此指标</div>
+
+      <p><strong>自动校验</strong> — 构建时（<code class="num">npm run build</code>）执行：</p>
+      <ul class="plain">
+        <li><strong>注册检查</strong>：evidence.yaml 中引用的 metric id 必须在 metrics.yaml 中注册，否则构建直接失败。</li>
+        <li><strong>合理域检查</strong>：值落在 plausible 区间外 → 标记「域外」，降级为仅展示。</li>
+        <li><strong>时效检查</strong>：retrieved_at 超过 freshness_days → 标记「过期」，降级为仅展示。</li>
+        <li><strong>冲突检测</strong>：同一 (指标, 模型变体) 同日多条证据值分歧 >10% → 标记「disputed」，降级置信度。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">第三步：归一化</h2>
+
+      <p>通过校验的证据进入同组百分位归一化——**同指标同组内比较，不跨指标直接比大小**：</p>
+      <div class="formula">对指标 m，设该指标所有有效证据的原始值为 [v₁, v₂, …, vₙ]：
+
+  1. 按值升序排列
+  2. 第 i 个的百分位 = (i / (n-1)) × 100
+  3. 若 direction = "lower"（排名越小越好），百分位 = 100 − 上一步结果
+  4. <span class="op">→ 得到 0–100 分，50 = 组内中位</span>
+
+  特例：n = 1 时给 50 分，靠置信度体系表达不确定性。</div>
+
+      <p><strong>为什么用百分位而不是原始值？</strong>不同指标量纲完全不同：Elo 1500 和价格 $2 没法直接比。百分位把所有指标统一到 0–100，才能做场景加权。</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">第四步：场景评分</h2>
+
+      <p>每个场景定义一组维度权重（和 = 1），公开标注在场景页顶部：</p>
+      <div class="formula">例：「日常写作」场景
+
+  writing    权重 0.55    ← Arena 写作类目百分位
+  general    权重 0.35    ← Arena 总榜 Elo 百分位
+  long_ctx   权重 0.10    ← 上下文窗口百分位（当前证据采集中，缺失 = 降置信度）</div>
+
+      <p><strong>适配分（Fit Score）</strong>计算：</p>
+      <div class="formula">Fit = <span class="op">Σ</span>(dim_weight × dim_percentile) / <span class="op">Σ</span>(dim_weight)
+
+  其中 dim_percentile = 该维度下所有有效指标百分位的均值。
+  维度内指标缺失不补零：缺失维度直接不参与分子，但降低「覆盖率」。</div>
+
+      <p><strong>置信度（Confidence）</strong>由三个因子相乘：</p>
+      <div class="formula">Confidence = Coverage × SourceFactor × AgreeFactor
+
+  Coverage    = Σ(已覆盖维度权重) / Σ(总维度权重)
+                维度下无有效证据 → 该维度不覆盖 → 覆盖率下降
+
+  SourceFactor = mean(各证据的来源层级权重)
+                tier 1 = 1.0, tier 2 = 0.85, tier 3 = 0.5
+
+  AgreeFactor  = 1.0（正常）/ 0.9（存在同日冲突证据）
+
+  <span class="op">→ 0.0–1.0，≥75% 高 / 50–75% 中 / <50% 低</span></div>
+
+      <p><strong>性价比分（Value Score）</strong>：仅当适配分和价格数据都齐备时计算。</p>
+      <div class="formula">Value = Fit × min(2, price_median / blended_price)
+
+  blended_price = input_price + output_price（标准档，不含缓存）
+  price_median = 同组中位数
+
+  <span class="op">→ 适配分相同但价格更低 → 性价比更高</span>
+  <span class="op">→ 上限 2× 防止极端低价项虚高</span></div>
+    </section>
+
+    <section>
+      <h2 class="section-title">第五步：三档推荐规则</h2>
+
+      <p>三档推荐是确定性规则，无人工挑选、无黑箱：</p>
+      <ul class="plain">
+        <li><strong>TOP（数据上最强）</strong>：该场景排名表第 1 名。</li>
+        <li><strong>VALUE（性价比）</strong>：性价比分最高者（前提：与 TOP 不是同一个实体，否则不重复展示）。</li>
+        <li><strong>FREE（免费首选）</strong>：在所有有免费额度的产品中，先按品类匹配场景（写作场景不推荐 IDE，编码场景不推荐聊天 App），再优先国内直接可用者（存在直连候选时排除访问受限产品），最后取其底座模型在当前场景的适配分最高者。</li>
+      </ul>
+      <p class="section-sub">
+        三个推荐各有适用条件——并非所有人都需要「最强」，这恰恰是三档存在的理由。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">局限与改进方向</h2>
+      <ul class="plain">
+        <li><strong>证据覆盖不足</strong>：Arena 数据覆盖 10 个模型变体；SWE-bench Verified（bash-only）已于 2026-08-22 采集 15 条，补上 GLM 5、Kimi K2.5、DeepSeek V3.2、MiniMax M2.5 等模型的独立基准数据；豆包、混元、文心等仍缺独立基准排名。缺数据的模型在相关场景排名偏低，不是因为差，而是因为没数据。解决方向：逐步补齐各基准数据。</li>
+        <li><strong>产品层能力未量化</strong>：模型排名 ≠ 产品体验。IDE 索引质量、ASR 准确率、排版渲染等能力目前无法量化，导致会议纪要、图像生成等场景暂不开评分。</li>
+        <li><strong>百分位归一化的局限</strong>：组内 n=1 时给 50 分是保守策略，但在证据稀疏的早期会低估头部模型、高估底部。随着证据增多，分布会更真实。</li>
+        <li><strong>国内可用性标记是手动的</strong>：网络环境变化频繁，标记可能滞后。建议最终使用前以实测为准。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">算法实现</h2>
+      <p class="section-sub">
+        评分引擎是一个纯函数库（<code class="num">src/lib/scoring.ts</code>），构建时运行，无副作用。数据文件位于 <code class="num">src/data/</code>。
+      </p>
+      <ul class="evidence-list">
+        <li>
+          <span class="mono">metrics.yaml</span>
+          <span>指标注册表（合理域、时效窗口、方向、来源层级）</span>
+        </li>
+        <li>
+          <span class="mono">evidence.yaml</span>
+          <span>证据库（62 条可溯源记录，含来源 URL 与采集日期）</span>
+        </li>
+        <li>
+          <span class="mono">scoring.ts</span>
+          <span>评分引擎：校验 → 去重/冲突检测 → 百分位归一化 → 维度聚合 → 场景适配分/置信度/性价比</span>
+        </li>
+        <li>
+          <span class="mono">scenarios/*.md</span>
+          <span>场景页：编辑只定义维度权重和非排名性建议，排名由引擎计算</span>
+        </li>
+      </ul>
+    </section>
+  </article>
+</Base>
