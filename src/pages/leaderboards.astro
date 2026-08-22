@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { siteUrl } from '../lib/meta';
 
 const evidence = await getCollection('evidence');
 const metrics = await getCollection('metrics');
@@ -123,7 +124,7 @@ const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_00
   }
 
   <p class="note">
-    榜单口径与入分规则见<a href="/methodology">方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
+    榜单口径与入分规则见<a href={siteUrl('/methodology')}>方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
     与本站采集日期（retrieved_at）是两回事。
   </p>
 </Base>

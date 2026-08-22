@@ -27,6 +27,12 @@ export const AVAIL: Record<
   unavailable: { label: '国内不可用', cls: 'bad' },
 };
 
+/** 部署子路径前缀：部署在子路径（如 GitHub Pages 的 /fitmodel）时非空，根路径部署时为空串 */
+export const SITE_BASE = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL;
+
+/** 站内链接一律经此函数生成，自动带上部署子路径前缀 */
+export const siteUrl = (p: string) => `${SITE_BASE}${p}`;
+
 /** 鲜度规则：<30 天绿，30–60 天黄，>60 天红。构建时计算，所以保持重新构建即刷新。 */
 export function freshness(date: Date): { label: string; cls: string } {
   const days = Math.floor((Date.now() - date.getTime()) / 86400000);

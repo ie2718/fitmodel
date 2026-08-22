@@ -1,17 +1,20 @@
 ---
-const path = Astro.url.pathname;
+import { SITE_BASE, siteUrl } from '../lib/meta';
+
+// 去掉子路径前缀后再匹配，保证根路径与子路径部署下高亮逻辑一致
+const path = Astro.url.pathname.replace(SITE_BASE, '') || '/';
 const cur = (p: string) => (p === '/' ? path === '/' : path.startsWith(p) ? 'cur' : '');
 ---
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href="/">FitModel</a>
+    <a class="brand" href={siteUrl('/')}>FitModel</a>
     <nav class="site-nav">
-      <a href="/" class={cur('/')}>场景</a>
-      <a href="/leaderboards" class={cur('/leaderboards')}>榜单</a>
-      <a href="/models" class={cur('/models')}>模型</a>
-      <a href="/methodology" class={cur('/methodology')}>方法</a>
-      <a href="/changelog" class={cur('/changelog')}>更新</a>
+      <a href={siteUrl('/')} class={cur('/')}>场景</a>
+      <a href={siteUrl('/leaderboards')} class={cur('/leaderboards')}>榜单</a>
+      <a href={siteUrl('/models')} class={cur('/models')}>模型</a>
+      <a href={siteUrl('/methodology')} class={cur('/methodology')}>方法</a>
+      <a href={siteUrl('/changelog')} class={cur('/changelog')}>更新</a>
     </nav>
   </div>
 </header>

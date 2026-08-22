@@ -6,6 +6,8 @@
 
 「该用什么 AI?」——先说任务,再选模型。
 
+**线上地址:<https://ie2718.github.io/fitmodel/>**
+
 面向知识工作者的 AI 选型站:按**场景**(写作、编程、研究、办公、创意)给出三档推荐(免费够用 / 性价比 / 最强),附理由、价格、国内可用性与数据依据。覆盖全球与国产主流模型与工具。
 
 ## 为什么做
@@ -107,7 +109,9 @@ AGENTS.md                # 维护协议:agent 管数据层,人工管观点层
 
 ## 部署
 
-任意静态托管:Vercel / Cloudflare Pages / GitHub Pages。构建命令 `npm run build`,产物目录 `dist`。部署前把 `astro.config.mjs` 的 `site` 换成真实域名。
+推送到 `main` 即自动部署到 GitHub Pages([workflow](./.github/workflows/deploy.yml)),站点地址 <https://ie2718.github.io/fitmodel/>。站内链接经 `siteUrl()` 自动带 `/fitmodel` 子路径前缀(`astro.config.mjs` 的 `base`)。
+
+迁移到 Vercel / Cloudflare Pages 或自定义域名时:改掉(或删掉)`astro.config.mjs` 里的 `site` 与 `base` 即可,构建命令 `npm run build`,产物目录 `dist`。
 
 ## 许可
 

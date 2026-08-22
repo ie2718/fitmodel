@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { CATEGORIES } from '../lib/meta';
+import { CATEGORIES, siteUrl } from '../lib/meta';
 import { getEngine } from '../lib/engine';
 import { computePicks } from '../lib/picks';
 
@@ -40,7 +40,7 @@ const searchData = sorted.map((e) => ({
   t: e.data.title,
   s: e.data.summary,
   c: CATEGORIES.find((c) => c.id === e.data.category)?.label ?? '',
-  u: `/scenarios/${e.id}/`,
+  u: siteUrl(`/scenarios/${e.id}/`),
 }));
 ---
 
@@ -78,7 +78,7 @@ const searchData = sorted.map((e) => ({
                 <li class={`card${picks === null ? ' wip' : ''}`}>
                   <span class="idx mono">{String(idxOf.get(e.id)).padStart(2, '0')}</span>
                   <h3>
-                    <a href={`/scenarios/${e.id}/`}>{shortTitle(e.data.title)}</a>
+                    <a href={siteUrl(`/scenarios/${e.id}/`)}>{shortTitle(e.data.title)}</a>
                   </h3>
                   {picks === null ? (
                     <p class="na">专项指标建库中，暂不评分——先看场景页建议。</p>
@@ -110,7 +110,7 @@ const searchData = sorted.map((e) => ({
 
     <p class="note">
       「免费」= 有免费额度且国内可直接用的产品中最优；性价比与最强为同一模型时不重复列出。指标口径与算法见<a
-        href="/methodology">方法论</a>。
+        href={siteUrl('/methodology')}>方法论</a>。
     </p>
   </div>
 
