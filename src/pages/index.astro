@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { CATEGORIES, siteUrl } from '../lib/meta';
+import { CATEGORIES, siteUrl, absoluteUrl } from '../lib/meta';
 import { getEngine } from '../lib/engine';
 import { computePicks } from '../lib/picks';
 
@@ -42,9 +42,41 @@ const searchData = sorted.map((e) => ({
   c: CATEGORIES.find((c) => c.id === e.data.category)?.label ?? '',
   u: siteUrl(`/scenarios/${e.id}/`),
 }));
+
+const site = Astro.site!;
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'FitModel',
+    alternateName: 'FitModel 选型指南',
+    url: absoluteUrl('/', site),
+    description: '按任务场景给出 AI 模型与产品推荐，结论由可溯源的公开数据计算生成。',
+    inLanguage: 'zh-CN',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: absoluteUrl('/?q={search_term_string}', site),
+      },
+      'query-input': 'required name=search_term_string',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FitModel',
+      url: absoluteUrl('/', site),
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/favicon.svg', site) },
+    },
+  },
+];
 ---
 
-<Base>
+<Base
+  title="FitModel — 该用什么 AI？证据驱动的选型指南"
+  description="按任务查 AI 推荐：写作、编程、研究、办公、创意场景，免费够用 / 性价比 / 最强三档，结论全部由可溯源的公开数据计算生成，每周更新。"
+  image="/og/index.png"
+  schema={schema}
+>
   <div class="home">
     <section class="hero">
       <h1>该用什么 AI？</h1>
@@ -60,7 +92,7 @@ const searchData = sorted.map((e) => ({
 
     {
       groups.map(({ cat, items }) => (
-        <section class="cat">
+        <section class="cat" id={`cat-${cat.id}`}>
           <header>
             <h2 class="cat-label">{cat.label}</h2>
             <span class="cat-desc">{cat.desc}</span>
@@ -110,7 +142,7 @@ const searchData = sorted.map((e) => ({
 
     <p class="note">
       「免费」= 有免费额度且国内可直接用的产品中最优；性价比与最强为同一模型时不重复列出。指标口径与算法见<a
-        href={siteUrl('/methodology')}>方法论</a>。
+        href={siteUrl('/methodology/')}>方法论</a>。
     </p>
   </div>
 
@@ -150,6 +182,13 @@ const searchData = sorted.map((e) => ({
         ).slice(0, 8),
       );
     });
+
+    // 支持 ?q= 预填（配合 WebSite SearchAction，搜索结果页可直达）
+    const initial = new URLSearchParams(location.search).get('q');
+    if (initial) {
+      input.value = initial;
+      input.dispatchEvent(new Event('input'));
+    }
   </script>
 </Base>
 

@@ -1,5 +1,30 @@
 # 更新日志
 
+- id: cl-2026-08-23-seo-geo-p1
+  date: 2026-08-23
+  title: SEO/GEO P1 增强：RSS、每页 OG 图、FAQ 结构化数据、llms-full.txt、IndexNow、搜索直达
+  entries:
+    - 新增 /rss.xml（@astrojs/rss，以 changelog 为数据源，条目带锚点直达对应日志）；全站 head 增加 RSS alternate 声明
+    - 每页专属 OG 分享图：scripts/gen-og.mjs（HTML 模板 + Chrome 无头截图，零图像库依赖）生成 public/og/ 下 20 张 1200×630 PNG，各页 og:image / twitter:image 指向专属图并回退 og-default.png；场景标题变动后本地重跑脚本提交产物。方案中的 satori 构建时生成因 CJK 字体无法进 CI 而改用此法，效果等价
+    - 场景页新增 FAQPage JSON-LD（3 个数据驱动问答：最强模型 / 免费工具 / 方法论，答案全部来自构建时计算输出，无手写结论）
+    - 新增 /llms-full.txt 端点：13 个评分场景的完整排名（287 行，含维度权重、适配分、置信度、价格），构建时从数据生成；llms.txt 增加指向
+    - IndexNow 主动推送：public/<key>.txt 验证文件 + deploy.yml 新增 notify-indexnow job（部署成功后向 api.indexnow.org 批量推送全部页面 URL，加速 Bing 等参与引擎收录；continue-on-error，不阻塞部署）
+    - 首页搜索支持 ?q= 预填并自动出结果；WebSite schema 增加 SearchAction；changelog 条目渲染锚点 id（RSS 与深链直达）
+    - 纯展示层与基建变更：evidence / 权重 / 场景正文未动，排名无变化；构建校验通过，21 页 + rss / llms / llms-full / sitemap / og 产物齐全
+
+- id: cl-2026-08-22-seo-geo
+  date: 2026-08-22
+  title: SEO/GEO 基建上线：canonical、sitemap、robots.txt、JSON-LD、llms.txt 与 OG 分享卡
+  entries:
+    - 全站 head 完善（Base.astro）：canonical / og:url / og:type / og:site_name / og:locale / og:image / twitter:card 全套；trailingSlash 统一为 always 且站内链接统一带尾斜杠，消除双 URL 重复内容隐患
+    - 新增 @astrojs/sitemap（产出 /sitemap-index.xml）与 public/robots.txt：全部搜索引擎与 AI 爬虫（GPTBot、ClaudeBot、PerplexityBot、Bytespider 等 16 个）明确允许，含训练用途，并声明 sitemap 地址
+    - 新增 public/og-default.png（1200×630 品牌默认分享图，Chrome 无头渲染生成）与 404 页
+    - JSON-LD：首页 WebSite + Organization；场景页 BreadcrumbList + Article + ItemList（排名取自构建时 rank() 输出，dateModified = 证据最新采集日）；榜单页与方法论页 Dataset（variableMeasured = 注册指标，citation = 来源 URL，license = CC BY 4.0）
+    - GEO：新增 /llms.txt 端点（构建时从数据生成，含全部场景三档结论与数据截至日期，无手写内容）；场景页页首新增一句构建时生成的「直接回答」——数据驱动模板，非编辑观点，场景正文未动
+    - 元数据：首页 title/description 显式定制（含「该用什么 AI」「证据驱动」核心词）；场景页 title 模板改为「{场景}用什么 AI？证据驱动的模型推荐 | FitModel」吃搜索意图；首页分类区块增加锚点 id（#cat-写作等）
+    - 方案偏差记录：原方案（docs/seo-geo-plan.md）「draft 场景页 noindex 且不入 sitemap」暂不启用——当前 15 个场景全部为 draft（等首轮人工复审），启用会把全站核心内容排除出索引；待出现 verified 场景后再开启该规则
+    - 纯展示层与基建变更：evidence / metrics / models / products / 权重 / 场景正文均未改动，排名无变化；构建校验通过
+
 - id: cl-2026-08-22-home-cards
   date: 2026-08-22
   title: 首页速查表改版为「速查卡」目录式卡片

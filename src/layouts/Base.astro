@@ -2,16 +2,33 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import { siteUrl } from '../lib/meta';
+import JsonLd from '../components/JsonLd.astro';
+import { siteUrl, canonicalUrl } from '../lib/meta';
 
 interface Props {
   title?: string;
   description?: string;
+  /** og:type：场景页等内容页用 article */
+  type?: 'website' | 'article';
+  /** 站内路径（如 /og-default.png），省略时用默认分享图 */
+  image?: string;
+  /** 设为 true 输出 noindex（如 404 页） */
+  noindex?: boolean;
+  /** 页面级 JSON-LD，构建时序列化注入 head */
+  schema?: Record<string, unknown>[];
 }
+
 const {
   title = 'FitModel · 选型指南 — 按任务选对 AI 模型与工具',
   description = '写作用什么模型？编程用什么 Agent？每个场景的推荐都由可溯源的公开数据计算生成：免费够用、性价比、最强三档，附完整方法论。',
+  type = 'website',
+  image,
+  noindex = false,
+  schema,
 } = Astro.props;
+
+const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
+const ogImage = new URL(siteUrl(image ?? '/og-default.png'), Astro.site).href;
 ---
 
 <!doctype html>
@@ -21,9 +38,25 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href={siteUrl('/favicon.svg')} />
+    <link rel="sitemap" href={siteUrl('/sitemap-index.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="FitModel 更新日志" href={siteUrl('/rss.xml')} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <meta property="og:site_name" content="FitModel" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {schema && schema.length > 0 && <JsonLd schema={schema} />}
   </head>
   <body>
     <SiteHeader />

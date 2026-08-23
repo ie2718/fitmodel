@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { siteUrl } from '../lib/meta';
+import { siteUrl, absoluteUrl, isoDate } from '../lib/meta';
 
 const evidence = await getCollection('evidence');
 const metrics = await getCollection('metrics');
@@ -60,11 +60,40 @@ const fmtValue = (v: number, unit: string) =>
   unit === 'rank' ? `第 ${v} 名` : unit === 'percent' ? `${v}%` : String(v);
 
 const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_000);
+
+const site = Astro.site!;
+const boardMetrics = BOARDS.map((b) => metricById.get(b.metric)).filter(Boolean);
+const boardEvidence = evidence.filter((e) => BOARDS.some((b) => b.metric === e.data.metric));
+const citations = [...new Set(boardEvidence.map((e) => e.data.source_url))];
+const dataAsOf = boardEvidence.reduce(
+  (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
+  boardEvidence[0]?.data.retrieved_at ?? new Date(),
+);
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'FitModel · 国际公开评测榜单镜像',
+    description:
+      'Arena 人类偏好榜（总榜 / 编码 / 写作 / Agent）与 SWE-bench Verified 等国际公开评测的本站采集镜像，每条含原始值、来源链接与采集日期。',
+    url: absoluteUrl('/leaderboards/', site),
+    inLanguage: 'zh-CN',
+    isAccessibleForFree: true,
+    keywords: ['Arena', 'Elo', 'SWE-bench', 'LLM 评测', '模型排名'],
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    creator: { '@type': 'Organization', name: 'FitModel', url: absoluteUrl('/', site) },
+    variableMeasured: boardMetrics.map((m) => m?.label ?? ''),
+    citation: citations,
+    dateModified: isoDate(dataAsOf),
+  },
+];
 ---
 
 <Base
   title="榜单 — FitModel"
   description="国际公开评测榜单镜像：Arena 人类偏好 Elo、SWE-bench Verified 真实任务解决率，原始数据全部可回查。"
+  image="/og/leaderboards.png"
+  schema={schema}
 >
   <header class="page-header">
     <h1>榜单</h1>
@@ -124,7 +153,7 @@ const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_00
   }
 
   <p class="note">
-    榜单口径与入分规则见<a href={siteUrl('/methodology')}>方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
+    榜单口径与入分规则见<a href={siteUrl('/methodology/')}>方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
     与本站采集日期（retrieved_at）是两回事。
   </p>
 </Base>

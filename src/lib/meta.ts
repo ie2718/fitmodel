@@ -27,11 +27,33 @@ export const AVAIL: Record<
   unavailable: { label: '国内不可用', cls: 'bad' },
 };
 
-/** 部署子路径前缀：部署在子路径（如 GitHub Pages 的 /fitmodel）时非空，根路径部署时为空串 */
-export const SITE_BASE = import.meta.env.BASE_URL === '/' ? '' : import.meta.env.BASE_URL;
+/** 部署子路径前缀（如 GitHub Pages 的 /fitmodel）时非空，根路径部署时为空串。
+ *  统一去掉尾斜杠：trailingSlash: 'always' 下 BASE_URL 会带尾斜杠，直接拼接会产生 //。 */
+export const SITE_BASE =
+  import.meta.env.BASE_URL === '/'
+    ? ''
+    : import.meta.env.BASE_URL.replace(/\/$/, '');
 
 /** 站内链接一律经此函数生成，自动带上部署子路径前缀 */
 export const siteUrl = (p: string) => `${SITE_BASE}${p}`;
+
+/** 站内路径 → 绝对 URL；origin 传 Astro.site（页面）或 context.site（端点） */
+export const absoluteUrl = (p: string, origin: URL | string) => new URL(siteUrl(p), origin).href;
+
+/** 构建期把请求路径剥离子路径前缀，得到纯路由路径（根路径为 '/'） */
+export function routePath(pathname: string): string {
+  const p =
+    SITE_BASE && pathname.startsWith(SITE_BASE) ? pathname.slice(SITE_BASE.length) : pathname;
+  return p === '' ? '/' : p;
+}
+
+/** 当前页面的规范绝对 URL（canonical / og:url 用；带不带 base 前缀的 pathname 均可） */
+export function canonicalUrl(pathname: string, site: URL | undefined): string {
+  return site ? absoluteUrl(routePath(pathname), site) : pathname;
+}
+
+/** Date → ISO 日期串（YYYY-MM-DD），用于 JSON-LD 的 dateModified 与 llms.txt */
+export const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 
 /** 鲜度规则：<30 天绿，30–60 天黄，>60 天红。构建时计算，所以保持重新构建即刷新。 */
 export function freshness(date: Date): { label: string; cls: string } {

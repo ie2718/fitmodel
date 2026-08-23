@@ -29,3 +29,32 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # 部署成功后向 IndexNow（Bing / Yandex 等参与引擎）推送全部页面 URL，加快收录
+  notify-indexnow:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Notify IndexNow
+        run: |
+          node -e '
+            const fs = require("fs");
+            const base = "https://ie2718.github.io/fitmodel";
+            const paths = ["/", "/leaderboards/", "/models/", "/methodology/", "/changelog/"];
+            for (const f of fs.readdirSync("src/content/scenarios")) {
+              if (f.endsWith(".md")) paths.push(`/scenarios/${f.slice(0, -3)}/`);
+            }
+            const body = {
+              host: "ie2718.github.io",
+              key: "50fae4935f574697b108e8e24b7bcc56",
+              keyLocation: `${base}/50fae4935f574697b108e8e24b7bcc56.txt`,
+              urlList: paths.map((p) => `https://ie2718.github.io/fitmodel${p}`),
+            };
+            fs.writeFileSync("/tmp/indexnow.json", JSON.stringify(body));
+          '
+          curl -fsS -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data @/tmp/indexnow.json -o /dev/null -w "IndexNow HTTP %{http_code}\n"

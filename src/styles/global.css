@@ -175,6 +175,16 @@ td .sub { font-size: 12px; color: var(--muted); }
   color: var(--muted);
 }
 
+/* 场景页首屏直接回答：构建时由数据生成的一句话结论 */
+.direct {
+  margin: 14px 0 0;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+
 /* 三档答案：三行文字 */
 .answer { margin: 4px 0 0; }
 .answer .row {

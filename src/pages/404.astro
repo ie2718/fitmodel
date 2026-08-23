@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteUrl } from '../lib/meta';
+---
+
+<Base
+  title="页面不存在 — FitModel"
+  description="这个页面不存在或已被移动。回到首页按场景查 AI 推荐。"
+  noindex
+>
+  <header class="page-header">
+    <h1>404 · 页面不存在</h1>
+    <p class="summary">这个地址没有对应内容，可能已被移动。按场景查推荐请回首页。</p>
+  </header>
+  <ul class="plain">
+    <li><a href={siteUrl('/')}>回到首页：各场景的三档推荐速查</a></li>
+    <li><a href={siteUrl('/leaderboards/')}>看榜单：Arena / SWE-bench 公开评测镜像</a></li>
+    <li><a href={siteUrl('/methodology/')}>看方法论：推荐是怎么算出来的</a></li>
+  </ul>
+</Base>

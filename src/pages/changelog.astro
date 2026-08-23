@@ -10,6 +10,7 @@ const logs = (await getCollection('changelog')).sort(
 <Base
   title="更新日志 — FitModel"
   description="FitModel 的每次数据与内容变更记录：新证据采集、校验结果、排名变化。"
+  image="/og/changelog.png"
 >
   <header class="page-header">
     <h1>更新日志</h1>
@@ -18,7 +19,7 @@ const logs = (await getCollection('changelog')).sort(
 
   {
     logs.map((log) => (
-      <div class="log-item">
+      <div class="log-item" id={log.id}>
         <p style="margin:0 0 4px">
           <span class="date">{log.data.date.toLocaleDateString('zh-CN')}</span>
           <strong>{log.data.title}</strong>

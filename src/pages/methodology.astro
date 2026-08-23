@@ -1,10 +1,39 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { absoluteUrl, isoDate } from '../lib/meta';
+
+const evidence = await getCollection('evidence');
+const metrics = await getCollection('metrics');
+const site = Astro.site!;
+const dataAsOf = evidence.reduce(
+  (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
+  evidence[0]?.data.retrieved_at ?? new Date(),
+);
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'FitModel 证据库与评分方法',
+    description:
+      'FitModel 的证据库与评分方法论公示：来源白名单、指标注册制、合理域与时效校验、百分位归一化、场景加权评分、三档推荐规则。',
+    url: absoluteUrl('/methodology/', site),
+    inLanguage: 'zh-CN',
+    isAccessibleForFree: true,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    creator: { '@type': 'Organization', name: 'FitModel', url: absoluteUrl('/', site) },
+    variableMeasured: metrics.map((m) => m.data.label),
+    citation: [...new Set(evidence.map((e) => e.data.source_url))],
+    dateModified: isoDate(dataAsOf),
+  },
+];
 ---
 
 <Base
   title="方法论 — FitModel · 选型指南"
   description="FitModel 如何从公开数据生成推荐：采集来源、校验规则、归一化与评分算法、置信度体系，完整公示。"
+  image="/og/methodology.png"
+  schema={schema}
 >
   <article>
     <header class="page-header">

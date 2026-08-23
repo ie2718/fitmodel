@@ -1,0 +1,10 @@
+---
+interface Props {
+  schema: Record<string, unknown> | Record<string, unknown>[];
+}
+const { schema } = Astro.props;
+// 转义 < 防止内容里的 </script> 提前闭合标签
+const json = JSON.stringify(schema).replace(/</g, '\\u003c');
+---
+
+<script is:inline type="application/ld+json" set:html={json} />

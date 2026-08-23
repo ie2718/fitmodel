@@ -77,7 +77,8 @@ src/
 ├── pages/               # 首页 / 场景页 / 模型库 / 榜单 / 方法论 / 更新日志
 └── components/          # SiteHeader / SiteFooter
 scripts/
-└── check-freshness.mjs  # 鲜度巡检(可作 CI 与定时同步的门禁)
+├── check-freshness.mjs  # 鲜度巡检(可作 CI 与定时同步的门禁)
+└── gen-og.mjs           # 每页 OG 分享图生成(HTML 模板 + Chrome 无头截图,标题变动后重跑)
 AGENTS.md                # 维护协议:agent 管数据层,人工管观点层
 ```
 
@@ -110,6 +111,8 @@ AGENTS.md                # 维护协议:agent 管数据层,人工管观点层
 ## 部署
 
 推送到 `main` 即自动部署到 GitHub Pages([workflow](./.github/workflows/deploy.yml)),站点地址 <https://ie2718.github.io/fitmodel/>。站内链接经 `siteUrl()` 自动带 `/fitmodel` 子路径前缀(`astro.config.mjs` 的 `base`)。
+
+站点自带 SEO/GEO 基建(方案与决策记录见 [`docs/seo-geo-plan.md`](./docs/seo-geo-plan.md)):每页 canonical、Open Graph/Twitter 卡与专属分享图(`scripts/gen-og.mjs` 生成),构建产出 `sitemap-index.xml`、数据驱动的 [`llms.txt`](https://ie2718.github.io/fitmodel/llms.txt) / `llms-full.txt` 与 [`rss.xml`](https://ie2718.github.io/fitmodel/rss.xml),`robots.txt` 对所有搜索引擎与 AI 爬虫开放,部署成功后自动向 IndexNow 推送全部页面 URL。注意:项目子路径下的 robots.txt 不在域名根,索引主要靠 Search Console 提交 [sitemap](https://ie2718.github.io/fitmodel/sitemap-index.xml),迁移自定义域名后完全生效。
 
 迁移到 Vercel / Cloudflare Pages 或自定义域名时:改掉(或删掉)`astro.config.mjs` 里的 `site` 与 `base` 即可,构建命令 `npm run build`,产物目录 `dist`。
 

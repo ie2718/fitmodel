@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { freshness } from '../../lib/meta';
+import { freshness, absoluteUrl, isoDate, CATEGORY_MAP } from '../../lib/meta';
 import { confidenceLabel, type FitResult } from '../../lib/scoring';
 import { getEngine } from '../../lib/engine';
 import { computePicks } from '../../lib/picks';
@@ -75,9 +75,97 @@ const fmtFit = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(
 const weightLine = d.dimensions
   .map((x) => `${dimShort[x.id] ?? x.id} ${Math.round(x.weight * 100)}%`)
   .join(' · ');
+
+const site = Astro.site!;
+const pageUrl = absoluteUrl(`/scenarios/${entry.id}/`, site);
+const ogImage = `/og/scenarios/${entry.id}.png`;
+const dataAsOf =
+  evidenceEntries.reduce<Date | null>(
+    (max, e) => (!max || e.data.retrieved_at > max ? e.data.retrieved_at : max),
+    null,
+  ) ?? d.last_verified;
+
+const pageTitle = d.scoring_disabled
+  ? `${d.title}怎么选？避坑与建议 | FitModel`
+  : `${d.title}用什么 AI？证据驱动的模型推荐 | FitModel`;
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'FitModel', item: absoluteUrl('/', site) },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: CATEGORY_MAP[d.category]?.label ?? d.category,
+        item: absoluteUrl(`/#cat-${d.category}`, site),
+      },
+      { '@type': 'ListItem', position: 3, name: d.title, item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: d.title,
+    description: d.summary,
+    inLanguage: 'zh-CN',
+    url: pageUrl,
+    mainEntityOfPage: pageUrl,
+    image: absoluteUrl(ogImage, site),
+    dateModified: isoDate(dataAsOf),
+    author: { '@type': 'Organization', name: 'FitModel', url: absoluteUrl('/', site) },
+    publisher: { '@type': 'Organization', name: 'FitModel' },
+  },
+];
+if (ranked.length > 0) {
+  schema.push({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${d.title} · 模型适配排名`,
+    description: `按场景维度权重加权计算的模型适配分排名，数据截至 ${isoDate(dataAsOf)}。`,
+    numberOfItems: ranked.length,
+    itemListElement: ranked.slice(0, 10).map((r, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: r.entity.variant,
+    })),
+  });
+}
+if (!d.scoring_disabled && top) {
+  const faqs: Record<string, unknown>[] = [
+    {
+      '@type': 'Question',
+      name: `${d.title}用什么 AI 模型最好？`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `截至 ${isoDate(dataAsOf)}，基于 ${evidenceEntries.length} 条可溯源的公开证据计算，综合适配最高的是 ${top.entity.variant}（适配 ${fmtFit(top.fit)} 分，置信度${confidenceLabel(top.confidence).label}）。依据与完整排名见本页。`,
+      },
+    },
+  ];
+  if (freePick) {
+    faqs.push({
+      '@type': 'Question',
+      name: `${d.title}有没有免费的工具可用？`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `免费首选：${freePick.product.name}（${freePick.product.free_tier}），底座模型 ${freePick.best.entity.variant}。三档推荐规则见方法论页。`,
+      },
+    });
+  }
+  faqs.push({
+    '@type': 'Question',
+    name: '这些推荐是怎么算出来的？',
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: '全部由公开数据（厂商官方定价页、arena.ai、SWE-bench 等）经统一算法加权计算生成，数据过期自动不入分，方法完全公示，无人为主观挑选。',
+    },
+  });
+  schema.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs });
+}
 ---
 
-<Base title={`${d.title} — FitModel`} description={d.summary}>
+<Base title={pageTitle} description={d.summary} type="article" image={ogImage} schema={schema}>
   <article>
     <header class="page-header">
       <h1>{d.title}</h1>
@@ -87,6 +175,13 @@ const weightLine = d.dimensions
         {d.status === 'draft' && <span>草稿 · 权重待复审</span>}
         {weightLine && <span>权重：{weightLine}</span>}
       </div>
+      {!d.scoring_disabled && top && (
+        <p class="direct">
+          截至 {isoDate(dataAsOf)}，基于 {evidenceEntries.length} 条公开证据，本场景综合适配最高的是
+          {top.entity.variant}（适配 {fmtFit(top.fit)} 分，置信度
+          {confidenceLabel(top.confidence).label}）。
+        </p>
+      )}
     </header>
 
     {
