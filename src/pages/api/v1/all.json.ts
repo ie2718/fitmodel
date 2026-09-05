@@ -16,6 +16,7 @@ export const GET: APIRoute = async ({ site }) => {
         models: data.models.length,
         scenarios: data.scenarios.length,
         evidence: data.evidence.length,
+        unranked_variants: data.unranked_variants,
       },
     }),
     models: data.models,

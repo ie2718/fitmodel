@@ -104,29 +104,80 @@ function median(xs: number[]): number {
   return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
 }
 
+/** 标准正态分布 CDF（Abramowitz–Stegun 7.1.26 erf 近似，绝对误差 < 1.5e-7） */
+function normalCdf(z: number): number {
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989423 * Math.exp((-z * z) / 2);
+  const p =
+    d *
+    t *
+    (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  return z > 0 ? 1 - p : p;
+}
+
+/** 标准正态密度 */
+function normalPdf(z: number): number {
+  return Math.exp((-z * z) / 2) / Math.sqrt(2 * Math.PI);
+}
+
 /**
- * Beta 后验百分位（经验贝叶斯）：
- * 组内按「好→差」排名 r_good（1=最好），真实百分位服从 Beta(n+1-r, r)，
- * 取后验均值 pct = (n+1-r)/(n+1)×100，标准误 = 100×sqrt(r(n+1-r)/((n+1)²(n+2)))。
- * 相比裸百分位：(1) 头尾不再触及 0/100，小样本不产生虚假极端分；
- * (2) 天然携带不确定性，供误差界合成。n=1 时为 50±28.9（等于没有信息）。
+ * 组内归一化，按指标类型分两轨（选型依据 docs/research-2026-09.md）：
+ *
+ * 1. 序数型（unit = rank，如 Arena 分类目名次）：Beta 后验百分位。
+ *    名次只有先后没有量级，Beta 后验把「排名估计」当统计量：头部约 93 而非 100，
+ *    天然携带标准误。n = 1 → 50 ± 28.9（等于没有信息）。
+ *
+ * 2. 区间型（Elo、百分比、价格等有量纲的值）：z-score → 正态 CDF 百分位。
+ *    名次百分位会把「1 分之差」放大成几个百分位（SWE-bench 榜首集群 76.8 vs 75.8
+ *    的差距与第 8 名几乎同宽），z-score 保留量级：分差 ∝ z 分差。
+ *    价格先取对数（跨三个数量级，跨量级比较用对数轴是行业惯例）。
+ *    标准误用 delta 法：se = 100 × φ(z) × √((1+z²/2)/n)。
+ *    n < 4 时 z 不稳定，回退 Beta 百分位。
  */
-function percentileScores(
+function normalizeScores(
   values: { key: string; value: number }[],
   direction: 'higher' | 'lower',
+  unit: string,
 ): Map<string, { pct: number; se: number }> {
   const out = new Map<string, { pct: number; se: number }>();
   const n = values.length;
   if (n === 0) return out;
-  const sorted = [...values].sort((a, b) =>
-    direction === 'higher' ? b.value - a.value : a.value - b.value,
-  ); // 好→差
-  sorted.forEach((v, i) => {
-    const r = i + 1;
-    const pct = ((n + 1 - r) / (n + 1)) * 100;
-    const se = 100 * Math.sqrt((r * (n + 1 - r)) / ((n + 1) * (n + 1) * (n + 2)));
-    out.set(v.key, { pct, se });
-  });
+  if (n === 1) {
+    out.set(values[0].key, { pct: 50, se: 28.9 });
+    return out;
+  }
+
+  const ordinal = unit === 'rank';
+  if (ordinal || n < 4) {
+    const sorted = [...values].sort((a, b) =>
+      direction === 'higher' ? b.value - a.value : a.value - b.value,
+    ); // 好→差
+    sorted.forEach((v, i) => {
+      const r = i + 1;
+      const pct = ((n + 1 - r) / (n + 1)) * 100;
+      const se = 100 * Math.sqrt((r * (n + 1 - r)) / ((n + 1) * (n + 1) * (n + 2)));
+      out.set(v.key, { pct, se });
+    });
+    return out;
+  }
+
+  // ---- 区间型：z-score → 正态 CDF ----
+  const useLog = unit.includes('USD'); // 价格跨数量级，对数化后比较
+  const xs = values.map((v) => (useLog ? Math.log(Math.max(v.value, 1e-6)) : v.value));
+  const mean = xs.reduce((a, b) => a + b, 0) / n;
+  const sd = Math.sqrt(xs.reduce((a, x) => a + (x - mean) ** 2, 0) / (n - 1));
+  if (sd === 0) {
+    for (const v of values) out.set(v.key, { pct: 50, se: 28.9 });
+    return out;
+  }
+  for (let i = 0; i < values.length; i++) {
+    let z = (xs[i] - mean) / sd;
+    if (direction === 'lower') z = -z;
+    z = Math.max(-2.6, Math.min(2.6, z)); // 温缩极端值，防离群点独占 0/100
+    const pct = normalCdf(z) * 100;
+    const se = Math.max(4, 100 * normalPdf(z) * Math.sqrt((1 + (z * z) / 2) / n));
+    out.set(values[i].key, { pct, se });
+  }
   return out;
 }
 
@@ -207,9 +258,10 @@ export function buildScoreEngine(
     cohortByMetric.set(def.id, cohort.length);
     normByMetric.set(
       def.id,
-      percentileScores(
+      normalizeScores(
         cohort.map((r) => ({ key: entityKeyOf(r), value: r.value })),
         def.direction,
+        def.unit,
       ),
     );
   }

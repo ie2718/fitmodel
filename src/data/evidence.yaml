@@ -1610,3 +1610,577 @@
   retrieved_at: 2026-08-22
   verified: false
   notes: 涨价（08-15 记录 $0.28）；峰时价，谷时 $0.66。
+
+# ===== Arena 2026-09-05 快照（新增模型 + 名次刷新，采集渠道：arena.ai/leaderboard）=====
+
+- id: ev-arena-080
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-fable-5
+  value: 1507
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-081
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1505
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-082
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 1504
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-083
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 1502
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-084
+  metric: arena_elo_overall
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 1499
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-085
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-6
+  value: 1498
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-086
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-4-7
+  value: 1494
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-087
+  metric: arena_elo_overall
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 1494
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-088
+  metric: arena_elo_overall
+  subject: claude
+  variant: claude-opus-5-high
+  value: 1493
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-089
+  metric: arena_elo_overall
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 1492
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Elo（2026-09-05 快照，前 10 名带 ±CI）
+
+- id: ev-arena-090
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-091
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-092
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-fable-5
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-093
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-7
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-094
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-6
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-095
+  metric: arena_rank_coding
+  subject: kimi
+  variant: kimi-k3-max
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-096
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-097
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-098
+  metric: arena_rank_coding
+  subject: glm
+  variant: glm-5.3-flash
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-099
+  metric: arena_rank_coding
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-100
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-high
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-101
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-102
+  metric: arena_rank_coding
+  subject: glm
+  variant: glm-5.3-max
+  value: 16
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-103
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-5-max
+  value: 20
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-104
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 23
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-105
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-106
+  metric: arena_rank_coding
+  subject: qwen
+  variant: qwen3.8-max
+  value: 30
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-107
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3-pro
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-108
+  metric: arena_rank_coding
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 33
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-109
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 34
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-110
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-fable-5
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-111
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-112
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-113
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-114
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-115
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-116
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3-pro
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-117
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-7
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-118
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-6
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-119
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-120
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-121
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-high
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-122
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-5-max
+  value: 13
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-123
+  metric: arena_rank_writing
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-124
+  metric: arena_rank_writing
+  subject: kimi
+  variant: kimi-k3-max
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-125
+  metric: arena_rank_writing
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-126
+  metric: arena_rank_writing
+  subject: glm
+  variant: glm-5.3-max
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-127
+  metric: arena_rank_writing
+  subject: qwen
+  variant: qwen3.8-max
+  value: 18
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-128
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-129
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.5
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-130
+  metric: arena_rank_writing
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 42
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-131
+  metric: arena_rank_writing
+  subject: glm
+  variant: glm-5.3-flash
+  value: 60
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）

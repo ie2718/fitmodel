@@ -11,7 +11,7 @@
   subscription: Claude Pro 约 $20/月（待核实）
   availability_cn: restricted
   strengths: [Arena 总榜第一梯队, 编码与写作类目领先]
-  current_version: Opus 4.x–4.8 / Opus 5 / Fable 5 系列
+  current_version: Fable 5.1（max，Arena 总榜 #3，2026-09-05）/ Opus 4.x–4.8 / Opus 5 系列
   needs_verification: false
 
 - id: gpt
@@ -35,7 +35,7 @@
   subscription: Google AI 会员（待核实）
   availability_cn: restricted
   strengths: [Flash 档价格低, 免费额度慷慨, 多模态]
-  current_version: 3.x 系列（3.7 Flash 为当前主力）
+  current_version: 3.8 Flash（high，Arena 总榜 #8，2026-09-05）；3.7/3.6 Flash 并行供应
   needs_verification: false
 
 - id: deepseek
@@ -56,8 +56,8 @@
   context: 多档位（证据采集中）
   api_pricing: 待采集（百炼平台）
   availability_cn: direct
-  strengths: [Arena 总榜前 20（qwen3.8-max，2026-08-22 第 19 名）, 全尺寸开源]
-  current_version: Qwen3.8-Max（Arena 榜，2026-08）
+  strengths: [Arena 总榜前 20（qwen3.8-max，2026-09-05 第 22 名）, 全尺寸开源, WebDev 榜第 2（3.8-max-0902 快照，待核实）]
+  current_version: Qwen3.8-Max（Arena 榜，2026-09）
   needs_verification: false
 
 - id: muse-spark
@@ -81,7 +81,7 @@
   subscription: GLM Coding 套餐（待核实）
   availability_cn: direct
   strengths: [编程与 Agent 定位, 订阅制编码套餐]
-  current_version: 待核实
+  current_version: GLM-5.3 系列（max 总榜 #20；flash 编码榜 #9，2026-09-05）
   needs_verification: true
 
 - id: kimi
@@ -103,7 +103,7 @@
   api_pricing: 火山方舟按量计费（待采集）
   availability_cn: direct
   strengths: [中文日常写作, 多模态, App 体验]
-  current_version: 待核实
+  current_version: Grok 4.6（high，Arena WebDev 榜 #8，2026-09-05，待核实）
   needs_verification: true
 
 - id: hunyuan
@@ -114,7 +114,7 @@
   api_pricing: 待采集
   availability_cn: direct
   strengths: [腾讯生态集成]
-  current_version: 待核实
+  current_version: hy4-preview（Arena WebDev 榜 #10，2026-09-05，待核实）
   needs_verification: true
 
 - id: ernie

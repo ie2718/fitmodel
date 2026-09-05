@@ -44,7 +44,13 @@ const priceStr = (r: (typeof overall)[number]) => {
 
 const fmt = (x: number) => x.toFixed(1).replace(/\.0$/, '');
 
-// ---- 原始来源数据镜像（折叠区，供回查） ----
+/** 维度面板数据（渲染顺序即 tab 顺序；mirrors 单独渲染） */
+const dimPanels = [
+  ...dimBoards,
+  { dim: 'agent', rows: agentRows },
+] as const;
+
+// ---- 原始来源数据镜像（「来源镜像」tab，供回查） ----
 const BOARDS = [
   { metric: 'arena_elo_overall', title: 'Arena 总榜 Elo', desc: '真人盲测投票产生的 Elo，反映综合人类偏好。' },
   { metric: 'arena_rank_coding', title: 'Arena 编码榜', desc: '编码类目盲测排名，名次越小越强。' },
@@ -85,7 +91,7 @@ const schema = [
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: 'FitModel · 模型能力指数与公开评测镜像',
-    description: `综合能力指数由多来源公开证据（权重：${CANONICAL_WEIGHT_LINE}）经百分位归一化加权计算，每个分数带 90% 误差界；另含 Arena 人类偏好榜与 SWE-bench Verified 的原始镜像，每条可回查来源。`,
+    description: `综合能力指数由多来源公开证据（权重：${CANONICAL_WEIGHT_LINE}）经归一化加权计算，每个分数带 90% 误差界；另含 Arena 人类偏好榜与 SWE-bench Verified 的原始镜像，每条可回查来源。`,
     url: absoluteUrl('/leaderboards/', site),
     inLanguage: 'zh-CN',
     isAccessibleForFree: true,
@@ -101,23 +107,34 @@ const schema = [
 
 <Base
   title="模型榜单 — 综合能力指数与场景分 | FitModel"
-  description="可信的 AI 模型榜单：综合能力指数由多来源公开证据加权计算，每个分数带 90% 误差界，区间重叠视为并列；另附维度分榜与 Arena / SWE-bench 原始数据镜像。"
+  description="可信的 AI 模型榜单：综合能力指数由多来源公开证据加权计算，每个分数带 90% 误差界，区间重叠视为并列；分维度榜单 tab 切换，另附 Arena / SWE-bench 原始数据镜像。"
   image="/og/leaderboards.png"
   schema={schema}
 >
   <header class="page-header">
     <h1>榜单</h1>
     <p class="summary">
-      综合能力指数由公开证据计算：每条证据先在各自指标内做百分位归一化，再按可靠度（来源层级 × 时效 × 一致性）加权聚合成维度分，最后按公示权重合成。每个分数都带 <strong>90% 误差界</strong>——分数接近且区间重叠的模型视为并列（<span class="mono">≈</span>），我们不假装能分出高下。
+      综合能力指数由公开证据计算：每条证据先在各自指标内归一化（名次 → Beta 后验百分位，Elo/百分比/价格 → z-score），再按可靠度（来源层级 × 时效 × 一致性）加权聚合成维度分，最后按公示权重合成。每个分数都带 <strong>90% 误差界</strong>——分数接近且区间重叠的模型视为并列（<span class="mono">≈</span>），我们不假装能分出高下。
     </p>
     <div class="meta-row">
       <span>数据截至 {isoDate(dataAsOf)}</span>
-      <span>权重：{CANONICAL_WEIGHT_LINE}</span>
+      <span>综合权重：{CANONICAL_WEIGHT_LINE}</span>
       <span><a href={siteUrl('/methodology/')}>口径与算法 →</a></span>
     </div>
   </header>
 
-  <section>
+  <div class="tabs" role="tablist" aria-label="榜单切换">
+    <button id="tab-overall" data-tab="overall" class="on" role="tab" aria-selected="true" aria-controls="panel-overall">综合</button>
+    {BOARD_DIMS.map((dim) => (
+      <button id={`tab-${dim}`} data-tab={dim} role="tab" aria-selected="false" aria-controls={`panel-${dim}`}>
+        {DIM_LABEL[dim]}
+      </button>
+    ))}
+    <button id="tab-agent" data-tab="agent" role="tab" aria-selected="false" aria-controls="panel-agent">Agent</button>
+    <button id="tab-mirrors" data-tab="mirrors" role="tab" aria-selected="false" aria-controls="panel-mirrors">来源镜像</button>
+  </div>
+
+  <section class="panel" id="panel-overall" role="tabpanel" aria-labelledby="tab-overall">
     <h2 class="section-title">综合能力指数</h2>
     <div class="table-wrap">
       <table>
@@ -176,10 +193,10 @@ const schema = [
   </section>
 
   {
-    dimBoards.map(({ dim, rows }) => (
-      <section>
+    dimPanels.map(({ dim, rows }) => (
+      <section class="panel" id={`panel-${dim}`} role="tabpanel" aria-labelledby={`tab-${dim}`} hidden>
         <h2 class="section-title">{DIM_LABEL[dim]}分榜</h2>
-        <p class="note" style="margin:0 0 8px">
+        <p class="note" style="margin:0 0 10px">
           {DIM_DESC[dim]}
         </p>
         {rows.length === 0 ? (
@@ -212,7 +229,9 @@ const schema = [
                       </td>
                       <td>
                         {row.entity.variant}
-                        <div class="sub">{modelById.get(row.entity.subject)?.name ?? row.entity.subject}</div>
+                        <div class="sub">
+                          {modelById.get(row.entity.subject)?.name ?? row.entity.subject}
+                        </div>
                       </td>
                       <td class="num scorecell">
                         <strong>{fmt(row.score)}</strong>
@@ -245,106 +264,120 @@ const schema = [
     ))
   }
 
-  <section>
-    <h2 class="section-title">{DIM_LABEL.agent}分榜（仅展示）</h2>
-    <p class="note" style="margin:0 0 8px">{DIM_DESC.agent}</p>
+  <section class="panel" id="panel-mirrors" role="tabpanel" aria-labelledby="tab-mirrors" hidden>
+    <h2 class="section-title">原始来源数据镜像</h2>
+    <p class="note" style="margin:0 0 6px">
+      上游榜单的原始值，每条可回查来源。SWE-bench 口径与采集日期是两回事：备注中的「官方运行」为来源站运行日期，采集列为本站快照日期。
+    </p>
     {
-      agentRows.length === 0 ? (
-        <div class="callout">该维度暂无证据。</div>
-      ) : (
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>模型</th>
-                <th>维度分（90% 区间）</th>
-              </tr>
-            </thead>
-            <tbody>
-              {agentRows.map((row, i) => {
-                const ci = ci90(row.score, row.se);
-                const tied = i > 0 && ciOverlaps(ci, ci90(agentRows[i - 1].score, agentRows[i - 1].se));
-                return (
-                  <tr>
-                    <td class="num">
-                      {i + 1}
-                      {tied && <span class="tie">≈</span>}
-                    </td>
-                    <td>
-                      {row.entity.variant}
-                      <div class="sub">{modelById.get(row.entity.subject)?.name ?? row.entity.subject}</div>
-                    </td>
-                    <td class="num scorecell">
-                      <strong>{fmt(row.score)}</strong>
-                      <div class="scorebar" style={`--fit:${row.score};--lo:${ci[0]};--hi:${ci[1]}`}>
-                        <span class="fill" />
-                        <span class="ci" />
-                      </div>
-                      <div class="sub">{fmt(ci[0])}–{fmt(ci[1])}</div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      mirrors.map((b) => (
+        <div style="margin-top:22px">
+          <h3>{b.title}</h3>
+          <p class="note" style="margin:0 0 8px">{b.desc}</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>模型</th>
+                  <th>{b.def?.unit === 'rank' ? '名次' : '数值'}</th>
+                  <th>来源</th>
+                  <th>采集</th>
+                </tr>
+              </thead>
+              <tbody>
+                {b.rows.map((r, i) => {
+                  const stale = b.def && daysSince(r.retrieved_at) > b.def.freshness_days;
+                  return (
+                    <tr>
+                      <td class="num">{i + 1}</td>
+                      <td>
+                        {r.variant}
+                        <div class="sub">{modelById.get(r.subject)?.name ?? r.subject}{r.notes && ` · ${r.notes}`}</div>
+                      </td>
+                      <td class="num">
+                        {fmtValue(r.value, b.def?.unit ?? '')}
+                        {stale && <span class="dim"> 已过期，仅展示</span>}
+                      </td>
+                      <td>
+                        <a href={r.source_url} target="_blank" rel="noopener">
+                          {r.source} ↗
+                        </a>
+                      </td>
+                      <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      )
+      ))
     }
   </section>
-
-  <details class="fold">
-    <summary>原始来源数据镜像（Arena / SWE-bench 原始值，每条可回查）</summary>
-    <div class="inner">
-      {
-        mirrors.map((b) => (
-          <div style="margin-top:22px">
-            <h3>{b.title}</h3>
-            <p class="note" style="margin:0 0 8px">{b.desc}</p>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>模型</th>
-                    <th>{b.def?.unit === 'rank' ? '名次' : '数值'}</th>
-                    <th>来源</th>
-                    <th>采集</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {b.rows.map((r, i) => {
-                    const stale = b.def && daysSince(r.retrieved_at) > b.def.freshness_days;
-                    return (
-                      <tr>
-                        <td class="num">{i + 1}</td>
-                        <td>
-                          {r.variant}
-                          <div class="sub">{modelById.get(r.subject)?.name ?? r.subject}{r.notes && ` · ${r.notes}`}</div>
-                        </td>
-                        <td class="num">
-                          {fmtValue(r.value, b.def?.unit ?? '')}
-                          {stale && <span class="dim"> 已过期，仅展示</span>}
-                        </td>
-                        <td>
-                          <a href={r.source_url} target="_blank" rel="noopener">
-                            {r.source} ↗
-                          </a>
-                        </td>
-                        <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </details>
 
   <p class="note">
     榜单口径与入分规则见<a href={siteUrl('/methodology/')}>方法论</a>；机器可读版本：<a href={siteUrl('/api/v1/models.json')}>/api/v1/models.json</a>。
   </p>
+
+  <script>
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>('.tabs button')];
+    const panelOf = (id: string) => document.getElementById(`panel-${id}`);
+    function show(id: string, push = true) {
+      for (const b of tabs) {
+        const on = b.dataset.tab === id;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-selected', String(on));
+      }
+      for (const b of tabs) {
+        const p = panelOf(b.dataset.tab!);
+        if (p) p.hidden = b.dataset.tab !== id;
+      }
+      if (push) history.replaceState(null, '', `#${id}`);
+    }
+    tabs.forEach((b) => b.addEventListener('click', () => show(b.dataset.tab!)));
+    const initial = location.hash.slice(1);
+    show(initial && panelOf(initial) ? initial : 'overall', false);
+  </script>
 </Base>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-top: 30px;
+    border-bottom: 2px solid var(--ink);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs button {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    padding: 9px 14px 7px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .tabs button:hover {
+    color: var(--accent);
+  }
+  .tabs button.on {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom-color: var(--accent);
+  }
+  .panel {
+    padding-top: 4px;
+  }
+  .panel .section-title {
+    margin-top: 26px;
+  }
+</style>

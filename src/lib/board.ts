@@ -28,7 +28,8 @@ export const BOARD_DIMS = ['general', 'coding', 'writing', 'long_context'] as co
 
 export const DIM_DESC: Record<string, string> = {
   general: 'Arena 总榜人类盲测 Elo——综合人类偏好的最强信号。',
-  coding: 'Arena 编码类目盲测 + SWE-bench Verified 真实 issue 修复率。',
+  coding:
+    'Arena 编码类目盲测 + SWE-bench Verified 真实 issue 修复率。注意：SWE 最新官方运行为 2026-02，早于部分当前旗舰发布，其单项名次请结合区间与「依据」列解读。',
   writing: 'Arena 创意写作类目盲测排名。',
   long_context: '官方标称上下文窗口。证据缺口中，有数据前该维度仅降覆盖率不参与排名。',
   agent: 'Arena Agent 榜（agentic 任务净改进率）。维度未接入任何场景评分，仅展示，接入需人工确认。',

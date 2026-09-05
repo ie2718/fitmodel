@@ -95,18 +95,29 @@ const schema = [
     </section>
 
     <section>
-      <h2 class="section-title">第三步：归一化（Beta 后验百分位）</h2>
+      <h2 class="section-title">第三步：归一化（双轨制）</h2>
 
-      <p>通过校验的证据进入同组归一化——**同指标组内比较，不跨指标直接比大小**。我们不用裸百分位，而用 Beta 后验均值（经验贝叶斯）：</p>
-      <div class="formula">对指标 m，设组内（该指标全部有效证据）共 n 个模型变体，
-按「好 → 差」排名，某变体的名次为 r（1 = 最好）：
+      <p>通过校验的证据进入同组归一化——**同指标组内比较，不跨指标直接比大小**。按指标类型分两轨：</p>
+
+      <p><strong>轨道一：序数型指标（Arena 分类目名次）→ Beta 后验百分位</strong>。名次只有先后、没有量级：</p>
+      <div class="formula">组内共 n 个变体，按「好 → 差」排名，某变体名次 r（1 = 最好）：
 
   百分位   pct = (n + 1 − r) / (n + 1) × 100
   标准误   se  = 100 × √( r(n+1−r) / ((n+1)²(n+2)) )
 
   特例：n = 1 → 50 ± 28.9（等于没有信息，由置信度表达）</div>
 
-      <p><strong>为什么不用裸百分位？</strong>裸百分位在组内样本少时会产生虚假的 0 分 / 100 分（两个模型比较，必有一个 100 分），且不带任何不确定性。Beta 后验把「排名估计」当作统计量：头部满分约 93 而非 100，且天然携带标准误，供第四步合成误差界。选型依据见<a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md" target="_blank" rel="noopener">行业调研</a>（percentile 分布无关、抗离群；LMArena / Artificial Analysis 均公示置信区间）。</p>
+      <p><strong>轨道二：区间型指标（Elo、解决率、价格等有量纲的值）→ z-score → 正态 CDF</strong>。名次百分位会把「1 分之差」放大成几个百分位（例：SWE-bench 榜首集群 76.8% vs 75.8%，名次分差悬殊而实际几乎并列），z-score 保留量级——分差越大百分位差越大：</p>
+      <div class="formula">z = (x − 组内均值) / 组内标准差      （价格先取对数再算 z，跨数量级比较）
+  方向为 lower（越低越好）时 z 取反
+  z 温缩到 ±2.6，防离群点独占 0/100
+
+  百分位   pct = Φ(z) × 100                 ← Φ = 标准正态 CDF
+  标准误   se  = 100 × φ(z) × √((1+z²/2)/n)  ← delta 法
+
+  n < 4 时 z 不稳定，回退轨道一。</div>
+
+      <p>选型依据见<a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md" target="_blank" rel="noopener">行业调研</a>：percentile 分布无关、抗离群（适合名次）；z-score 跨基准可比性好、保留量级（适合区间值）；两者都天然携带不确定性，供第四步合成误差界。</p>
     </section>
 
     <section>
@@ -181,7 +192,7 @@ const schema = [
         <a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md" target="_blank" rel="noopener">docs/research-2026-09.md</a>）：
       </p>
       <ul class="plain">
-        <li><strong>LMArena</strong>：Bradley-Terry + bootstrap 置信区间 → 我们没有对局数据，用 Beta 后验百分位的解析误差界达到同样的「分数必须带区间」。</li>
+        <li><strong>LMArena</strong>：Bradley-Terry + bootstrap 置信区间 → 我们没有对局数据，用解析误差界（名次 Beta 后验 / 区间值 z-score delta 法）达到同样的「分数必须带区间」。</li>
         <li><strong>Artificial Analysis</strong>：公示权重的加权算术平均、样本量披露 → 综合指数权重公示，组内样本量进置信度。</li>
         <li><strong>HELM</strong>：反对单一总分、保留分场景可见性 → 综合指数之外，每个场景独立权重独立排名。</li>
         <li><strong>Glicko</strong>：分数不缩水、确定性随时间降级 → FreshFactor 只降置信度不改分数，过期由硬门禁剔除。</li>
@@ -226,7 +237,7 @@ const schema = [
         </li>
         <li>
           <span class="mono">scoring.ts</span>
-          <span>评分引擎：校验 → 去重/冲突取中位 → Beta 后验百分位 → 可靠度加权聚合 → 适配分/误差界/置信度/性价比</span>
+          <span>评分引擎：校验 → 去重/冲突取中位 → 双轨归一化（名次 Beta / 区间值 z-score）→ 可靠度加权聚合 → 适配分/误差界/置信度/性价比</span>
         </li>
         <li>
           <span class="mono">board.ts / api.ts</span>
