@@ -3167,3 +3167,93 @@
   retrieved_at: 2026-09-05
   verified: false
   notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+# ===== AA 智能指数 2026-09-06（多源融合：新模型先行通道，响应「榜单不客观/缺 GPT-6」反馈）=====
+
+- id: ev-aa-001
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 57
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 总榜第 1（Adaptive Reasoning, Max Effort）
+
+- id: ev-aa-002
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-6-astra-max
+  value: 55
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 总榜第 2；arena 尚未收录，经 AA 先行入榜
+
+- id: ev-aa-003
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-6-astra-xhigh
+  value: 54
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 总榜第 3
+
+- id: ev-aa-004
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-opus-5-max
+  value: 54
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2（Adaptive Reasoning, Max Effort）
+
+- id: ev-aa-005
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-opus-5-high
+  value: 53
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2（Adaptive Reasoning, Xhigh Effort）
+
+- id: ev-aa-006
+  metric: aa_intelligence_index
+  subject: kimi
+  variant: kimi-k3-max
+  value: 50
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 开源权重第 1
+
+- id: ev-aa-007
+  metric: aa_intelligence_index
+  subject: glm
+  variant: glm-5.3-max
+  value: 49
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 开源权重第 2
+
+- id: ev-aa-008
+  metric: aa_intelligence_index
+  subject: qwen
+  variant: qwen3.8-max
+  value: 47
+  source: Artificial Analysis Intelligence Index v4.2
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: AA 智能指数 v4.2 开源权重第 3（Qwen3.8 2.4T A95B）

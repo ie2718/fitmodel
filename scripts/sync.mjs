@@ -85,8 +85,8 @@ const SOURCES = [
     name: 'Artificial Analysis',
     tier: 3,
     method: 'http',
-    metrics: [],
-    urls: ['https://artificialanalysis.ai'],
+    metrics: ['aa_intelligence_index'],
+    urls: ['https://artificialanalysis.ai/models'],
     notes: '仅交叉参考，不入分；与 tier1/2 冲突时提请人工复核。',
   },
   {

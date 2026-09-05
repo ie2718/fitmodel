@@ -22,6 +22,9 @@ export interface MetricDef {
   aggregator: string;
   source: string;
   description?: string;
+  /** 名次型指标的固定前沿参考系大小（与采集政策一致，如 arena 前沿 50）：
+   *  百分位按「名次 / 参考系」计算而非按已采集条数——采集范围扩大时分数不再漂移 */
+  cohort_size?: number;
 }
 
 export interface EvidenceRec {
@@ -138,6 +141,7 @@ function normalizeScores(
   values: { key: string; value: number }[],
   direction: 'higher' | 'lower',
   unit: string,
+  cohortSize?: number,
 ): Map<string, { pct: number; se: number }> {
   const out = new Map<string, { pct: number; se: number }>();
   const n = values.length;
@@ -148,6 +152,19 @@ function normalizeScores(
   }
 
   const ordinal = unit === 'rank';
+  if (ordinal && cohortSize && direction === 'lower') {
+    // 固定前沿参考系：名次即证据值（r），百分位 = (R+1−r)/(R+1)。
+    // R 与采集政策对齐（如前沿 50）：同一名次永远得到同一百分位，
+    // 采集范围扩大不再引起分数漂移；超出参考系的名次（r>R）贴地保底。
+    const R = cohortSize;
+    for (const v of values) {
+      const r = Math.max(1, Math.min(v.value, R + 1));
+      const pct = Math.max(1, ((R + 1 - r) / (R + 1)) * 100);
+      const se = Math.max(4, 100 * Math.sqrt((r * (R + 1 - r)) / ((R + 1) * (R + 1) * (R + 2))));
+      out.set(v.key, { pct, se });
+    }
+    return out;
+  }
   if (ordinal || n < 4) {
     const sorted = [...values].sort((a, b) =>
       direction === 'higher' ? b.value - a.value : a.value - b.value,
@@ -262,6 +279,7 @@ export function buildScoreEngine(
         cohort.map((r) => ({ key: entityKeyOf(r), value: r.value })),
         def.direction,
         def.unit,
+        def.cohort_size,
       ),
     );
   }
@@ -346,8 +364,6 @@ export function buildScoreEngine(
   function scoreEntity(ent: EntityScore, weights: Record<string, number>): FitResult {
     const totalW = Object.values(weights).reduce((a, b) => a + b, 0) || 1;
     let usedW = 0; // 实测覆盖的权重（决定 coverage）
-    let inclW = 0; // 参与拟合的权重（实测 + 先验收缩）
-    let acc = 0;
     let accMeasured = 0; // 仅实测维度的加权和（性价比分口径）
     let varAcc = 0;
     // 置信度各因子按「场景权重 × 指标可靠度」双重加权（只统计实测证据）
@@ -358,22 +374,15 @@ export function buildScoreEngine(
     let frsNum = 0;
     let frsDen = 0;
     let disputed = false;
+    // ---- 第一段：实测维度聚合 + 置信度因子 ----
+    const measuredFactWeights: Array<{ w: number; ds: DimScore }> = [];
     for (const [dim, w] of Object.entries(weights)) {
       const ds = ent.dimScores[dim];
-      if (ds === undefined) {
-        if (dimsInEngine.has(dim)) {
-          // 该维度引擎中有数据、此实体没有 → 先验收缩，不确定性照常计入误差界
-          inclW += w;
-          acc += w * PRIOR_SCORE;
-          varAcc += (w * PRIOR_SE) ** 2;
-        }
-        continue;
-      }
+      if (ds === undefined) continue;
       usedW += w;
-      inclW += w;
-      acc += w * ds.score;
       accMeasured += w * ds.score;
       varAcc += (w * ds.se) ** 2;
+      measuredFactWeights.push({ w, ds });
       // 该维度下的有效事实（与聚合口径一致）
       const fs = Object.values(ent.facts).filter(
         (f) => !f.stale && defs.get(f.metric)!.dimension === dim,
@@ -392,14 +401,40 @@ export function buildScoreEngine(
         if (f.disputed) disputed = true;
       }
     }
-    const coverage = usedW / totalW;
-    const fit = inclW > 0 ? acc / inclW : null;
-    const se = inclW > 0 ? Math.max(SE_FLOOR, Math.sqrt(varAcc) / inclW) : SE_FLOOR;
-    const ci: [number, number] = [Math.max(0, fit - Z90 * se), Math.min(100, fit + Z90 * se)];
     const sourceFactor = srcDen ? srcNum / srcDen : 0.5;
     const sampleFactor = smpDen ? smpNum / smpDen : 0.5;
     const freshFactor = frsDen ? frsNum / frsDen : 0.5;
     const agreeFactor = disputed ? 0.9 : 1;
+    // ---- 第二段：缺失维度用「知情先验」收缩 ----
+    // 先验不再是盲目的 50，而是该实体自身实测水平（已知强 → 其他维度按同水平估计），
+    // 按证据可靠度（来源层级 × 样本量）打折——证据越薄越向中位回落，夹在 [30, 70]。
+    // 对比盲先验：AA 总榜第 2 的新模型不再被「缺编码/写作数据」拖到中游冒充实排。
+    const measuredMean = usedW > 0 ? accMeasured / usedW : null;
+    const priorConfidence = sourceFactor * sampleFactor;
+    const informedPrior =
+      measuredMean !== null
+        ? Math.max(30, Math.min(70, 50 + (measuredMean - 50) * priorConfidence))
+        : PRIOR_SCORE;
+    let inclW = 0;
+    let acc = 0;
+    for (const [dim, w] of Object.entries(weights)) {
+      const ds = ent.dimScores[dim];
+      if (ds === undefined) {
+        if (dimsInEngine.has(dim)) {
+          // 该维度引擎中有数据、此实体没有 → 知情先验收缩，不确定性照常计入误差界
+          inclW += w;
+          acc += w * informedPrior;
+          varAcc += (w * PRIOR_SE) ** 2;
+        }
+        continue;
+      }
+      inclW += w;
+      acc += w * ds.score;
+    }
+    const coverage = usedW / totalW;
+    const fit = inclW > 0 ? acc / inclW : null;
+    const se = inclW > 0 ? Math.max(SE_FLOOR, Math.sqrt(varAcc) / inclW) : SE_FLOOR;
+    const ci: [number, number] = [Math.max(0, fit - Z90 * se), Math.min(100, fit + Z90 * se)];
     // Glicko 式时效处理：分数不因数据变旧而缩水（衰减只影响组内权重），
     // 确定性随数据年龄与样本量降级，过期数据由硬门禁整体剔除。
     const confidence = coverage * sourceFactor * sampleFactor * freshFactor * agreeFactor;

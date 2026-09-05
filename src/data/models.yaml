@@ -22,8 +22,8 @@
   api_pricing: 5.6 系 $0.2–4/百万输入、$1.2–20/百万输出；sol 于 2026-08 间降价（官方，2026-08-22）
   subscription: ChatGPT Plus 约 $20/月（待核实）
   availability_cn: restricted
-  strengths: [生态与工具集成广, 多档位价差大, Arena Agent 榜第 4（sol-xhigh，2026-09-05）]
-  current_version: GPT-5.6 系列（sol 总榜第 17 / terra 第 43 / luna 第 64，2026-09-05）；5.5/5.4 系列并行在榜（5.5-high 总榜第 19）
+  strengths: [GPT-6 Astra 居 AA 智能指数第 2, Arena Agent 榜第 4（sol-xhigh）, 生态与工具集成广]
+  current_version: GPT-6 Astra（max/xhigh，AA 智能指数第 2/3，2026-09-06，arena 收录中）；上一代 5.6（sol 总榜第 17）与 5.5/5.4 系列并行在榜
   needs_verification: false
 
 - id: gemini

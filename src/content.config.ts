@@ -83,6 +83,7 @@ const metrics = defineCollection({
     aggregator: z.string(),
     source: z.string(),
     description: z.string().optional(),
+    cohort_size: z.number().optional(),
   }),
 });
 

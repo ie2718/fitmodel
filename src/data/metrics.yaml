@@ -29,6 +29,7 @@
   source_tier: 2
   freshness_days: 90
   plausible: [1, 400]
+  cohort_size: 50
   aggregator: latest
   source: arena.ai Text 总榜 Overall 名次
   description: Text 总榜 Overall 名次。arena 页面仅前 10 名展示 Elo 数值，11 名以后以名次入分；与 arena_elo_overall 构成通用维度的双信号。2026-09-05 经用户反馈确认新增（GPT 系列此前无法进入通用维度）。
@@ -41,6 +42,7 @@
   source_tier: 2
   freshness_days: 90
   plausible: [1, 500]
+  cohort_size: 50
   aggregator: latest
   source: arena.ai 编码类目
   description: 编码类目盲测排名，数值越小越强。
@@ -53,6 +55,7 @@
   source_tier: 2
   freshness_days: 90
   plausible: [1, 500]
+  cohort_size: 50
   aggregator: latest
   source: arena.ai 创意写作类目
   description: 创意写作类目盲测排名，数值越小越强。
@@ -68,6 +71,18 @@
   aggregator: latest
   source: arena.ai Agent Arena（agentic 任务）
   description: 模型在 Agent Arena agentic 任务中的净改进率（%）。维度 agent 未被任何场景引用，暂仅榜单展示，接入评分需人工确认。
+
+- id: aa_intelligence_index
+  label: AA 智能指数
+  dimension: general
+  unit: index
+  direction: higher
+  source_tier: 3
+  freshness_days: 60
+  plausible: [0, 100]
+  aggregator: latest
+  source: Artificial Analysis Intelligence Index v4.2
+  description: Artificial Analysis 聚合智能指数（Agents 30%/General 30%/Coding 20%/科学推理 20% 加权，含私有 held-out 集防污染）。tier 3 权重减半；与 arena 双信号互为制衡——arena 未收录的新模型（如 GPT-6）经此先行入榜。2026-09-06 经用户反馈确认新增。
 
 - id: swe_verified
   label: SWE-bench Verified 解决率

@@ -54,6 +54,14 @@
 
 **综合能力指数**（榜单页）：维度权重 general 0.4 / coding 0.3 / writing 0.2 / long_context 0.1，构建时公示于榜单页顶部。仿 AA：权重必须公示，改动必须在 changelog 留痕。
 
+## 增补调研（2026-09-06，响应「榜单不客观/缺 GPT-6」反馈）
+
+- **GPT-6 Astra 已发布**：AA 智能指数 v4.2 第 2（max 55）/第 3（xhigh 54），BenchLM 9 月榜第 2（81.05）；arena.ai 尚未收录——单一依赖 arena 会系统性迟到新旗舰。GPT-5.6 已被 AA 下架（被 6 代取代）。
+- **当前多源格局**（AA v4.2 前五）：Claude Fable 5.1 (57) > GPT-6 Astra max (55) > Astra xhigh (54) = Claude Opus 5 max (54) > Opus 5 xhigh (53)；开源：Kimi K3 (50) > GLM-5.3 (49) > Qwen3.8 (47)。
+- **算法响应**：① 注册 `aa_intelligence_index`（tier 3 权重 0.5）作通用维度第三信号 + 新模型先行通道；② 名次型指标引入固定前沿参考系 `cohort_size`（50），百分位 = f(名次, R)，消除「采集扩围 → 全站分数漂移」（实测：编码 #3 因多采 17 个模型从 85.7 漂到 92.9）；③ 缺失维度改「知情先验」：先验 = 50 + (自身实测均值 − 50) × 可靠度，夹 [30,70]——已知很强的模型不再被缺数据拖成平庸，单基准模型也不因先验虚高（先验随证据可靠度回落）。
+- **残余分歧示例**（诚实展示而非掩饰）：Claude Fable 5.1-max 在 AA 是全榜第 1，但 arena 编码类目第 34（三次抓取核实）——两个仪器在其编码能力上真实分歧，榜单以「依据」列并示两信号。
+- 交叉核对来源：[AA models](https://artificialanalysis.ai/models) · [BenchLM](https://benchlm.ai/)（未入白名单，仅交叉参考）· [Vellum](https://www.vellum.ai/llm-leaderboard)（同前）。
+
 **排除饱和基准**（Vellum 实践）与**真实用量正交信号**（OpenRouter 实践）列为指标注册的后续评估项，新增指标按 AGENTS.md 需人工审批。
 
 ## 四、给 Agent 的数据通道（调研结论 → 落地）
