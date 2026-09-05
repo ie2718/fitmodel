@@ -36,14 +36,15 @@
 
 ## 评分如何工作
 
-构建时,`src/lib/scoring.ts` 对每个场景执行固定流水线:
+构建时,`src/lib/scoring.ts` 对每个场景执行固定流水线(算法选型依据见 [`docs/research-2026-09.md`](./docs/research-2026-09.md)):
 
-1. **校验**:指标必须已在 `metrics.yaml` 注册,否则构建失败;证据超过时效窗口(`freshness_days`)或超出合理域(`plausible`)→ 仅展示不入分;同日同指标证据分歧 >10% → 降低置信度。
-2. **归一化**:同一指标内做百分位归一化,消除量纲差异。
-3. **聚合**:按场景声明的维度权重(`general` / `coding` / `writing` / `long_context`)加权得「场景适配分」,同时输出置信度(权重覆盖率 × 来源质量 × 证据一致性)与性价比分。
-4. **出档**:TOP = 场景排名第 1;VALUE = 性价比分最高(且不与 TOP 重复);FREE = 有免费额度的产品中,底座模型适配分最高。
+1. **校验**:指标必须已在 `metrics.yaml` 注册,否则构建失败;证据超过时效窗口(`freshness_days`)或超出合理域(`plausible`)→ 仅展示不入分;同日同指标证据分歧 >10% → 取中位数入分并降置信度。
+2. **归一化**:同一指标内做 **Beta 后验百分位**——头部不再触及虚假的 100 分,且天然携带标准误(小样本不产生极端分)。
+3. **聚合**:维度内按可靠度(来源层级 × 时效衰减 × 一致性)加权;再按场景公示权重(`general` / `coding` / `writing` / `long_context`)合成「场景适配分」。实体缺失的维度按经验贝叶斯向先验 50 收缩、误差界同步变宽——单一基准的模型不再凭一条强数据登顶。
+4. **误差界**:每个分数沿 归一化 → 维度 → 场景 逐层合成 **90% 置信区间**,区间重叠的相邻名次标记「≈ 并列」;置信度 = 覆盖率 × 来源层级 × 样本量 × 时效 × 一致性。
+5. **出档**:TOP = 场景排名第 1;VALUE = 性价比分最高(仅考虑有真实能力证据的变体,用实测适配分计算);FREE = 有免费额度的产品中,底座模型适配分最高。
 
-完整方法论(含局限说明)见站内 `/methodology` 页面。
+完整方法论(含公式与局限说明)见站内 `/methodology` 页面;榜单页公示综合能力指数(权重 40/30/20/10)与维度分榜。
 
 ## 开发
 
@@ -54,7 +55,8 @@ npm install
 npm run dev              # 本地开发 http://localhost:4321
 npm run build            # 构建到 dist/(同时校验全部 schema 与证据)
 npm run preview          # 预览构建产物
-npm run check:freshness  # 鲜度巡检:哪个指标该重采、余量几天;超窗非零退出
+npm run sync             # 一键同步:鲜度巡检 + 来源变更检测 + 采集任务卡 + 排名影响(--json 供 agent 消费)
+npm run check:freshness  # 纯鲜度门禁(CI 用):超窗非零退出
 ```
 
 ## 目录结构
@@ -70,21 +72,29 @@ src/
 │   ├── products.yaml    # 产品/工具数据
 │   └── changelog.yaml   # 更新日志
 ├── lib/
-│   ├── scoring.ts       # 评分引擎(校验 → 归一化 → 场景适配分/置信度/性价比)
+│   ├── scoring.ts       # 评分引擎(校验 → Beta 后验百分位 → 可靠度聚合 → 适配分/误差界/置信度/性价比)
 │   ├── engine.ts        # 构建时装配评分引擎
 │   ├── picks.ts         # 三档推荐计算(首页与场景页共用口径)
+│   ├── board.ts         # 综合能力指数口径(公示权重)与维度榜定义
+│   ├── api.ts           # Agent JSON API 的共享数据装配层
 │   └── meta.ts          # 分类、档位、可用性等展示元数据
 ├── pages/               # 首页 / 场景页 / 模型库 / 榜单 / 方法论 / 更新日志
+│   └── api/v1/          # Agent JSON API(index / models / scenarios/:id / evidence / all)
 └── components/          # SiteHeader / SiteFooter
+skills/
+└── fitmodel-model-pick/SKILL.md  # Agent Skill(单一事实源;站点 /skill.md 由构建注入场景清单)
 scripts/
-├── check-freshness.mjs  # 鲜度巡检(可作 CI 与定时同步的门禁)
+├── sync.mjs             # 一键同步:巡检 + 来源变更检测 + 采集任务卡 + 排名影响对比
+├── check-freshness.mjs  # 纯鲜度门禁(CI 用)
 └── gen-og.mjs           # 每页 OG 分享图生成(HTML 模板 + Chrome 无头截图,标题变动后重跑)
+docs/
+└── research-2026-09.md  # 行业调研与算法选型依据
 AGENTS.md                # 维护协议:agent 管数据层,人工管观点层
 ```
 
 ## 维护工作流
 
-1. **定期同步**(每周一 09:00,维护 agent 自动执行):`npm run check:freshness` 巡检 → 按来源白名单采集 → 写入 `evidence.yaml` → `npm run build` 校验 → 波及分析 → `changelog.yaml` 留痕 → 复核鲜度。流程细节见 `AGENTS.md`。
+1. **定期同步**(每周一 09:00,维护 agent 自动执行):`npm run sync` 巡检(含来源变更检测与采集任务卡)→ 按任务卡采集 → 写入 `evidence.yaml` → `npm run build` 校验 → 再跑 `npm run sync` 看排名影响 → `changelog.yaml` 留痕。流程细节见 `AGENTS.md` 的「最小操作卡」。
 2. **触发式采集**:价格变动、新模型发布等不受周期限制,随时补采。
 3. **结论变更**:推荐结论如需调整,agent 出建议、人工确认;场景 `status: draft → verified` 与证据 `verified` 抽查仅人工执行。
 

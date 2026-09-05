@@ -13,6 +13,7 @@ const cur = (p: string) => (p === '/' ? path === '/' : path.startsWith(p) ? 'cur
       <a href={siteUrl('/')} class={cur('/')}>场景</a>
       <a href={siteUrl('/leaderboards/')} class={cur('/leaderboards')}>榜单</a>
       <a href={siteUrl('/models/')} class={cur('/models')}>模型</a>
+      <a href={siteUrl('/api/')} class={cur('/api')}>API</a>
       <a href={siteUrl('/methodology/')} class={cur('/methodology')}>方法</a>
       <a href={siteUrl('/changelog/')} class={cur('/changelog')}>更新</a>
     </nav>

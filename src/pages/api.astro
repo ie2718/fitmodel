@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import { absoluteUrl, siteUrl, isoDate } from '../lib/meta';
+import { getCollection } from 'astro:content';
+
+const evidence = await getCollection('evidence');
+const dataAsOf = evidence.reduce(
+  (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
+  evidence[0]?.data.retrieved_at ?? new Date(),
+);
+const site = Astro.site!;
+const abs = (p: string) => absoluteUrl(p, site);
+
+const ENDPOINTS = [
+  {
+    method: 'GET',
+    path: '/api/v1/index.json',
+    desc: '入口：自描述元信息、端点清单、全部场景三档速查、综合榜 Top 5。',
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/scenarios/{id}.json',
+    desc: '单场景完整推荐：权重、三档、全排名（适配分、90% 误差界、置信度、价格、依据证据）。',
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/models.json',
+    desc: '全部模型变体：综合能力指数与维度分（带误差界）、API 价格、性价比分。',
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/evidence.json',
+    desc: '证据库全量镜像：每条含原始值、来源 URL、采集日期，可独立核查。',
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/all.json',
+    desc: '一次请求取全量（模型 + 场景 + 证据），适合离线缓存或建立本地路由表。',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'FitModel Agent API',
+    description: '按场景查询 AI 模型推荐的静态 JSON API：稳定 URL、CORS 全开、自描述，供其他 Agent 与自动化工具消费。',
+    inLanguage: 'zh-CN',
+    url: abs('/api/'),
+    dateModified: isoDate(dataAsOf),
+    author: { '@type': 'Organization', name: 'FitModel', url: abs('/') },
+  },
+];
+---
+
+<Base
+  title="Agent API — 让其他 AI 查「什么场景用什么模型」| FitModel"
+  description="FitModel 的静态 JSON API 与 Agent Skill：稳定 URL、CORS 全开、自描述数据，按场景返回最强/性价比/免费三档推荐与完整排名，可直接 fetch，无需鉴权。"
+  image="/og/methodology.png"
+  schema={schema}
+>
+  <header class="page-header">
+    <h1>Agent API</h1>
+    <p class="summary">
+      FitModel 的全部结论都有机器可读版本：静态 JSON 端点（构建时生成，CORS 全开，无需鉴权）+
+      一份符合 <a href="https://agentskills.io/specification" target="_blank" rel="noopener">Agent Skills 规范</a>的
+      SKILL.md。其他 AI Agent 接入后即可回答「什么场景用什么模型最好」。
+    </p>
+  </header>
+
+  <section>
+    <h2 class="section-title">快速上手</h2>
+    <p>两步：从场景清单找到匹配的场景 id，再取该场景的完整推荐。</p>
+    <div class="formula">{`# 1. 场景清单 + 三档速查
+curl -s ${abs('/api/v1/index.json')}
+
+# 2. 单场景完整推荐（权重 / 三档 / 全排名 / 误差界 / 依据）
+curl -s ${abs('/api/v1/scenarios/ide-coding.json')}`}</div>
+    <p>
+      场景 id 是稳定标识（如 <code class="num">ide-coding</code>、<code class="num">daily-writing</code>），
+      全部清单见 <a href={abs('/skill.md')}>/skill.md</a> 的「场景清单」节或 index 端点。
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-title">端点</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>端点</th><th>用途</th></tr>
+        </thead>
+        <tbody>
+          {
+            ENDPOINTS.map((e) => (
+              <tr>
+                <td class="num">{e.method} {e.path}</td>
+                <td>{e.desc}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      全部端点返回 <code class="num">Access-Control-Allow-Origin: *</code>，可从浏览器与任何后端直接调用；
+      响应内嵌 <code class="num">schema_version</code>、<code class="num">generated_at</code>、
+      <code class="num">data_as_of</code> 与 methodology_url，自描述、可缓存（max-age=3600）。
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Agent Skill（SKILL.md）</h2>
+    <p>
+      把 Skill 装进你的 Agent，它就学会「先查数据、再回答」的选型流程（含置信度解读、并列判定、
+      时效提醒与引用规范）：
+    </p>
+    <div class="formula">{`# 方式一：直接引用线上版（构建时更新场景清单）
+https://ie2718.github.io/fitmodel/skill.md
+
+# 方式二：安装到本地 Skills 运行时（如 Claude Code）
+curl -sO https://ie2718.github.io/fitmodel/skill.md
+mkdir -p ~/.claude/skills/fitmodel-model-pick
+mv skill.md ~/.claude/skills/fitmodel-model-pick/SKILL.md
+
+# 方式三：从仓库复制 skills/fitmodel-model-pick/`}</div>
+    <p class="note">
+      仓库内源文件：<code class="num">skills/fitmodel-model-pick/SKILL.md</code>（单一事实源），
+      站点 /skill.md 由构建注入最新场景清单。
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-title">数据语义（Agent 必读）</h2>
+    <ul class="plain">
+      <li><strong>三档</strong>：<code class="num">picks.top</code> = 数据上最强；<code class="num">picks.value</code> = 性价比最高；<code class="num">picks.free</code> = 有免费额度且国内可直接用的产品中底座最优。</li>
+      <li><strong>并列</strong>：<code class="num">ci90</code> 是 90% 误差界；相邻名次区间重叠（<code class="num">tied_with_previous: true</code>）视为同级，不要强行分先后。</li>
+      <li><strong>置信度</strong>：<code class="num">confidence_label</code> 为「低」时必须向用户说明证据不足，建议实测。</li>
+      <li><strong>时效</strong>：回答注明 <code class="num">data_as_of</code>（当前 {isoDate(dataAsOf)}）；过期数据在源头已被剔除评分，不会出现在排名里。</li>
+      <li><strong>溯源</strong>：<code class="num">evidence[]</code> 的证据 id 可在 evidence.json 查到原始值与来源 URL。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="section-title">为什么是静态 JSON 而不是 MCP</h2>
+    <p>
+      本站结论全部在构建时算好，没有运行时状态——静态 JSON 是最小、最稳的分发方式：URL 永不变更、
+      内容可哈希校验、任何 HTTP 客户端可用。需要 MCP 封装时，让工具内部直接消费同一批端点即可，
+      数据只有这一份事实源。
+    </p>
+  </section>
+
+  <p class="note">
+    数据与算法口径见<a href={siteUrl('/methodology/')}>方法论</a>；数据许可 CC BY 4.0，引用请注明来源与 data_as_of。
+  </p>
+</Base>

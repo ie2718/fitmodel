@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { AVAIL } from '../lib/meta';
+import { AVAIL, siteUrl } from '../lib/meta';
 import { getEngine } from '../lib/engine';
+import { CANONICAL_WEIGHTS, CANONICAL_WEIGHT_LINE } from '../lib/board';
 
 const models = (await getCollection('models')).sort((a, b) =>
   a.data.origin === b.data.origin
@@ -15,15 +16,27 @@ const products = (await getCollection('products')).sort((a, b) =>
   a.data.name.localeCompare(b.data.name, 'zh-CN'),
 );
 
-// 全场景通用排名（均等权重作为参考）
+// 综合能力指数（公示权重口径，与榜单页一致）；每家族取指数最高的变体
 const engine = await getEngine();
-const generalRank = engine.rank({ general: 0.5, coding: 0.25, writing: 0.25 });
+const canonical = engine.rank(CANONICAL_WEIGHTS);
+const bestOf = new Map<string, (typeof canonical)[number]>();
+for (const r of canonical) {
+  if (!bestOf.has(r.entity.subject)) bestOf.set(r.entity.subject, r);
+}
+const fmt = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(0));
 ---
 
-<Base title="模型库 — FitModel" description="国内外主流大模型与 AI 工具的结构化数据：定价、国内可用性、通用排名。" image="/og/models.png">
+<Base
+  title="模型库 — 能力指数、价格与可用性 | FitModel"
+  description="国内外主流大模型的结构化数据：综合能力指数、编码/写作/通用维度分、API 价格、国内可用性，每条能力数据可溯源到证据库。"
+  image="/og/models.png"
+>
   <header class="page-header">
     <h1>模型库</h1>
-    <p class="summary">每条数据可溯源到证据库中的原始记录。「待采集」字段将在下轮维护补齐。</p>
+    <p class="summary">
+      每个模型家族取综合指数最高的变体计入。指数口径与榜单页一致（权重：{CANONICAL_WEIGHT_LINE}），
+      「—」表示该维度证据缺失（缺失不猜数，降置信度）。
+    </p>
   </header>
 
   <section>
@@ -34,26 +47,36 @@ const generalRank = engine.rank({ general: 0.5, coding: 0.25, writing: 0.25 });
           <tr>
             <th>模型</th>
             <th>厂商</th>
+            <th>综合</th>
+            <th>编码</th>
+            <th>写作</th>
+            <th>通用</th>
             <th>API 价格（入/出, $/M）</th>
             <th>国内可用</th>
-            <th>通用排名</th>
           </tr>
         </thead>
         <tbody>
           {
             models.map((m) => {
-              const best = [...generalRank]
-                .filter((r) => r.entity.subject === m.data.id)
-                .sort((a, b) => (b.fit ?? 0) - (a.fit ?? 0))[0];
+              const best = bestOf.get(m.data.id);
               const pin = best?.entity.facts['price_input_usd_m'];
               const pout = best?.entity.facts['price_output_usd_m'];
+              const dim = (d: string) => best?.entity.dimScores[d]?.score;
               return (
                 <tr>
                   <td>
-                    {m.data.name}
+                    {best ? (
+                      <a href={siteUrl('/leaderboards/')}>{m.data.name}</a>
+                    ) : (
+                      m.data.name
+                    )}
                     {best && <div class="sub">{best.entity.variant}</div>}
                   </td>
                   <td>{m.data.vendor}</td>
+                  <td class="num"><strong>{fmt(best?.fit)}</strong></td>
+                  <td class="num">{fmt(dim('coding'))}</td>
+                  <td class="num">{fmt(dim('writing'))}</td>
+                  <td class="num">{fmt(dim('general'))}</td>
                   <td class="num">
                     {pin && pout && !pin.stale && !pout.stale
                       ? `$${pin.value} / $${pout.value}`
@@ -64,7 +87,6 @@ const generalRank = engine.rank({ general: 0.5, coding: 0.25, writing: 0.25 });
                       {AVAIL[m.data.availability_cn]?.label}
                     </span>
                   </td>
-                  <td class="num">{best ? best.fit?.toFixed(0) : '—'}</td>
                 </tr>
               );
             })
@@ -72,7 +94,9 @@ const generalRank = engine.rank({ general: 0.5, coding: 0.25, writing: 0.25 });
         </tbody>
       </table>
     </div>
-    <p class="note">通用排名按 通用 50% · 编码 25% · 写作 25% 计算，仅供参考；场景页权重各不相同。</p>
+    <p class="note">
+      维度分由该维度下的全部有效证据归一化加权而得，完整排名与误差界见<a href={siteUrl('/leaderboards/')}>榜单页</a>。
+    </p>
   </section>
 
   <section>

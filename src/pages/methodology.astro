@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { absoluteUrl, isoDate } from '../lib/meta';
+import { absoluteUrl, isoDate, siteUrl } from '../lib/meta';
 
 const evidence = await getCollection('evidence');
 const metrics = await getCollection('metrics');
@@ -90,63 +90,74 @@ const schema = [
         <li><strong>注册检查</strong>：evidence.yaml 中引用的 metric id 必须在 metrics.yaml 中注册，否则构建直接失败。</li>
         <li><strong>合理域检查</strong>：值落在 plausible 区间外 → 标记「域外」，降级为仅展示。</li>
         <li><strong>时效检查</strong>：retrieved_at 超过 freshness_days → 标记「过期」，降级为仅展示。</li>
-        <li><strong>冲突检测</strong>：同一 (指标, 模型变体) 同日多条证据值分歧 >10% → 标记「disputed」，降级置信度。</li>
+        <li><strong>冲突检测</strong>：同一 (指标, 模型变体) 同日多条证据值分歧 >10% → 取同日中位数入分，并降置信度。</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="section-title">第三步：归一化</h2>
+      <h2 class="section-title">第三步：归一化（Beta 后验百分位）</h2>
 
-      <p>通过校验的证据进入同组百分位归一化——**同指标同组内比较，不跨指标直接比大小**：</p>
-      <div class="formula">对指标 m，设该指标所有有效证据的原始值为 [v₁, v₂, …, vₙ]：
+      <p>通过校验的证据进入同组归一化——**同指标组内比较，不跨指标直接比大小**。我们不用裸百分位，而用 Beta 后验均值（经验贝叶斯）：</p>
+      <div class="formula">对指标 m，设组内（该指标全部有效证据）共 n 个模型变体，
+按「好 → 差」排名，某变体的名次为 r（1 = 最好）：
 
-  1. 按值升序排列
-  2. 第 i 个的百分位 = (i / (n-1)) × 100
-  3. 若 direction = "lower"（排名越小越好），百分位 = 100 − 上一步结果
-  4. <span class="op">→ 得到 0–100 分，50 = 组内中位</span>
+  百分位   pct = (n + 1 − r) / (n + 1) × 100
+  标准误   se  = 100 × √( r(n+1−r) / ((n+1)²(n+2)) )
 
-  特例：n = 1 时给 50 分，靠置信度体系表达不确定性。</div>
+  特例：n = 1 → 50 ± 28.9（等于没有信息，由置信度表达）</div>
 
-      <p><strong>为什么用百分位而不是原始值？</strong>不同指标量纲完全不同：Elo 1500 和价格 $2 没法直接比。百分位把所有指标统一到 0–100，才能做场景加权。</p>
+      <p><strong>为什么不用裸百分位？</strong>裸百分位在组内样本少时会产生虚假的 0 分 / 100 分（两个模型比较，必有一个 100 分），且不带任何不确定性。Beta 后验把「排名估计」当作统计量：头部满分约 93 而非 100，且天然携带标准误，供第四步合成误差界。选型依据见<a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md" target="_blank" rel="noopener">行业调研</a>（percentile 分布无关、抗离群；LMArena / Artificial Analysis 均公示置信区间）。</p>
     </section>
 
     <section>
-      <h2 class="section-title">第四步：场景评分</h2>
+      <h2 class="section-title">第四步：维度聚合与场景评分</h2>
 
-      <p>每个场景定义一组维度权重（和 = 1），公开标注在场景页顶部：</p>
-      <div class="formula">例：「日常写作」场景
+      <p><strong>可靠度加权聚合</strong>——同一维度下有多条指标证据时，越可信、越新鲜、越无争议的证据话语权越大：</p>
+      <div class="formula">证据可靠度  w = 来源层级 × 时效衰减 × 一致性
 
-  writing    权重 0.55    ← Arena 写作类目百分位
-  general    权重 0.35    ← Arena 总榜 Elo 百分位
-  long_ctx   权重 0.10    ← 上下文窗口百分位（当前证据采集中，缺失 = 降置信度）</div>
+  来源层级   tier 1 = 1.0 · tier 2 = 0.85 · tier 3 = 0.5
+  时效衰减   1 − 0.5 × (数据年龄 / 时效窗口)     ← 窗口内线性 1.0 → 0.5
+  一致性     存在同日冲突证据 × 0.85
 
-      <p><strong>适配分（Fit Score）</strong>计算：</p>
-      <div class="formula">Fit = <span class="op">Σ</span>(dim_weight × dim_percentile) / <span class="op">Σ</span>(dim_weight)
+  维度分 = Σ(w × pct) / Σw
+  维度误差 = √( 指标内误差² + 指标间分歧² )，下限 6 分</div>
 
-  其中 dim_percentile = 该维度下所有有效指标百分位的均值。
-  维度内指标缺失不补零：缺失维度直接不参与分子，但降低「覆盖率」。</div>
+      <p><strong>场景适配分（Fit Score）</strong>——每个场景公示一组维度权重（和 = 1）：</p>
+      <div class="formula">例：「IDE 内日常编码」  coding 65% · general 25% · long_context 10%
 
-      <p><strong>置信度（Confidence）</strong>由三个因子相乘：</p>
-      <div class="formula">Confidence = Coverage × SourceFactor × AgreeFactor
+  Fit = Σ(维度权重 × 维度分) / Σ(维度权重)
 
-  Coverage    = Σ(已覆盖维度权重) / Σ(总维度权重)
-                维度下无有效证据 → 该维度不覆盖 → 覆盖率下降
+  维度缺数据时（经验贝叶斯收缩）：
+  · 该维度全站有数据、此实体没有 → 按先验 50 计入，±28.9 计入误差界
+    （缺数据 ≠ 中庸：分数向中位收缩，不确定性放大，排名自然让位给证据更全的模型）
+  · 该维度全站都无数据（缺口）→ 不参与任何实体的评分，只降覆盖率</div>
 
-  SourceFactor = mean(各证据的来源层级权重)
-                tier 1 = 1.0, tier 2 = 0.85, tier 3 = 0.5
+      <p><strong>误差界（90% CI）</strong>沿归一化 → 维度 → 场景逐层合成，展示为「分数 ±区间」：</p>
+      <div class="formula">se_fit = √( Σ(权重 × se)² ) / Σ权重
+  90% 区间 = Fit ± 1.645 × se_fit
 
-  AgreeFactor  = 1.0（正常）/ 0.9（存在同日冲突证据）
+  区间重叠的相邻名次 → 标记「≈ 并列」。
+  分数接近但我们分不出高下时，诚实地说分不出。</div>
 
-  <span class="op">→ 0.0–1.0，≥75% 高 / 50–75% 中 / <50% 低</span></div>
+      <p><strong>置信度（Confidence）</strong>由五个因子相乘——Glicko 式时效处理：分数不因数据变旧而缩水，确定性降级：</p>
+      <div class="formula">Confidence = Coverage × SourceFactor × SampleFactor × FreshFactor × AgreeFactor
 
-      <p><strong>性价比分（Value Score）</strong>：仅当适配分和价格数据都齐备时计算。</p>
-      <div class="formula">Value = Fit × min(2, price_median / blended_price)
+  Coverage     = 已实测维度权重 / 总权重（缺口直接降低确定性）
+  SourceFactor = 证据来源层级加权均值（tier 1 = 1.0 / 2 = 0.85 / 3 = 0.5）
+  SampleFactor = min(1, 组内比较对象数 / 10)（同组样本不足 → 降信心）
+  FreshFactor  = 1 − 0.2 × (数据年龄 / 时效窗口)
+  AgreeFactor  = 1.0（正常）/ 0.9（存在同日冲突）
+
+  <span class="op">→ 0.0–1.0，≥70% 高 / 40–70% 中 / <40% 低</span></div>
+
+      <p><strong>性价比分（Value Score）</strong>：ratio 口径（行业实践：ratio 比归一化相除更稳）。只考虑有真实能力证据（非价格）的变体，且 Fit 取实测适配分（不含先验收缩）——否则纯价格证据的变体会以先验分 × 价格上限齐满，档位失去信息量。</p>
+      <div class="formula">Value = Fit_measured × min(2, price_median / blended_price)
 
   blended_price = input_price + output_price（标准档，不含缓存）
-  price_median = 同组中位数
+  price_median  = 同组混合价中位数
+  <span class="op">→ 适配分相同但价格更低 → 性价比更高；上限 2× 防极端低价虚高</span></div>
 
-  <span class="op">→ 适配分相同但价格更低 → 性价比更高</span>
-  <span class="op">→ 上限 2× 防止极端低价项虚高</span></div>
+      <p><strong>综合能力指数</strong>（榜单页）：以公示权重 general 40% · coding 30% · writing 20% · long_context 10% 对全部变体计算 Fit。仿 Artificial Analysis 的做法——权重必须公示，改动必须在更新日志留痕。</p>
     </section>
 
     <section>
@@ -164,11 +175,37 @@ const schema = [
     </section>
 
     <section>
+      <h2 class="section-title">与行业方法的对照</h2>
+      <p class="section-sub">
+        本站算法不是发明，而是把公认做法装进「证据驱动静态站」的约束里（逐条依据见
+        <a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md" target="_blank" rel="noopener">docs/research-2026-09.md</a>）：
+      </p>
+      <ul class="plain">
+        <li><strong>LMArena</strong>：Bradley-Terry + bootstrap 置信区间 → 我们没有对局数据，用 Beta 后验百分位的解析误差界达到同样的「分数必须带区间」。</li>
+        <li><strong>Artificial Analysis</strong>：公示权重的加权算术平均、样本量披露 → 综合指数权重公示，组内样本量进置信度。</li>
+        <li><strong>HELM</strong>：反对单一总分、保留分场景可见性 → 综合指数之外，每个场景独立权重独立排名。</li>
+        <li><strong>Glicko</strong>：分数不缩水、确定性随时间降级 → FreshFactor 只降置信度不改分数，过期由硬门禁剔除。</li>
+        <li><strong>Vellum / SWE-bench</strong>：排除饱和基准、口径版本化留痕 → 指标注册制 + changelog 口径记录，饱和基准的退出规则在指标注册审批中执行。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Agent 数据通道</h2>
+      <p>
+        全部结论都有机器可读版本：<a href={siteUrl('/api/')}>静态 JSON API（/api/v1/*）</a>与
+        <a href={siteUrl('/skill.md')}>SKILL.md（/skill.md）</a>。端点构建时生成、URL 稳定、CORS 全开、
+        自描述（schema_version / generated_at / data_as_of 内嵌），其他 Agent 接入后即可按场景查询推荐。
+        llms.txt / llms-full.txt 保留作为索引入口。
+      </p>
+    </section>
+
+    <section>
       <h2 class="section-title">局限与改进方向</h2>
       <ul class="plain">
-        <li><strong>证据覆盖不足</strong>：Arena 数据覆盖 10 个模型变体；SWE-bench Verified（bash-only）已于 2026-08-22 采集 15 条，补上 GLM 5、Kimi K2.5、DeepSeek V3.2、MiniMax M2.5 等模型的独立基准数据；豆包、混元、文心等仍缺独立基准排名。缺数据的模型在相关场景排名偏低，不是因为差，而是因为没数据。解决方向：逐步补齐各基准数据。</li>
+        <li><strong>证据覆盖不足</strong>：部分模型只有单一基准数据。经验贝叶斯收缩会让它们在分数与误差界上付出代价（向中位收缩、区间变宽），而不是消失或虚高——但根本解法仍是补齐各基准数据。豆包、混元、文心等仍缺独立基准排名。</li>
+        <li><strong>解析误差界是近似</strong>：把排名不确定性建模为 Beta 后验并逐层合成，比 LMArena 的 bootstrap 粗糙；在证据极稀疏时区间可能仍偏窄。</li>
         <li><strong>产品层能力未量化</strong>：模型排名 ≠ 产品体验。IDE 索引质量、ASR 准确率、排版渲染等能力目前无法量化，导致会议纪要、图像生成等场景暂不开评分。</li>
-        <li><strong>百分位归一化的局限</strong>：组内 n=1 时给 50 分是保守策略，但在证据稀疏的早期会低估头部模型、高估底部。随着证据增多，分布会更真实。</li>
+        <li><strong>维度权重是判断</strong>：综合指数的 40/30/20/10 与各场景权重都是人为判断，我们选择公示而非掩饰；调整必须留痕。</li>
         <li><strong>国内可用性标记是手动的</strong>：网络环境变化频繁，标记可能滞后。建议最终使用前以实测为准。</li>
       </ul>
     </section>
@@ -185,15 +222,27 @@ const schema = [
         </li>
         <li>
           <span class="mono">evidence.yaml</span>
-          <span>证据库（62 条可溯源记录，含来源 URL 与采集日期）</span>
+          <span>证据库（150 条可溯源记录，含来源 URL 与采集日期）</span>
         </li>
         <li>
           <span class="mono">scoring.ts</span>
-          <span>评分引擎：校验 → 去重/冲突检测 → 百分位归一化 → 维度聚合 → 场景适配分/置信度/性价比</span>
+          <span>评分引擎：校验 → 去重/冲突取中位 → Beta 后验百分位 → 可靠度加权聚合 → 适配分/误差界/置信度/性价比</span>
+        </li>
+        <li>
+          <span class="mono">board.ts / api.ts</span>
+          <span>综合指数口径与 Agent JSON API 的共享装配层</span>
         </li>
         <li>
           <span class="mono">scenarios/*.md</span>
           <span>场景页：编辑只定义维度权重和非排名性建议，排名由引擎计算</span>
+        </li>
+        <li>
+          <span class="mono">scripts/sync.mjs</span>
+          <span>一键同步：鲜度巡检 → 来源变更检测 → 采集任务卡 → 排名影响对比（npm run sync）</span>
+        </li>
+        <li>
+          <span class="mono">docs/research-2026-09.md</span>
+          <span>行业调研与算法选型依据（LMArena / AA / HELM / Glicko 等）</span>
         </li>
       </ul>
     </section>

@@ -68,6 +68,18 @@ export const GET: APIRoute = async (context) => {
 llms-full.txt（全部场景完整排名）: ${abs('/llms-full.txt')}
 RSS 订阅: ${abs('/rss.xml')}
 
+## Agent 数据通道（机器可读，推荐使用）
+
+- JSON API 索引: ${abs('/api/v1/index.json')} — 自描述元信息 + 全部场景三档速查 + 端点清单
+- 单场景完整推荐: ${abs('/api/v1/scenarios/{id}.json').replace('{id}', ':id')}（含权重、排名、90% 误差界、置信度、价格、依据证据）
+- 模型能力分与价格: ${abs('/api/v1/models.json')}
+- 证据库全量: ${abs('/api/v1/evidence.json')}
+- 全量数据包（一次请求）: ${abs('/api/v1/all.json')}
+- Agent Skill（SKILL.md，含场景清单与使用规则）: ${abs('/skill.md')}
+- 人类可读 API 文档: ${abs('/api/')}
+
+全部端点为构建时生成的静态 JSON，CORS 全开、无需鉴权；引用时请注明 data_as_of。
+
 数据规模: ${evidence.length} 条证据 · ${metrics.length} 个注册指标 · ${models.length} 个模型家族 · ${products.length} 个产品 · 采集至 ${isoDate(latest)} · 每周一同步
 
 ## 场景推荐（最强 / 性价比 / 免费 三档）

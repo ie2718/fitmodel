@@ -2,46 +2,59 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { siteUrl, absoluteUrl, isoDate } from '../lib/meta';
+import { getEngine } from '../lib/engine';
+import { confidenceLabel, ci90 } from '../lib/scoring';
+import {
+  CANONICAL_WEIGHTS,
+  CANONICAL_WEIGHT_LINE,
+  BOARD_DIMS,
+  DIM_LABEL,
+  DIM_DESC,
+  ciOverlaps,
+} from '../lib/board';
 
-const evidence = await getCollection('evidence');
+const engine = await getEngine();
 const metrics = await getCollection('metrics');
 const models = await getCollection('models');
+const evidence = await getCollection('evidence');
 const modelById = new Map(models.map((m) => [m.id, m.data]));
+const metricMeta = new Map(metrics.map((m) => [m.data.id, m.data]));
 
-const metricById = new Map(metrics.map((m) => [m.data.id, m.data]));
+/** 综合能力指数：权重公示（改动需在 changelog 留痕），CI 重叠视为并列。
+ *  仅价格证据、无任何能力数据的变体不入榜（先验分无信息量），单列说明。 */
+const overall = engine.rank(CANONICAL_WEIGHTS);
+const rankedKeys = new Set(overall.map((r) => r.entity.key));
+const unrankedCount = [...engine.entities.values()].filter((e) => !rankedKeys.has(e.key)).length;
 
-/** 榜单定义：展示顺序 */
+/** 维度榜：直接取引擎按维度聚合的百分位分 */
+const dimBoard = (dim: string) =>
+  [...engine.entities.values()]
+    .filter((e) => e.dimScores[dim])
+    .map((e) => ({ entity: e, ...e.dimScores[dim]! }))
+    .sort((a, b) => b.score - a.score);
+
+const dimBoards = BOARD_DIMS.map((dim) => ({ dim, rows: dimBoard(dim) }));
+const agentRows = dimBoard('agent');
+
+const priceStr = (r: (typeof overall)[number]) => {
+  const pin = r.entity.facts['price_input_usd_m'];
+  const pout = r.entity.facts['price_output_usd_m'];
+  return pin && pout && !pin.stale && !pout.stale ? `$${pin.value}/$${pout.value}` : '—';
+};
+
+const fmt = (x: number) => x.toFixed(1).replace(/\.0$/, '');
+
+// ---- 原始来源数据镜像（折叠区，供回查） ----
 const BOARDS = [
-  {
-    metric: 'arena_elo_overall',
-    title: 'Arena 总榜 Elo',
-    desc: '真人盲测投票产生的 Elo，反映综合人类偏好。',
-  },
-  {
-    metric: 'arena_rank_coding',
-    title: 'Arena 编码榜',
-    desc: '编码类目盲测排名，名次越小越强。',
-  },
-  {
-    metric: 'arena_rank_writing',
-    title: 'Arena 创意写作榜',
-    desc: '创意写作类目盲测排名，名次越小越强。',
-  },
-  {
-    metric: 'arena_agent_improvement',
-    title: 'Arena Agent 榜（净改进率）',
-    desc: 'agentic 任务的净改进率。该指标暂未接入场景评分（维度待人工确认）。',
-  },
-  {
-    metric: 'swe_verified',
-    title: 'SWE-bench Verified（bash-only）',
-    desc: '真实 GitHub issue 的自动解决率；官方 mini-SWE-agent 统一环境口径，横向可比模型本身。来源站最新一轮官方运行为 2026-02，此后未更新。',
-  },
+  { metric: 'arena_elo_overall', title: 'Arena 总榜 Elo', desc: '真人盲测投票产生的 Elo，反映综合人类偏好。' },
+  { metric: 'arena_rank_coding', title: 'Arena 编码榜', desc: '编码类目盲测排名，名次越小越强。' },
+  { metric: 'arena_rank_writing', title: 'Arena 创意写作榜', desc: '创意写作类目盲测排名，名次越小越强。' },
+  { metric: 'arena_agent_improvement', title: 'Arena Agent 榜（净改进率）', desc: 'agentic 任务的净改进率。' },
+  { metric: 'swe_verified', title: 'SWE-bench Verified（bash-only）', desc: '真实 GitHub issue 的自动解决率；官方 mini-SWE-agent 统一环境口径。来源站最新一轮官方运行为 2026-02。' },
 ] as const;
 
-const boards = BOARDS.map((b) => {
-  const def = metricById.get(b.metric);
-  // 同一变体取最新一条（与评分引擎的 latest 聚合口径一致）
+const mirrors = BOARDS.map((b) => {
+  const def = metricMeta.get(b.metric);
   const latest = new Map<string, (typeof evidence)[number]['data'] & { id: string }>();
   for (const e of evidence.filter((x) => x.data.metric === b.metric)) {
     const key = `${e.data.subject}::${e.data.variant}`;
@@ -56,33 +69,30 @@ const boards = BOARDS.map((b) => {
   return { ...b, def, rows };
 });
 
+const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_000);
 const fmtValue = (v: number, unit: string) =>
   unit === 'rank' ? `第 ${v} 名` : unit === 'percent' ? `${v}%` : String(v);
 
-const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_000);
-
 const site = Astro.site!;
-const boardMetrics = BOARDS.map((b) => metricById.get(b.metric)).filter(Boolean);
-const boardEvidence = evidence.filter((e) => BOARDS.some((b) => b.metric === e.data.metric));
-const citations = [...new Set(boardEvidence.map((e) => e.data.source_url))];
-const dataAsOf = boardEvidence.reduce(
+const dataAsOf = evidence.reduce(
   (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
-  boardEvidence[0]?.data.retrieved_at ?? new Date(),
+  evidence[0]?.data.retrieved_at ?? new Date(),
 );
+const boardMetrics = [...metrics.filter((m) => BOARDS.some((b) => b.metric === m.data.id))];
+const citations = [...new Set(evidence.map((e) => e.data.source_url))];
 const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: 'FitModel · 国际公开评测榜单镜像',
-    description:
-      'Arena 人类偏好榜（总榜 / 编码 / 写作 / Agent）与 SWE-bench Verified 等国际公开评测的本站采集镜像，每条含原始值、来源链接与采集日期。',
+    name: 'FitModel · 模型能力指数与公开评测镜像',
+    description: `综合能力指数由多来源公开证据（权重：${CANONICAL_WEIGHT_LINE}）经百分位归一化加权计算，每个分数带 90% 误差界；另含 Arena 人类偏好榜与 SWE-bench Verified 的原始镜像，每条可回查来源。`,
     url: absoluteUrl('/leaderboards/', site),
     inLanguage: 'zh-CN',
     isAccessibleForFree: true,
-    keywords: ['Arena', 'Elo', 'SWE-bench', 'LLM 评测', '模型排名'],
+    keywords: ['LLM 排行榜', 'Arena', 'Elo', 'SWE-bench', '模型能力指数', 'AI 选型'],
     license: 'https://creativecommons.org/licenses/by/4.0/',
     creator: { '@type': 'Organization', name: 'FitModel', url: absoluteUrl('/', site) },
-    variableMeasured: boardMetrics.map((m) => m?.label ?? ''),
+    variableMeasured: boardMetrics.map((m) => m.data.label),
     citation: citations,
     dateModified: isoDate(dataAsOf),
   },
@@ -90,70 +100,251 @@ const schema = [
 ---
 
 <Base
-  title="榜单 — FitModel"
-  description="国际公开评测榜单镜像：Arena 人类偏好 Elo、SWE-bench Verified 真实任务解决率，原始数据全部可回查。"
+  title="模型榜单 — 综合能力指数与场景分 | FitModel"
+  description="可信的 AI 模型榜单：综合能力指数由多来源公开证据加权计算，每个分数带 90% 误差界，区间重叠视为并列；另附维度分榜与 Arena / SWE-bench 原始数据镜像。"
   image="/og/leaderboards.png"
   schema={schema}
 >
   <header class="page-header">
     <h1>榜单</h1>
     <p class="summary">
-      国际公开评测的原始数据，每条可回查来源。这些指标在时效与合理域规则内同时作为场景评分输入。
+      综合能力指数由公开证据计算：每条证据先在各自指标内做百分位归一化，再按可靠度（来源层级 × 时效 × 一致性）加权聚合成维度分，最后按公示权重合成。每个分数都带 <strong>90% 误差界</strong>——分数接近且区间重叠的模型视为并列（<span class="mono">≈</span>），我们不假装能分出高下。
     </p>
+    <div class="meta-row">
+      <span>数据截至 {isoDate(dataAsOf)}</span>
+      <span>权重：{CANONICAL_WEIGHT_LINE}</span>
+      <span><a href={siteUrl('/methodology/')}>口径与算法 →</a></span>
+    </div>
   </header>
 
+  <section>
+    <h2 class="section-title">综合能力指数</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>模型</th>
+            <th>指数（90% 区间）</th>
+            <th>置信度</th>
+            <th>API 价格（入/出, $/M）</th>
+            <th>性价比</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            overall.map((r, i) => {
+              const prev = i > 0 ? overall[i - 1] : null;
+              const tied = prev ? ciOverlaps(r.ci, prev.ci) : false;
+              const cl = confidenceLabel(r.confidence);
+              return (
+                <tr>
+                  <td class="num">
+                    {i + 1}
+                    {tied && <span class="tie">≈</span>}
+                  </td>
+                  <td>
+                    {r.entity.variant}
+                    <div class="sub">{modelById.get(r.entity.subject)?.name ?? r.entity.subject}</div>
+                  </td>
+                  <td class="num scorecell">
+                    <strong>{fmt(r.fit ?? 0)}</strong>
+                    <div class="scorebar" style={`--fit:${r.fit};--lo:${r.ci[0]};--hi:${r.ci[1]}`}>
+                      <span class="fill" />
+                      <span class="ci" />
+                    </div>
+                    <div class="sub">
+                      {fmt(r.ci[0])}–{fmt(r.ci[1])}
+                    </div>
+                  </td>
+                  <td>
+                    <span class={`badge ${cl.cls}`}>{cl.label}</span>
+                  </td>
+                  <td class="num">{priceStr(r)}</td>
+                  <td class="num">{r.value === null ? '—' : fmt(r.value)}</td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      性价比 = 指数 ×（价格中位数 ÷ 自身混合价），上限 2×；「—」表示价格证据缺失。置信度综合证据覆盖、来源层级、样本量与一致性。
+      {unrankedCount > 0 && `另有 ${unrankedCount} 个变体仅有价格证据、暂无能力数据，未列入排名（采证后自动加入）。`}
+    </p>
+  </section>
+
   {
-    boards.map((b) => (
+    dimBoards.map(({ dim, rows }) => (
       <section>
-        <h2 class="section-title">{b.title}</h2>
-        <p class="note" style="margin:0 0 8px">{b.desc}</p>
+        <h2 class="section-title">{DIM_LABEL[dim]}分榜</h2>
+        <p class="note" style="margin:0 0 8px">
+          {DIM_DESC[dim]}
+        </p>
+        {rows.length === 0 ? (
+          <div class="callout">
+            证据缺口：该维度尚无任何入分证据（<code class="num">{dim}</code> 指标建库中）。缺口不补零、不影响其他维度，只降低相关场景的覆盖率与置信度。
+          </div>
+        ) : (
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>模型</th>
+                  <th>维度分（90% 区间）</th>
+                  <th>依据</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, i) => {
+                  const ci = ci90(row.score, row.se);
+                  const tied = i > 0 && ciOverlaps(ci, ci90(rows[i - 1].score, rows[i - 1].se));
+                  const facts = Object.values(row.entity.facts).filter(
+                    (f) => !f.stale && metricMeta.get(f.metric)?.dimension === dim,
+                  );
+                  return (
+                    <tr>
+                      <td class="num">
+                        {i + 1}
+                        {tied && <span class="tie">≈</span>}
+                      </td>
+                      <td>
+                        {row.entity.variant}
+                        <div class="sub">{modelById.get(row.entity.subject)?.name ?? row.entity.subject}</div>
+                      </td>
+                      <td class="num scorecell">
+                        <strong>{fmt(row.score)}</strong>
+                        <div class="scorebar" style={`--fit:${row.score};--lo:${ci[0]};--hi:${ci[1]}`}>
+                          <span class="fill" />
+                          <span class="ci" />
+                        </div>
+                        <div class="sub">
+                          {fmt(ci[0])}–{fmt(ci[1])}
+                        </div>
+                      </td>
+                      <td class="dim">
+                        {facts
+                          .map(
+                            (f) =>
+                              `${metricMeta.get(f.metric)?.label ?? f.metric} ${f.value}${
+                                metricMeta.get(f.metric)?.unit === 'rank' ? ' 名' : ''
+                              }`,
+                          )
+                          .join('；') || '—'}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    ))
+  }
+
+  <section>
+    <h2 class="section-title">{DIM_LABEL.agent}分榜（仅展示）</h2>
+    <p class="note" style="margin:0 0 8px">{DIM_DESC.agent}</p>
+    {
+      agentRows.length === 0 ? (
+        <div class="callout">该维度暂无证据。</div>
+      ) : (
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>#</th>
                 <th>模型</th>
-                <th>{b.def?.unit === 'rank' ? '名次' : '数值'}</th>
-                <th>来源</th>
-                <th>采集</th>
+                <th>维度分（90% 区间）</th>
               </tr>
             </thead>
             <tbody>
-              {b.rows.map((r, i) => {
-                const stale =
-                  b.def && daysSince(r.retrieved_at) > b.def.freshness_days;
+              {agentRows.map((row, i) => {
+                const ci = ci90(row.score, row.se);
+                const tied = i > 0 && ciOverlaps(ci, ci90(agentRows[i - 1].score, agentRows[i - 1].se));
                 return (
                   <tr>
-                    <td class="num">{i + 1}</td>
-                    <td>
-                      {r.variant}
-                      <div class="sub">
-                        {modelById.get(r.subject)?.name ?? r.subject}
-                        {r.notes && ` · ${r.notes}`}
-                      </div>
-                    </td>
                     <td class="num">
-                      {fmtValue(r.value, b.def?.unit ?? '')}
-                      {stale && <span class="dim"> 已过期，仅展示</span>}
+                      {i + 1}
+                      {tied && <span class="tie">≈</span>}
                     </td>
                     <td>
-                      <a href={r.source_url} target="_blank" rel="noopener">
-                        {r.source} ↗
-                      </a>
+                      {row.entity.variant}
+                      <div class="sub">{modelById.get(row.entity.subject)?.name ?? row.entity.subject}</div>
                     </td>
-                    <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+                    <td class="num scorecell">
+                      <strong>{fmt(row.score)}</strong>
+                      <div class="scorebar" style={`--fit:${row.score};--lo:${ci[0]};--hi:${ci[1]}`}>
+                        <span class="fill" />
+                        <span class="ci" />
+                      </div>
+                      <div class="sub">{fmt(ci[0])}–{fmt(ci[1])}</div>
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
-      </section>
-    ))
-  }
+      )
+    }
+  </section>
+
+  <details class="fold">
+    <summary>原始来源数据镜像（Arena / SWE-bench 原始值，每条可回查）</summary>
+    <div class="inner">
+      {
+        mirrors.map((b) => (
+          <div style="margin-top:22px">
+            <h3>{b.title}</h3>
+            <p class="note" style="margin:0 0 8px">{b.desc}</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>模型</th>
+                    <th>{b.def?.unit === 'rank' ? '名次' : '数值'}</th>
+                    <th>来源</th>
+                    <th>采集</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.rows.map((r, i) => {
+                    const stale = b.def && daysSince(r.retrieved_at) > b.def.freshness_days;
+                    return (
+                      <tr>
+                        <td class="num">{i + 1}</td>
+                        <td>
+                          {r.variant}
+                          <div class="sub">{modelById.get(r.subject)?.name ?? r.subject}{r.notes && ` · ${r.notes}`}</div>
+                        </td>
+                        <td class="num">
+                          {fmtValue(r.value, b.def?.unit ?? '')}
+                          {stale && <span class="dim"> 已过期，仅展示</span>}
+                        </td>
+                        <td>
+                          <a href={r.source_url} target="_blank" rel="noopener">
+                            {r.source} ↗
+                          </a>
+                        </td>
+                        <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </details>
 
   <p class="note">
-    榜单口径与入分规则见<a href={siteUrl('/methodology/')}>方法论</a>。SWE-bench 各条目备注中的「官方运行」为来源站运行日期，
-    与本站采集日期（retrieved_at）是两回事。
+    榜单口径与入分规则见<a href={siteUrl('/methodology/')}>方法论</a>；机器可读版本：<a href={siteUrl('/api/v1/models.json')}>/api/v1/models.json</a>。
   </p>
 </Base>

@@ -1,5 +1,21 @@
 # 更新日志
 
+- id: cl-2026-09-05-credibility-engine
+  date: 2026-09-05
+  title: 可信度升级：Beta 后验百分位 + 90% 误差界 + 经验贝叶斯收缩；Agent JSON API/Skill；一键同步
+  entries:
+    - 行业调研沉淀 docs/research-2026-09.md（LMArena、Artificial Analysis、HELM、SWE-bench、LiveBench、OpenRouter、OpenCompass、RouteLLM 等 15+ 项目与 BT/Elo 置信区间、加权算术平均、经验贝叶斯收缩、Glicko 式时效等方法），scoring.ts 每项算法选型逐条注明依据
+    - 归一化改用 Beta 后验百分位：裸百分位在旧数据上产生大面积饱和 100 分（旧算法 13 个场景中 8 个 TOP=100.0），新算法头部约 93 且天然携带标准误；同日冲突证据改取中位数入分（与告警文案一致）
+    - 维度聚合改可靠度加权（来源层级 × 时效衰减 × 一致性）；新增沿 归一化→维度→场景 逐层合成的 90% 误差界，页面与 API 全部展示「分数 ±区间」，区间重叠的相邻名次标记「≈ 并列」
+    - 稀疏证据经验贝叶斯收缩：实体缺失的维度（全站有数据时）按先验 50±28.9 计入——修复单基准证据模型凭一条强数据以假满分登顶（旧算法 ide-coding/agent-coding/code-review/prototyping 的 TOP 即此假象）；全站无数据维度不参与评分，避免整体压缩
+    - 置信度改 5 因子：覆盖率 × 来源层级 × 样本量 min(1,n/10) × 时效 1−0.2×(age/窗口) × 一致性；阈值调整为 高≥0.7 / 中≥0.4
+    - 性价比分修复：只考虑有真实能力证据（非价格）的变体并改用实测适配分（不含先验收缩），此前纯价格证据变体以「先验 50 × 价格比上限 2」满分齐平、档位无信息量
+    - Agent 通道：新增 /api/v1/{index,models,evidence,all}.json 与 /api/v1/scenarios/:id.json（静态 JSON、CORS 全开、自描述 schema_version/generated_at/data_as_of）+ /skill.md（agentskills.io 规范，场景清单构建时注入，源文件 skills/fitmodel-model-pick/SKILL.md）+ /api/ 文档页；llms.txt / llms-full.txt 增加通道索引与误差界
+    - 一键同步：npm run sync（scripts/sync.mjs）= 鲜度巡检 + 白名单来源内容哈希变更检测（HTTP 源自动、JS 渲染源标记需浏览器）+ 采集任务卡（含写入模板，--json 供 agent 程序化消费）+ 排名影响对比（rank 快照存 scripts/.cache/，已 gitignore）；AGENTS.md 采集流程改以 sync 为入口并加「最小操作卡」
+    - 页面改版：榜单页改为「综合能力指数（权重公示 40/30/20/10）+ 通用/编码/写作/长上下文分榜 + Agent 榜（仅展示）+ 原始镜像折叠」，全表带分数条与误差须；首页加综合榜 Top5 速览条、Agent 接入横幅、卡片内嵌适配分；场景页直接回答与排名表带误差界/并列标记及机器可读链接；模型页改综合+维度分列；方法页公式与行业对照重写
+    - 排名影响（旧→新 TOP）：ide-coding/agent-coding/code-review claude-opus-4-5-high(100) → claude-opus-4-7-high(89.1–89.3)；prototyping claude-opus-4-5-high(100) → claude-opus-4-6-high(86.2)；spreadsheets claude-opus-4-5-high(100) → claude-fable-5(88.9)；其余 9 场景 TOP 保持 claude-fable-5 但分数由饱和 100.0 回落至 88.9–93.3；VALUE 由 gemini-3.1-pro-preview / claude-opus-4-6 等有据变体按场景区分（此前部分场景被纯价格变体占据）；FREE 档规则未动。场景权重与正文未动；构建校验通过
+    - OG 分享图重生成（榜单/模型库文案更新）；check:freshness 全绿（仅 context_window_k 缺口，维持现状待人工）
+
 - id: cl-2026-08-23-seo-geo-p1
   date: 2026-08-23
   title: SEO/GEO P1 增强：RSS、每页 OG 图、FAQ 结构化数据、llms-full.txt、IndexNow、搜索直达

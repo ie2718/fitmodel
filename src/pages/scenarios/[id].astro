@@ -1,10 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { freshness, absoluteUrl, isoDate, CATEGORY_MAP } from '../../lib/meta';
-import { confidenceLabel, type FitResult } from '../../lib/scoring';
+import { freshness, absoluteUrl, isoDate, siteUrl, CATEGORY_MAP } from '../../lib/meta';
+import { confidenceLabel, ci90, type FitResult } from '../../lib/scoring';
 import { getEngine } from '../../lib/engine';
 import { computePicks } from '../../lib/picks';
+import { DIM_LABEL, ciOverlaps } from '../../lib/board';
 
 export async function getStaticPaths() {
   const items = await getCollection('scenarios');
@@ -65,13 +66,10 @@ const evidenceEntries = (await getCollection('evidence'))
   .filter((e) => citationIds.has(e.data.id))
   .sort((a, b) => a.data.id.localeCompare(b.data.id));
 
-const dimShort: Record<string, string> = {
-  general: '通用',
-  coding: '编码',
-  writing: '写作',
-  long_context: '长文',
-};
+const dimShort: Record<string, string> = DIM_LABEL;
 const fmtFit = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(0));
+/** 「89 ±6」形式：分数 + 90% 误差界半宽 */
+const fmtFitCi = (r: FitResult) => `${fmtFit(r.fit)} ±${Math.max(1, Math.round(1.645 * r.se))}`;
 const weightLine = d.dimensions
   .map((x) => `${dimShort[x.id] ?? x.id} ${Math.round(x.weight * 100)}%`)
   .join(' · ');
@@ -139,7 +137,7 @@ if (!d.scoring_disabled && top) {
       name: `${d.title}用什么 AI 模型最好？`,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `截至 ${isoDate(dataAsOf)}，基于 ${evidenceEntries.length} 条可溯源的公开证据计算，综合适配最高的是 ${top.entity.variant}（适配 ${fmtFit(top.fit)} 分，置信度${confidenceLabel(top.confidence).label}）。依据与完整排名见本页。`,
+        text: `截至 ${isoDate(dataAsOf)}，基于 ${evidenceEntries.length} 条可溯源的公开证据计算，综合适配最高的是 ${top.entity.variant}（适配 ${fmtFitCi(top)}，90% 误差界，置信度${confidenceLabel(top.confidence).label}）。依据与完整排名见本页。`,
       },
     },
   ];
@@ -178,8 +176,8 @@ if (!d.scoring_disabled && top) {
       {!d.scoring_disabled && top && (
         <p class="direct">
           截至 {isoDate(dataAsOf)}，基于 {evidenceEntries.length} 条公开证据，本场景综合适配最高的是
-          {top.entity.variant}（适配 {fmtFit(top.fit)} 分，置信度
-          {confidenceLabel(top.confidence).label}）。
+          {top.entity.variant}（适配 {fmtFitCi(top)}，置信度
+          {confidenceLabel(top.confidence).label}；误差界重叠的后续名次视为并列）。
         </p>
       )}
     </header>
@@ -217,7 +215,7 @@ if (!d.scoring_disabled && top) {
                   <dd>
                     {top.entity.variant}
                     <span class="dim">
-                      适配 {fmtFit(top.fit)} · 置信度{confidenceLabel(top.confidence).label}
+                      适配 {fmtFitCi(top)} · 置信度{confidenceLabel(top.confidence).label}
                       {priceStr(top) && ` · ${priceStr(top)}`}
                     </span>
                   </dd>
@@ -237,7 +235,7 @@ if (!d.scoring_disabled && top) {
                   <dd>
                     {valuePick.entity.variant}
                     <span class="dim">
-                      适配 {fmtFit(valuePick.fit)}{priceStr(valuePick) && ` · ${priceStr(valuePick)}`}
+                      适配 {fmtFitCi(valuePick)}{priceStr(valuePick) && ` · ${priceStr(valuePick)}`}
                     </span>
                   </dd>
                 </div>
@@ -258,15 +256,15 @@ if (!d.scoring_disabled && top) {
           </section>
 
           {ranked.length > 0 && (
-            <details class="fold">
-              <summary>完整排名（{ranked.length} 个模型变体）</summary>
+            <details class="fold" open>
+              <summary>完整排名（{ranked.length} 个模型变体，误差界重叠视为并列 ≈）</summary>
               <div class="inner table-wrap">
                 <table>
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>模型</th>
-                      <th>适配分</th>
+                      <th>适配分（90% 区间）</th>
                       <th>置信度</th>
                       <th>API 价格（入/出, $/M）</th>
                     </tr>
@@ -276,16 +274,26 @@ if (!d.scoring_disabled && top) {
                       const pin = r.entity.facts['price_input_usd_m'];
                       const pout = r.entity.facts['price_output_usd_m'];
                       const cl = confidenceLabel(r.confidence);
+                      const tied = i > 0 && ciOverlaps(r.ci, ranked[i - 1].ci);
                       return (
                         <tr>
-                          <td class="num">{i + 1}</td>
+                          <td class="num">
+                            {i + 1}
+                            {tied && <span class="tie">≈</span>}
+                          </td>
                           <td>
                             {r.entity.variant}
                             <div class="sub">
                               {modelById.get(r.entity.subject)?.name ?? '厂商核实中'}
                             </div>
                           </td>
-                          <td class="num">{fmtFit(r.fit)}</td>
+                          <td class="num scorecell">
+                            <strong>{fmtFitCi(r)}</strong>
+                            <div class="scorebar" style={`--fit:${r.fit};--lo:${r.ci[0]};--hi:${r.ci[1]}`}>
+                              <span class="fill" />
+                              <span class="ci" />
+                            </div>
+                          </td>
                           <td class="dim">{cl.label}</td>
                           <td class="num">{pin && pout ? `${pin.value} / ${pout.value}` : '—'}</td>
                         </tr>
@@ -295,6 +303,15 @@ if (!d.scoring_disabled && top) {
                 </table>
               </div>
             </details>
+          )}
+
+          {ranked.length > 0 && (
+            <p class="note">
+              机器可读数据（含误差界与依据）：{' '}
+              <a href={siteUrl(`/api/v1/scenarios/${entry.id}.json`)}>
+                /api/v1/scenarios/{entry.id}.json
+              </a>
+            </p>
           )}
 
           <details class="fold">

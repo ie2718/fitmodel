@@ -68,7 +68,8 @@ export const GET: APIRoute = async (context) => {
         const pin = r.entity.facts['price_input_usd_m'];
         const pout = r.entity.facts['price_output_usd_m'];
         const price = pin && pout ? ` · API $${pin.value}/$${pout.value} 每百万 tokens` : '';
-        return `${i + 1}. ${r.entity.variant} — 适配 ${r.fit?.toFixed(0)}/100 · 置信度${confidenceLabel(r.confidence).label}${price}`;
+        const ci = `±${Math.max(1, Math.round(1.645 * r.se))}`;
+        return `${i + 1}. ${r.entity.variant} — 适配 ${r.fit?.toFixed(0)} ${ci}（90% 误差界，相邻名次区间重叠视为并列）· 置信度${confidenceLabel(r.confidence).label}${price}`;
       })
       .join('\n');
 

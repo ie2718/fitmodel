@@ -70,8 +70,8 @@ function tpl(title, sub) {
 
 const pages = [
   { out: 'index.png', title: '该用什么 AI？', sub: '先说任务，再选模型 · 结论全部由公开数据计算' },
-  { out: 'leaderboards.png', title: '公开评测榜单', sub: 'Arena · SWE-bench 原始数据镜像，每条可回查' },
-  { out: 'models.png', title: '模型与产品库', sub: '定价 · 国内可用性 · 通用排名' },
+  { out: 'leaderboards.png', title: '模型榜单', sub: '综合能力指数 · 维度分 · 90% 误差界，可回查' },
+  { out: 'models.png', title: '模型与产品库', sub: '能力指数 · 定价 · 国内可用性' },
   { out: 'methodology.png', title: '推荐是怎么算出来的', sub: '采集 · 校验 · 归一化 · 评分，完整公示' },
   { out: 'changelog.png', title: '更新日志', sub: '每次数据与内容变更都留痕' },
 ];

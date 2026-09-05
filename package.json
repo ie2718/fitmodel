@@ -15,6 +15,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:freshness": "node scripts/check-freshness.mjs",
+    "sync": "node scripts/sync.mjs",
     "astro": "astro"
   },
   "dependencies": {
