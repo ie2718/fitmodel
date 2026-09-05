@@ -1,5 +1,16 @@
 # 更新日志
 
+- id: cl-2026-09-06-gpt6-webdev-tier2
+  date: 2026-09-06
+  title: GPT-6 升至 #6：注册 Arena WebDev 榜信号；AA 指数按自研评测性质升为 tier 2；价格/上下文入账
+  entries:
+    - 持续追踪（响应「GPT-6 排名明显太低」反馈）：GPT-6 Astra（9 月 3 日发布）已登 arena WebDev 榜第 1（Elo 1797±24）——Text 总榜仍未收录，但编码能力有了 arena 侧信号
+    - 指标注册（经用户连续反馈确认）：新增 arena_rank_webdev（编码维度第三信号，cohort_size 50，tier 2）——编码维度升级为「编码类目盲测 + WebDev 盲测 + SWE-bench」三信号
+    - 口径修正：aa_intelligence_index 由 tier 3 升 tier 2——AA 智能指数为自研评测集（AA-Briefcase、τ³-Banking、Terminal-Bench 等，含私有 held-out 防污染），性质与 LMArena/SWE-bench 同为独立基准，非聚合转载；AGENTS.md 白名单与方法论页同步（AA 转载的价格/速度仍按 tier 3 交叉参考对待）
+    - 数据入账：WebDev 榜前 10（gpt-6-astra-max #1、fable-5.1-max #2、opus-5-max #3、qwen3.8-max-0902 #4、kimi-k3-max #5、grok-4.6-high #10，ev-webdev-001…010）；GPT-6 价格 $10/$50 与 1M 上下文窗口自 AA 模型详情页入账（AA 转载官方价，官方 token 定价页迁移中待 tier-1 核实；context_window_k 缺口首条数据）
+    - 效果：gpt-6-astra-max 由 #17 升至 #6（79.7，置信度中，90% 区间 [66.1, 93.2] 与 #2–5 重叠显示 ≈ 并列）；fable-5.1-max 升至 #5（80.7）——其 WebDev #2 与编码类目 #34 的仪器分歧以宽区间诚实呈现；全部变动由新增证据推动，无任何手工调分。构建校验通过
+    - 待人工决策不变：SWE-bench 浏览器采集（补 GPT-5.6/6 独立基准）/ BenchLM 白名单审批 / Agent 榜维度接入
+
 - id: cl-2026-09-06-gpt6-multisource
   date: 2026-09-06
   title: 全网调研后接入多源能力融合：GPT-6 Astra 入榜（AA 通道）；固定前沿参考系；知情先验

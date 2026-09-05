@@ -61,6 +61,7 @@
 - **算法响应**：① 注册 `aa_intelligence_index`（tier 3 权重 0.5）作通用维度第三信号 + 新模型先行通道；② 名次型指标引入固定前沿参考系 `cohort_size`（50），百分位 = f(名次, R)，消除「采集扩围 → 全站分数漂移」（实测：编码 #3 因多采 17 个模型从 85.7 漂到 92.9）；③ 缺失维度改「知情先验」：先验 = 50 + (自身实测均值 − 50) × 可靠度，夹 [30,70]——已知很强的模型不再被缺数据拖成平庸，单基准模型也不因先验虚高（先验随证据可靠度回落）。
 - **残余分歧示例**（诚实展示而非掩饰）：Claude Fable 5.1-max 在 AA 是全榜第 1，但 arena 编码类目第 34（三次抓取核实）——两个仪器在其编码能力上真实分歧，榜单以「依据」列并示两信号。
 - 交叉核对来源：[AA models](https://artificialanalysis.ai/models) · [BenchLM](https://benchlm.ai/)（未入白名单，仅交叉参考）· [Vellum](https://www.vellum.ai/llm-leaderboard)（同前）。
+- **2026-09-06 追踪**：GPT-6 Astra（9 月 3 日发布，$10/$50、1M 上下文）已登 arena **WebDev 榜第 1**（Elo 1797），Text 总榜仍未收录。注册 `arena_rank_webdev`（编码维度第三信号）+ AA 详情页价格/上下文入账；`aa_intelligence_index` 由 tier 3 升 tier 2——AA 自研评测集（AA-Briefcase、τ³-Banking 等，含 held-out）性质与 LMArena/SWE-bench 相同，是独立基准而非聚合转载。效果：GPT-6 Astra max 由 #17 升至 #6（79.7，中置信，与 #2–5 区间重叠显示 ≈ 并列），全部由新增证据推动。
 
 **排除饱和基准**（Vellum 实践）与**真实用量正交信号**（OpenRouter 实践）列为指标注册的后续评估项，新增指标按 AGENTS.md 需人工审批。
 

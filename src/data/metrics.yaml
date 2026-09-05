@@ -60,6 +60,19 @@
   source: arena.ai 创意写作类目
   description: 创意写作类目盲测排名，数值越小越强。
 
+- id: arena_rank_webdev
+  label: Arena WebDev 榜排名
+  dimension: coding
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 400]
+  cohort_size: 50
+  aggregator: latest
+  source: arena.ai WebDev 类目（Elo 排名）
+  description: Web 开发类目盲测排名，编码维度的第三信号（与编码类目、SWE-bench 互补）。2026-09-06 经用户反馈确认新增；GPT-6 Astra 由此先行进入编码维度。
+
 - id: arena_agent_improvement
   label: Arena Agent 榜净改进率
   dimension: agent
@@ -77,12 +90,12 @@
   dimension: general
   unit: index
   direction: higher
-  source_tier: 3
+  source_tier: 2
   freshness_days: 60
   plausible: [0, 100]
   aggregator: latest
   source: Artificial Analysis Intelligence Index v4.2
-  description: Artificial Analysis 聚合智能指数（Agents 30%/General 30%/Coding 20%/科学推理 20% 加权，含私有 held-out 集防污染）。tier 3 权重减半；与 arena 双信号互为制衡——arena 未收录的新模型（如 GPT-6）经此先行入榜。2026-09-06 经用户反馈确认新增。
+  description: Artificial Analysis 自研评测集（AA-Briefcase、τ³-Banking、Terminal-Bench 等，含私有 held-out 防污染）加权合成的智能指数——自研评测属独立基准（tier 2），非聚合转载。与 arena 双信号互为制衡；arena 未收录的新模型（如 GPT-6）经此先行入榜。2026-09-06 经用户反馈确认新增并升为 tier 2。
 
 - id: swe_verified
   label: SWE-bench Verified 解决率
