@@ -21,6 +21,18 @@
   source: arena.ai（原 LMArena）人类盲测投票
   description: 真人盲测对比投票产生的 Elo 排名，反映综合人类偏好。
 
+- id: arena_rank_overall
+  label: Arena 总榜名次
+  dimension: general
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 400]
+  aggregator: latest
+  source: arena.ai Text 总榜 Overall 名次
+  description: Text 总榜 Overall 名次。arena 页面仅前 10 名展示 Elo 数值，11 名以后以名次入分；与 arena_elo_overall 构成通用维度的双信号。2026-09-05 经用户反馈确认新增（GPT 系列此前无法进入通用维度）。
+
 - id: arena_rank_coding
   label: Arena 编码榜排名
   dimension: coding

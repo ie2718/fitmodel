@@ -1,5 +1,15 @@
 # 更新日志
 
+- id: cl-2026-09-05-gpt-coverage
+  date: 2026-09-05
+  title: 补齐 GPT/多厂商覆盖：注册 arena_rank_overall，GPT 全系当前代次入榜（响应「榜单缺 GPT」反馈）
+  entries:
+    - 指标注册（经用户反馈确认，人工审批路径）：新增 arena_rank_overall——Text 总榜 Overall 名次（tier 2 / 90 天窗口 / direction lower / 合理域 [1,400]）。根因：arena 页面仅前 10 名展示 Elo 数值且无 GPT 模型进前 10，旧指标体系下 GPT 系列完全无法进入通用维度与综合分（通用分榜 0 个 GPT），「综合榜看不到 GPT」实为覆盖缺口而非排序错误
+    - 采集：Arena 总榜名次 1–47 连续区块 + GPT 全系当前代次（sol-xhigh 总榜 #17 / 5.5-high #19 / 5.5 #24 / 5.4-high #25 / 5.2-chat #26 / terra-xhigh #43 等 11 个变体的总榜/编码/写作名次），新增证据 89 条；一并入册 32–47 名的 grok-4.5 / grok-4.20 系 / glm-5.1 / glm-5.2-max / ernie-5.1 / claude-sonnet-4-6 / claude-opus-4-8 / qwen3.5·3.7 preview / mimo-v2.5-pro；新模型家族 mimo 按 muse-spark 先例入 models.yaml（vendor 待核实）
+    - 勘误留痕：claude-fable-5 写作名次三次抓取不一致（2/2/1），定向复核取 1，证据 notes 记录勘误过程
+    - 工程修复：models.yaml 中「总榜 #N」的 # 触发 YAML 行内注释——字段被静默截断、新增 mimo 条目语法报错；全部改为「第 N 名」措辞并加解析校验。历史被截断条目（claude/gemini/glm/grok/hunyuan/gpt 的 current_version）一并修复
+    - 效果：GPT 11 个变体进入综合榜（gpt-5.6-sol-xhigh #10 / 67.9 / 置信度高；gpt-5.5-high #22；gpt-5.2-codex·high 依 SWE 证据居中位），通用分榜 8 个 GPT 变体；在榜变体 59 个（+22）、15 个家族全覆盖。名次由 arena 数据驱动：GPT 文本总榜 17–46 名对应中低位次；sol-xhigh 的 Agent 榜第 4 未计入（agent 维度未接入评分，接入待人工确认）。构建校验通过，无过期指标
+
 - id: cl-2026-09-05-arena-sync-zscore-tabs
   date: 2026-09-05
   title: 采集 2026-09-05 Arena 快照（+17 变体入榜）；区间型指标改 z-score 归一化；榜单页 tab 化

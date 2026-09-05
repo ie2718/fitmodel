@@ -2184,3 +2184,986 @@
   retrieved_at: 2026-09-05
   verified: false
   notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+# ===== Arena 2026-09-05 补充：总榜名次指标 + GPT 系当前代次（响应「榜单缺 GPT」反馈）=====
+
+- id: ev-arena-132
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-fable-5
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-133
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-134
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-135
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-136
+  metric: arena_rank_overall
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-137
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-6
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-138
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-7
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-139
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-140
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-5-high
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-141
+  metric: arena_rank_overall
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-142
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-143
+  metric: arena_rank_overall
+  subject: kimi
+  variant: kimi-k3-max
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-144
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-5-max
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-145
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-146
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3-pro
+  value: 16
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-147
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-148
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 18
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-149
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-150
+  metric: arena_rank_overall
+  subject: glm
+  variant: glm-5.3-max
+  value: 20
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-151
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-152
+  metric: arena_rank_overall
+  subject: qwen
+  variant: qwen3.8-max
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-153
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3.5-flash-high
+  value: 23
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-154
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.5
+  value: 24
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-155
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-156
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 26
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-157
+  metric: arena_rank_overall
+  subject: grok
+  variant: grok-4.20-beta1
+  value: 28
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-158
+  metric: arena_rank_overall
+  subject: glm
+  variant: glm-5.3-flash
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-159
+  metric: arena_rank_overall
+  subject: gemini
+  variant: gemini-3-flash
+  value: 30
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-160
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-161
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 43
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-162
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.4
+  value: 46
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照）；当前代次前沿为主，过时代次（总榜 50 名后）不采集
+
+- id: ev-arena-163
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 27
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-164
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-165
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-166
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-167
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.4
+  value: 41
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-168
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 27
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-169
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-170
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.4
+  value: 53
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-171
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 57
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-172
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 67
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+# ===== Arena 2026-09-05 补充 2：总榜 32–47 名连续区块（grok/ernie/mimo/qwen preview/glm-5.1/claude 20251101 系）=====
+
+- id: ev-arena-173
+  metric: arena_rank_overall
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-174
+  metric: arena_rank_coding
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-175
+  metric: arena_rank_writing
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 46
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-176
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-8
+  value: 33
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-177
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-8
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-178
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-8
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-179
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 34
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-180
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 13
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-181
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-182
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-183
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-184
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 33
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-185
+  metric: arena_rank_overall
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 36
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-186
+  metric: arena_rank_coding
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-187
+  metric: arena_rank_writing
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 40
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-188
+  metric: arena_rank_overall
+  subject: glm
+  variant: glm-5.2-max
+  value: 37
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-189
+  metric: arena_rank_coding
+  subject: glm
+  variant: glm-5.2-max
+  value: 47
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-190
+  metric: arena_rank_writing
+  subject: glm
+  variant: glm-5.2-max
+  value: 30
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-191
+  metric: arena_rank_overall
+  subject: grok
+  variant: grok-4.5
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-192
+  metric: arena_rank_coding
+  subject: grok
+  variant: grok-4.5
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-193
+  metric: arena_rank_writing
+  subject: grok
+  variant: grok-4.5
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-194
+  metric: arena_rank_overall
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 39
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-195
+  metric: arena_rank_coding
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 50
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-196
+  metric: arena_rank_writing
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 37
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-197
+  metric: arena_rank_overall
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 40
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-198
+  metric: arena_rank_coding
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-199
+  metric: arena_rank_writing
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 24
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-200
+  metric: arena_rank_overall
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 41
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-201
+  metric: arena_rank_coding
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 26
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-202
+  metric: arena_rank_writing
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 56
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-203
+  metric: arena_rank_overall
+  subject: ernie
+  variant: ernie-5.1
+  value: 42
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-204
+  metric: arena_rank_coding
+  subject: ernie
+  variant: ernie-5.1
+  value: 39
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-205
+  metric: arena_rank_writing
+  subject: ernie
+  variant: ernie-5.1
+  value: 64
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-206
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 43
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-207
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-208
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 67
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-209
+  metric: arena_rank_overall
+  subject: glm
+  variant: glm-5.1
+  value: 44
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-210
+  metric: arena_rank_coding
+  subject: glm
+  variant: glm-5.1
+  value: 37
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-211
+  metric: arena_rank_writing
+  subject: glm
+  variant: glm-5.1
+  value: 39
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-212
+  metric: arena_rank_overall
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-213
+  metric: arena_rank_coding
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 40
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-214
+  metric: arena_rank_writing
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-215
+  metric: arena_rank_overall
+  subject: gpt
+  variant: gpt-5.4
+  value: 46
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-216
+  metric: arena_rank_coding
+  subject: gpt
+  variant: gpt-5.4
+  value: 41
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-217
+  metric: arena_rank_writing
+  subject: gpt
+  variant: gpt-5.4
+  value: 53
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
+
+- id: ev-arena-218
+  metric: arena_rank_overall
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 47
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 总榜 Overall 名次（2026-09-05 快照，前沿区块 1–47 连续采集）
+
+- id: ev-arena-219
+  metric: arena_rank_coding
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 65
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Coding 列名次（2026-09-05 快照）
+
+- id: ev-arena-220
+  metric: arena_rank_writing
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 65
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-05
+  verified: false
+  notes: Text 表 Creative Writing 列名次（2026-09-05 快照）
