@@ -1,5 +1,17 @@
 # 更新日志
 
+- id: cl-2026-09-06-multisource-user-signals
+  date: 2026-09-06
+  title: 多平台用户信号接入：arena 难题/指令/长查询三榜 + OpenRouter 真实用量榜；长上下文缺口填补
+  entries:
+    - 采集（响应「更多平台/用户反馈/用户认可」反馈，共 143 条新证据）：arena Text 表全部用户偏好类目名次——Hard Prompts、Instruction Following、Longer Query × 45 个变体；OpenRouter 真实用量榜前 8（Hy4 Preview 14.1T 周用量居首，GLM 5.3 Flash / DeepSeek V4 Flash / GPT-5.6 Luna 领跑）
+    - 指标注册（经用户反馈确认）：arena_rank_hard_prompts + arena_rank_instruction（通用维度用户偏好信号）、arena_rank_longer_query（long_context 维度——**长上下文证据缺口就此填补**，此前仅 1 条规格数据）、openrouter_tokens_weekly（真实用量，仅展示）
+    - 榜单页新增「真实用量」tab：OpenRouter 官方声明「衡量采用而非质量」，与能力分正交，仅展示不评分；来源站数据由价格/生态/免费额度驱动——本周用量前列全是低价与免费档模型，与能力榜形成互补视角
+    - 排名影响：通用维度升级为 5 信号（Elo/总榜名次/难题/指令/AA），长上下文维度从缺失变满员——opus-4-6-high（难题 #1·指令 #1·长查询 #1）升至综合榜 #1（96.2），与 fable-5（94.1）误差界重叠 ≈ 并列；GPT-6 Astra #8（79.7，其通用维度仍仅 AA 单源，arena 类目收录后自动增强）
+    - 社区口碑定性调研（Reddit 多帖，沉淀于 docs/research-2026-09.md，不入评分）：GPT-6 Astra 反响分裂——编码实测有用户认可「大幅提升」，亦有质疑定价（Fable 缓存输入便宜 4 倍）与基准独立性之声；定性口碑无法诚实量化，不入自动评分
+    - 工程修复：OpenRouter 首采脚本 Math.max() 空数组 -Infinity 导致 8 条证据 ID 重复、内容层去重后仅剩 1 条——重编号修复；新增重复 ID 自检
+    - 构建校验通过；在榜变体 66 个，证据总量 481 条
+
 - id: cl-2026-09-06-free-tier-levels
   date: 2026-09-06
   title: 免费档层次修正：产品为主语 + 底座模型家族标注，不再宣称免费档可用具体变体

@@ -109,6 +109,57 @@
   source: swebench.com / 各厂商官方报告
   description: 真实 GitHub issue 自动修复率。证据采集中，暂无数据。
 
+- id: arena_rank_hard_prompts
+  label: Arena 难题榜排名
+  dimension: general
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 400]
+  cohort_size: 50
+  aggregator: latest
+  source: arena.ai Hard Prompts 类目（最难提示词子集）
+  description: 最难提示词类目的用户盲测排名，通用维度的用户偏好信号之一。2026-09-06 经用户反馈确认新增。
+
+- id: arena_rank_instruction
+  label: Arena 指令遵循榜排名
+  dimension: general
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 400]
+  cohort_size: 50
+  aggregator: latest
+  source: arena.ai Instruction Following 类目
+  description: 指令遵循类目的用户盲测排名，通用维度的用户偏好信号之一。2026-09-06 经用户反馈确认新增。
+
+- id: arena_rank_longer_query
+  label: Arena 长查询榜排名
+  dimension: long_context
+  unit: rank
+  direction: lower
+  source_tier: 2
+  freshness_days: 90
+  plausible: [1, 400]
+  cohort_size: 50
+  aggregator: latest
+  source: arena.ai Longer Query 类目
+  description: 长查询类目的用户盲测排名——长上下文维度的用户偏好信号。2026-09-06 经用户反馈确认新增，填补 long_context 维度证据缺口（此前仅 1 条 context_window_k 规格数据）。
+
+- id: openrouter_tokens_weekly
+  label: OpenRouter 周用量
+  dimension: adoption
+  unit: T tokens
+  direction: higher
+  source_tier: 2
+  freshness_days: 7
+  plausible: [0, 100]
+  aggregator: latest
+  source: OpenRouter Rankings（平台真实路由用量）
+  description: OpenRouter 平台周 token 用量（输入+输出）。官方声明「衡量采用而非质量」——仅展示于真实用量榜，不进入能力评分。2026-09-06 经用户反馈确认新增。
+
 - id: context_window_k
   label: 上下文窗口（千 tokens）
   dimension: long_context

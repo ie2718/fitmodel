@@ -81,6 +81,15 @@ const SOURCES = [
     notes: '口径（bash-only / 官方运行轮次）写进 notes；2026-09-06 已验证浏览器渲染表可全量提取（mini-SWE-agent 官方可比集 47 条）。',
   },
   {
+    id: 'openrouter',
+    name: 'OpenRouter Rankings',
+    tier: 2,
+    method: 'http',
+    metrics: ['openrouter_tokens_weekly'],
+    urls: ['https://openrouter.ai/rankings'],
+    notes: '真实路由用量（采用非质量），仅展示于真实用量榜，不进能力分；每周重采。',
+  },
+  {
     id: 'aa',
     name: 'Artificial Analysis',
     tier: 3,

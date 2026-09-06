@@ -3692,3 +3692,1578 @@
   retrieved_at: 2026-09-06
   verified: false
   notes: WebDev 类目盲测排名（2026-09-06 快照，采集扩展至前 20 名）
+
+# ===== 2026-09-06 多平台扩展：arena 用户偏好类目（难题/指令/长查询）+ OpenRouter 真实用量（响应「用户反馈/用户认可」反馈）=====
+
+- id: ev-arena-221
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-fable-5
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-222
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-fable-5
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-223
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-fable-5
+  value: 2
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-224
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-225
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-226
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-6-high
+  value: 1
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-227
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-228
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-229
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-230
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-231
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-232
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-7-high
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-233
+  metric: arena_rank_hard_prompts
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-234
+  metric: arena_rank_instruction
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-235
+  metric: arena_rank_longer_query
+  subject: muse-spark
+  variant: muse-spark-1.2-xhigh
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-236
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-6
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-237
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-6
+  value: 4
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-238
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-6
+  value: 3
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-239
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-7
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-240
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-7
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-241
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-7
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-242
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-243
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-244
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-245
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-5-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-246
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-5-high
+  value: 5
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-247
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-5-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-248
+  metric: arena_rank_hard_prompts
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 13
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-249
+  metric: arena_rank_instruction
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 28
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-250
+  metric: arena_rank_longer_query
+  subject: muse-spark
+  variant: muse-spark-1.1
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-251
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-252
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 12
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-253
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3.7-flash-high
+  value: 13
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-254
+  metric: arena_rank_hard_prompts
+  subject: kimi
+  variant: kimi-k3-max
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-255
+  metric: arena_rank_instruction
+  subject: kimi
+  variant: kimi-k3-max
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-256
+  metric: arena_rank_longer_query
+  subject: kimi
+  variant: kimi-k3-max
+  value: 9
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-257
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-5-max
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-258
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-5-max
+  value: 6
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-259
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-5-max
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-260
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 16
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-261
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-262
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3.1-pro-preview
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-263
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3-pro
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-264
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3-pro
+  value: 7
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-265
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3-pro
+  value: 23
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-266
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-267
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 11
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-268
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 16
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-269
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 8
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-270
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-271
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-8-high
+  value: 10
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-272
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 23
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-273
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-274
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.5-high
+  value: 24
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-275
+  metric: arena_rank_hard_prompts
+  subject: glm
+  variant: glm-5.3-max
+  value: 15
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-276
+  metric: arena_rank_instruction
+  subject: glm
+  variant: glm-5.3-max
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-277
+  metric: arena_rank_longer_query
+  subject: glm
+  variant: glm-5.3-max
+  value: 20
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-278
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 24
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-279
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-280
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3.6-flash-high
+  value: 28
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-281
+  metric: arena_rank_hard_prompts
+  subject: qwen
+  variant: qwen3.8-max
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-282
+  metric: arena_rank_instruction
+  subject: qwen
+  variant: qwen3.8-max
+  value: 18
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-283
+  metric: arena_rank_longer_query
+  subject: qwen
+  variant: qwen3.8-max
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-284
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3.5-flash-high
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-285
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3.5-flash-high
+  value: 20
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-286
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3.5-flash-high
+  value: 34
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-287
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.5
+  value: 26
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-288
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.5
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-289
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.5
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-290
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 27
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-291
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-292
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.4-high
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-293
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 30
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-294
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 57
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-295
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.2-chat-latest-20260210
+  value: 48
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-296
+  metric: arena_rank_hard_prompts
+  subject: grok
+  variant: grok-4.20-beta1
+  value: 47
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-297
+  metric: arena_rank_instruction
+  subject: grok
+  variant: grok-4.20-beta1
+  value: 23
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-298
+  metric: arena_rank_longer_query
+  subject: grok
+  variant: grok-4.20-beta1
+  value: 61
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-299
+  metric: arena_rank_hard_prompts
+  subject: glm
+  variant: glm-5.3-flash
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-300
+  metric: arena_rank_instruction
+  subject: glm
+  variant: glm-5.3-flash
+  value: 60
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-301
+  metric: arena_rank_longer_query
+  subject: glm
+  variant: glm-5.3-flash
+  value: 40
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-302
+  metric: arena_rank_hard_prompts
+  subject: gemini
+  variant: gemini-3-flash
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-303
+  metric: arena_rank_instruction
+  subject: gemini
+  variant: gemini-3-flash
+  value: 26
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-304
+  metric: arena_rank_longer_query
+  subject: gemini
+  variant: gemini-3-flash
+  value: 42
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-305
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 39
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-306
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 46
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-307
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.5-instant
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-308
+  metric: arena_rank_hard_prompts
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 34
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-309
+  metric: arena_rank_instruction
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 35
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-310
+  metric: arena_rank_longer_query
+  subject: qwen
+  variant: qwen3.7-max-preview
+  value: 17
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-311
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-8
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-312
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-8
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-313
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-8
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-314
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-315
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 14
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-316
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-5-20251101-high-32k
+  value: 18
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-317
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-318
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-319
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-sonnet-4-6
+  value: 19
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-320
+  metric: arena_rank_hard_prompts
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 43
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-321
+  metric: arena_rank_instruction
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 59
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-322
+  metric: arena_rank_longer_query
+  subject: grok
+  variant: grok-4.20-beta-0309-reasoning
+  value: 58
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-323
+  metric: arena_rank_hard_prompts
+  subject: glm
+  variant: glm-5.2-max
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-324
+  metric: arena_rank_instruction
+  subject: glm
+  variant: glm-5.2-max
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-325
+  metric: arena_rank_longer_query
+  subject: glm
+  variant: glm-5.2-max
+  value: 36
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-326
+  metric: arena_rank_hard_prompts
+  subject: grok
+  variant: grok-4.5
+  value: 33
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-327
+  metric: arena_rank_instruction
+  subject: grok
+  variant: grok-4.5
+  value: 31
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-328
+  metric: arena_rank_longer_query
+  subject: grok
+  variant: grok-4.5
+  value: 25
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-329
+  metric: arena_rank_hard_prompts
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 49
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-330
+  metric: arena_rank_instruction
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 63
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-331
+  metric: arena_rank_longer_query
+  subject: grok
+  variant: grok-4.20-multi-agent-beta-0309
+  value: 66
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-332
+  metric: arena_rank_hard_prompts
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 28
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-333
+  metric: arena_rank_instruction
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 22
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-334
+  metric: arena_rank_longer_query
+  subject: claude
+  variant: claude-opus-4-5-20251101
+  value: 21
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-335
+  metric: arena_rank_hard_prompts
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 32
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-336
+  metric: arena_rank_instruction
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 27
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-337
+  metric: arena_rank_longer_query
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 26
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-338
+  metric: arena_rank_hard_prompts
+  subject: ernie
+  variant: ernie-5.1
+  value: 44
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-339
+  metric: arena_rank_instruction
+  subject: ernie
+  variant: ernie-5.1
+  value: 50
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-340
+  metric: arena_rank_longer_query
+  subject: ernie
+  variant: ernie-5.1
+  value: 56
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-341
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 40
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-342
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 38
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-343
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.6-terra-xhigh
+  value: 51
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-344
+  metric: arena_rank_hard_prompts
+  subject: glm
+  variant: glm-5.1
+  value: 42
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-345
+  metric: arena_rank_instruction
+  subject: glm
+  variant: glm-5.1
+  value: 42
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-346
+  metric: arena_rank_longer_query
+  subject: glm
+  variant: glm-5.1
+  value: 37
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-347
+  metric: arena_rank_hard_prompts
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 37
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-348
+  metric: arena_rank_instruction
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 29
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-349
+  metric: arena_rank_longer_query
+  subject: qwen
+  variant: qwen3.5-max-preview
+  value: 33
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-350
+  metric: arena_rank_hard_prompts
+  subject: gpt
+  variant: gpt-5.4
+  value: 45
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-351
+  metric: arena_rank_instruction
+  subject: gpt
+  variant: gpt-5.4
+  value: 41
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-352
+  metric: arena_rank_longer_query
+  subject: gpt
+  variant: gpt-5.4
+  value: 39
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-arena-353
+  metric: arena_rank_hard_prompts
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 58
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Hard Prompts 类目名次（2026-09-06 快照）
+
+- id: ev-arena-354
+  metric: arena_rank_instruction
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 82
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Instruction Following 类目名次（2026-09-06 快照）
+
+- id: ev-arena-355
+  metric: arena_rank_longer_query
+  subject: grok
+  variant: grok-4.1-thinking
+  value: 85
+  source: arena.ai leaderboard
+  source_url: https://arena.ai/leaderboard
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: Longer Query 类目名次（2026-09-06 快照）
+
+- id: ev-openrouter-001
+  metric: openrouter_tokens_weekly
+  subject: hunyuan
+  variant: hy4-preview
+  value: 14.1
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-002
+  metric: openrouter_tokens_weekly
+  subject: glm
+  variant: glm-5.3-flash
+  value: 12.5
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-003
+  metric: openrouter_tokens_weekly
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 12.3
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-004
+  metric: openrouter_tokens_weekly
+  subject: gpt
+  variant: gpt-5.6-luna
+  value: 12.2
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-005
+  metric: openrouter_tokens_weekly
+  subject: minimax
+  variant: minimax-m3
+  value: 5.56
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-006
+  metric: openrouter_tokens_weekly
+  subject: hunyuan
+  variant: hy3
+  value: 4.44
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-007
+  metric: openrouter_tokens_weekly
+  subject: glm
+  variant: glm-5.3
+  value: 2.81
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示
+
+- id: ev-openrouter-008
+  metric: openrouter_tokens_weekly
+  subject: mimo
+  variant: mimo-v2.5
+  value: 2.76
+  source: OpenRouter Rankings
+  source_url: https://openrouter.ai/rankings
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: 平台周 token 用量（T，输入+输出）；衡量采用非质量，仅展示

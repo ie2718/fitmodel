@@ -79,6 +79,18 @@ const daysSince = (d: Date) => Math.floor((Date.now() - d.getTime()) / 86_400_00
 const fmtValue = (v: number, unit: string) =>
   unit === 'rank' ? `第 ${v} 名` : unit === 'percent' ? `${v}%` : String(v);
 
+/** 真实用量榜（OpenRouter 周用量）：采用 ≠ 质量，仅展示，不进能力分 */
+const usageMetric = 'openrouter_tokens_weekly';
+const usageLatest = new Map<string, (typeof evidence)[number]['data'] & { id: string }>();
+for (const e of evidence.filter((x) => x.data.metric === usageMetric)) {
+  const key = `${e.data.subject}::${e.data.variant}`;
+  const prev = usageLatest.get(key);
+  if (!prev || e.data.retrieved_at > prev.retrieved_at) {
+    usageLatest.set(key, { ...e.data, id: e.id });
+  }
+}
+const usageRows = [...usageLatest.values()].sort((a, b) => b.value - a.value);
+
 const site = Astro.site!;
 const dataAsOf = evidence.reduce(
   (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
@@ -131,6 +143,7 @@ const schema = [
       </button>
     ))}
     <button id="tab-agent" data-tab="agent" role="tab" aria-selected="false" aria-controls="panel-agent">Agent</button>
+    <button id="tab-usage" data-tab="usage" role="tab" aria-selected="false" aria-controls="panel-usage">真实用量</button>
     <button id="tab-mirrors" data-tab="mirrors" role="tab" aria-selected="false" aria-controls="panel-mirrors">来源镜像</button>
   </div>
 
@@ -264,6 +277,48 @@ const schema = [
       </section>
     ))
   }
+
+  <section class="panel" id="panel-usage" role="tabpanel" aria-labelledby="tab-usage" hidden>
+    <h2 class="section-title">真实用量榜（OpenRouter 周用量）</h2>
+    <p class="note" style="margin:0 0 10px">
+      来源站官方声明：「衡量采用，而非质量」——用量反映市场选择（价格、生态、免费额度都在起作用），与能力分是两个正交信号，故仅展示、不进入任何能力评分。
+    </p>
+    {
+      usageRows.length === 0 ? (
+        <div class="callout">该维度暂无证据。</div>
+      ) : (
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>模型</th>
+                <th>周用量（T tokens）</th>
+                <th>来源</th>
+                <th>采集</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usageRows.map((r, i) => (
+                <tr>
+                  <td class="num">{i + 1}</td>
+                  <td>
+                    {r.variant}
+                    <div class="sub">{modelById.get(r.subject)?.name ?? r.subject}{r.notes && ` · ${r.notes}`}</div>
+                  </td>
+                  <td class="num"><strong>{r.value}</strong></td>
+                  <td>
+                    <a href={r.source_url} target="_blank" rel="noopener">{r.source} ↗</a>
+                  </td>
+                  <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+  </section>
 
   <section class="panel" id="panel-mirrors" role="tabpanel" aria-labelledby="tab-mirrors" hidden>
     <h2 class="section-title">原始来源数据镜像</h2>

@@ -63,6 +63,7 @@ npm run sync          # ④ 再跑一次：对比排名快照，输出哪些场�
 | arena.ai（原 LMArena） | tier 2 | 人类偏好 Elo、分类目排名 | https://arena.ai/leaderboard |
 | SWE-bench | tier 2 | 真实任务修复率 | https://swebench.com |
 | Artificial Analysis | tier 2（智能指数）/ tier 3（价格速度转载） | AA 自研评测智能指数（独立基准）；价格/速度为官方价转载交叉参考；新模型先行收录通道 | https://artificialanalysis.ai/models |
+| OpenRouter Rankings | tier 2（真实用量，仅展示） | 平台真实路由 token 用量——采用而非质量，不进能力分 | https://openrouter.ai/rankings |
 
 **禁止**：从自媒体、论坛帖子、未署名文章取具体数值。不确定的字段一律标 `verified: false` 或 `needs_verification: true`。
 
