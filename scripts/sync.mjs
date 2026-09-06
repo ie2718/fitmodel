@@ -78,7 +78,7 @@ const SOURCES = [
     method: 'http',
     metrics: ['swe_verified'],
     urls: ['https://www.swebench.com'],
-    notes: '口径（bash-only / 官方运行轮次）写进 notes。',
+    notes: '口径（bash-only / 官方运行轮次）写进 notes；2026-09-06 已验证浏览器渲染表可全量提取（mini-SWE-agent 官方可比集 47 条）。',
   },
   {
     id: 'aa',

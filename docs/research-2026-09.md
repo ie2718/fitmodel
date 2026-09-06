@@ -62,6 +62,9 @@
 - **残余分歧示例**（诚实展示而非掩饰）：Claude Fable 5.1-max 在 AA 是全榜第 1，但 arena 编码类目第 34（三次抓取核实）——两个仪器在其编码能力上真实分歧，榜单以「依据」列并示两信号。
 - 交叉核对来源：[AA models](https://artificialanalysis.ai/models) · [BenchLM](https://benchlm.ai/)（未入白名单，仅交叉参考）· [Vellum](https://www.vellum.ai/llm-leaderboard)（同前）。
 - **2026-09-06 追踪**：GPT-6 Astra（9 月 3 日发布，$10/$50、1M 上下文）已登 arena **WebDev 榜第 1**（Elo 1797），Text 总榜仍未收录。注册 `arena_rank_webdev`（编码维度第三信号）+ AA 详情页价格/上下文入账；`aa_intelligence_index` 由 tier 3 升 tier 2——AA 自研评测集（AA-Briefcase、τ³-Banking 等，含 held-out）性质与 LMArena/SWE-bench 相同，是独立基准而非聚合转载。效果：GPT-6 Astra max 由 #17 升至 #6（79.7，中置信，与 #2–5 区间重叠显示 ≈ 并列），全部由新增证据推动。
+- **SWE-bench 浏览器采集（2026-09-06）**：官网 JS 渲染表经浏览器全量提取成功。bash-only 官方可比集（mini-SWE-agent）共 47 个模型，本站补齐至全集（31 条新证据）——区间型 z-score 的参考系自此完整。关键事实：**GPT-6 / GPT-5.6 / Claude Fable 5.1 均不在官方可比集**（最新官方运行 2026-02-26，早于这些模型发布），SWE-bench 无法为当前旗舰提供证据；官方集榜首为 Claude 4.5 Opus high 76.8（与我们既有采集一致）。
+- **BenchLM 判定：不入白名单**。核查其首页：证据标注「3 source families」「Provisional-ranked lane」、数据 credit 指向 Artificial Analysis——是聚合站而非自研评测，且无运营方信息、方法论页内容未公开呈现。聚合站的聚合会让来源责任无法追溯，与白名单「可回查原始出处」原则冲突。
+- **Agent 榜接入评估：暂缓**。来源站 2026-09 起改用胜率口径（与库内净改进率口径冲突，混用会破坏跨模型可比性），且现有证据仅 10 条、场景 schema 未含 agent 维度。处置：榜单冻结更新并标注口径变更；待来源口径稳定且覆盖 ≥15 模型后由人工评估是否新增 `arena_agent_winrate` 指标与场景维度。
 
 **排除饱和基准**（Vellum 实践）与**真实用量正交信号**（OpenRouter 实践）列为指标注册的后续评估项，新增指标按 AGENTS.md 需人工审批。
 

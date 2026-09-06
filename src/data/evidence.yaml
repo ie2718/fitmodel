@@ -3402,3 +3402,181 @@
   retrieved_at: 2026-09-06
   verified: false
   notes: 1M 上下文窗口（AA 转载官方规格）；context_window_k 缺口首条数据
+
+# ===== SWE-bench 2026-09-06：bash-only 官方可比集补全（浏览器渲染表全量提取，47→全集）=====
+
+- id: ev-swe-221
+  metric: swe_verified
+  subject: claude
+  variant: claude-sonnet-4-5
+  value: 70.6
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；mini-SWE-agent v1.13.3，运行日期 2025-09-29
+
+- id: ev-swe-222
+  metric: swe_verified
+  subject: claude
+  variant: claude-haiku-4-5
+  value: 66.6
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v2.0.0，运行日期 2026-02-17
+
+- id: ev-swe-223
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5.1-medium
+  value: 66
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.15.0，运行日期 2025-11-20
+
+- id: ev-swe-224
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5.1-codex-medium
+  value: 66
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.16.0，运行日期 2025-11-24
+
+- id: ev-swe-225
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5-medium
+  value: 65
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.7.0，运行日期 2025-08-07
+
+- id: ev-swe-226
+  metric: swe_verified
+  subject: kimi
+  variant: kimi-k2-thinking
+  value: 63.4
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.17.2，运行日期 2025-12-10
+
+- id: ev-swe-227
+  metric: swe_verified
+  subject: minimax
+  variant: minimax-m2
+  value: 61
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.17.0，运行日期 2025-11-24
+
+- id: ev-swe-228
+  metric: swe_verified
+  subject: deepseek
+  variant: deepseek-v3-2-reasoner
+  value: 60
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.17.1，运行日期 2025-12-01
+
+- id: ev-swe-229
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5-mini-medium
+  value: 59.8
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.7.0，运行日期 2025-08-07
+
+- id: ev-swe-230
+  metric: swe_verified
+  subject: qwen
+  variant: qwen3-coder-480b
+  value: 55.4
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.0.0，运行日期 2025-08-02
+
+- id: ev-swe-231
+  metric: swe_verified
+  subject: glm
+  variant: glm-4.6
+  value: 55.4
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.17.1，运行日期 2025-12-01
+
+- id: ev-swe-232
+  metric: swe_verified
+  subject: gemini
+  variant: gemini-2.5-pro
+  value: 53.6
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v1.0.0，运行日期 2025-07-26
+
+- id: ev-swe-233
+  metric: swe_verified
+  subject: claude
+  variant: claude-3-7-sonnet
+  value: 52.8
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v0.0.0，运行日期 2025-07-20
+
+- id: ev-swe-234
+  metric: swe_verified
+  subject: gpt
+  variant: gpt-5-mini
+  value: 56.2
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v2.0.0，运行日期 2026-02-17
+
+- id: ev-swe-235
+  metric: swe_verified
+  subject: llama
+  variant: llama-4-maverick
+  value: 21
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v0.0.0，运行日期 2025-07-20
+
+- id: ev-swe-236
+  metric: swe_verified
+  subject: llama
+  variant: llama-4-scout
+  value: 9.1
+  source: SWE-bench Verified leaderboard
+  source_url: https://www.swebench.com/
+  retrieved_at: 2026-09-06
+  verified: false
+  notes: bash-only 官方可比集（mini-SWE-agent）全量采集；官方运行 v0.0.0，运行日期 2025-07-20

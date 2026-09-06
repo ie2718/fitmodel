@@ -1,5 +1,15 @@
 # 更新日志
 
+- id: cl-2026-09-06-swe-fullset-benchlm
+  date: 2026-09-06
+  title: SWE-bench 官方可比集补全（浏览器采集 47→全集）；BenchLM 判定不入白名单；Agent 榜口径变更标注
+  entries:
+    - 浏览器采集首跑成功（响应待办①）：swebench.com JS 渲染表经浏览器全量提取，bash-only 官方可比集（mini-SWE-agent）共 47 个模型，本站由 15 条补齐至全集（新增 16 条证据，每变体取最新运行）——区间型 z-score 的 SWE 参考系自此完整；claude-haiku-4-5、gemini-2.5-pro、gpt-5.1 系等获得能力证据（haiku 等进入性价比档候选）
+    - 关键事实：GPT-6 / GPT-5.6 / Claude Fable 5.1 均不在 SWE 官方可比集（最新官方运行 2026-02-26，早于其发布）——SWE-bench 暂无法为当前旗舰提供证据，其编码位次由 arena（编码/WebDev）与 AA 承载；官方集榜首 Claude 4.5 Opus high 76.8 与既有采集一致
+    - BenchLM 判定：不入白名单（响应待办②）。核查其首页：证据标注「3 source families」、数据 credit 指向 AA、无运营方信息、方法论页未公开呈现——聚合站而非自研评测，来源责任无法追溯，与白名单「可回查原始出处」原则冲突
+    - Agent 榜接入评估：暂缓（响应待办③）。来源站 2026-09 起改用胜率口径，与库内净改进率口径冲突（混用破坏跨模型可比性），且证据仅 10 条、场景 schema 未含 agent 维度；Agent 分榜冻结更新并标注口径变更，待口径稳定且覆盖 ≥15 模型后人工评估新增 arena_agent_winrate
+    - 收尾：board.ts Agent 榜描述加口径变更标注；sync.mjs swebench notes 更新（浏览器采集已验证）；构建校验通过，在榜变体 61、编码维度实体 73
+
 - id: cl-2026-09-06-gpt6-webdev-tier2
   date: 2026-09-06
   title: GPT-6 升至 #6：注册 Arena WebDev 榜信号；AA 指数按自研评测性质升为 tier 2；价格/上下文入账
