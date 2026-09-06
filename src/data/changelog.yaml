@@ -4,7 +4,7 @@
   date: 2026-09-06
   title: Harness 类产品与模型分层：编程场景免费档移除 Cursor 等，规划独立 Harness 榜单
   entries:
-    - 分层修正（响应「Cursor 与模型不是一个层面」反馈）：Cursor / Claude Code / GitHub Copilot / CodeBuddy / Trae / GLM Coding 套餐 / v0 / Lovable 八个 AI 编程工具与 Agent 框架标记 harness: true——不进场景免费档，将由规划中的 **Harness 榜单**单独评测与排名（README 路线图已列）
+    - 分层修正（响应「Cursor 与模型不是一个层面」反馈）：Cursor / Claude Code / GitHub Copilot / CodeBuddy / Trae / GLM Coding 套餐 / v0 / Lovable 八个 AI 编程工具与 Agent 框架统一标记 harness 字段——不进场景免费档，将由规划中的 **Harness 榜单**单独评测与排名（README 路线图已列）
     - 免费档调整：四个编程类场景（IDE 编码 / Agent 工程 / 代码审查 / 原型生成）免费入口暂缺，卡片显示「—」并在场景页标注去向；写作 / 研究 / 办公 / 创意场景的免费档不受影响（智谱清言、Kimi 等非 Harness 产品保留）
     - 数据层：products schema 新增 harness 字段（默认 false）；模型库产品表增加「类别」列（Harness / 产品）
     - 展示层与数据分类调整，排名算法与能力评分未动；构建校验通过
