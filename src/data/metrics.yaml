@@ -148,6 +148,18 @@
   source: arena.ai Longer Query 类目
   description: 长查询类目的用户盲测排名——长上下文维度的用户偏好信号。2026-09-06 经用户反馈确认新增，填补 long_context 维度证据缺口（此前仅 1 条 context_window_k 规格数据）。
 
+- id: swe_verified_harness_best
+  label: SWE-bench Harness 最优成绩
+  dimension: harness
+  unit: percent
+  direction: higher
+  source_tier: 2
+  freshness_days: 365
+  plausible: [0, 100]
+  aggregator: latest
+  source: SWE-bench Verified leaderboard（各 agent harness 公开提交）
+  description: 各 Agent Harness（编码工具/脚手架）在 SWE-bench Verified 上的公开最好成绩。注意口径：与模型榜的 bash-only 隔离口径不同，本指标是「harness × 其搭配模型」的组合成绩，横向比较含模型因素；搭配模型在 Harness 榜单中明示。仅展示于 Harness 榜，不进入能力评分。2026-09-06 新增。
+
 - id: openrouter_tokens_weekly
   label: OpenRouter 周用量
   dimension: adoption

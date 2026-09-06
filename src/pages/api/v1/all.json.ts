@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
-import { buildApiData, jsonHeaders, metaBlock } from '../../../lib/api';
+import { buildApiData, buildHarnessData, jsonHeaders, metaBlock } from '../../../lib/api';
 
 /**
  * GET /api/v1/all.json — 一次请求取全量：模型能力分 + 全部场景完整推荐 + 证据库。
  * 适合 agent 离线缓存或建立本地路由表。
  */
 export const GET: APIRoute = async ({ site }) => {
-  const data = await buildApiData();
+  const [data, harness] = await Promise.all([buildApiData(), buildHarnessData()]);
   const body = {
     ...metaBlock(site!, {
       description:
@@ -17,11 +17,13 @@ export const GET: APIRoute = async ({ site }) => {
         scenarios: data.scenarios.length,
         evidence: data.evidence.length,
         unranked_variants: data.unranked_variants,
+        harnesses: harness.ranked.length,
       },
     }),
     models: data.models,
     scenarios: data.scenarios,
     evidence: data.evidence,
+    harness: harness,
   };
   return new Response(JSON.stringify(body, null, 2), { headers: jsonHeaders() });
 };

@@ -204,6 +204,16 @@ const schema = [
     </section>
 
     <section>
+      <h2 class="section-title">Harness 榜（产品层）</h2>
+      <p>
+        榜单页的「Harness」tab 是<strong>产品层榜单</strong>：AI 编程工具与 Agent 脚手架（TRAE、Rovo Dev、Warp、OpenHands 等）在
+        SWE-bench Verified 上的公开最好成绩。口径与模型榜不同——模型榜用 bash-only（mini-SWE-agent）统一环境隔离模型能力，
+        Harness 榜是「工具 × 其搭配模型」的组合成绩，<strong>横向比较含模型因素</strong>，搭配模型逐行明示。每工具取公开最优运行。
+        未公开提交的知名产品（Cursor、Claude Code、GitHub Copilot 等）单列展示产品属性、不参与排名。Harness 成绩不进入模型能力评分与场景推荐。
+      </p>
+    </section>
+
+    <section>
       <h2 class="section-title">Agent 数据通道</h2>
       <p>
         全部结论都有机器可读版本：<a href={siteUrl('/api/')}>静态 JSON API（/api/v1/*）</a>与

@@ -4,6 +4,7 @@ import { computePicks } from './picks';
 import { CANONICAL_WEIGHTS, DIM_LABEL } from './board';
 import { confidenceLabel, type FitResult } from './scoring';
 import { CATEGORIES, isoDate, siteUrl } from './meta';
+import { HARNESS_NAMES } from './board';
 
 /**
  * Agent API（/api/v1/*）的共享数据装配层。
@@ -96,6 +97,66 @@ export interface ApiData {
   data_as_of: string;
   ranked_variants: number;
   unranked_variants: number;
+}
+
+export interface ApiHarness {
+  id: string;
+  name: string;
+  model: string;
+  score: number;
+  run_date: string | null;
+  source_url: string;
+  verified: boolean;
+}
+
+export interface ApiHarnessData {
+  ranked: ApiHarness[];
+  unpublished: Array<{
+    id: string;
+    name: string;
+    pricing: string;
+    free_tier: string;
+    availability_cn: string;
+    url: string | null;
+  }>;
+}
+
+/** Harness 榜数据：SWE-bench Verified 各 harness 公开最好成绩（每 harness 取最优运行）
+ *  + 未公开提交的知名 Harness（产品属性展示，不排名）。口径：harness × 搭配模型组合成绩。 */
+export async function buildHarnessData(): Promise<ApiHarnessData> {
+  const [evidence, products] = await Promise.all([
+    getCollection('evidence'),
+    getCollection('products'),
+  ]);
+  const latest = new Map<string, ApiHarness>();
+  for (const e of evidence.filter((x) => x.data.metric === 'swe_verified_harness_best')) {
+    const subject = e.data.subject;
+    const prev = latest.get(subject);
+    if (!prev || e.data.value > prev.score) {
+      latest.set(subject, {
+        id: subject,
+        name: HARNESS_NAMES[subject] ?? subject,
+        model: e.data.variant,
+        score: e.data.value,
+        run_date: e.data.notes?.match(/运行日期 (\d{4}-\d{2}-\d{2})/)?.[1] ?? null,
+        source_url: e.data.source_url,
+        verified: !!e.data.verified,
+      });
+    }
+  }
+  const ranked = [...latest.values()].sort((a, b) => b.score - a.score);
+  const submitted = new Set(latest.keys());
+  const unpublished = products
+    .filter((p) => p.data.harness && !submitted.has(p.data.id))
+    .map((p) => ({
+      id: p.data.id,
+      name: p.data.name,
+      pricing: p.data.pricing,
+      free_tier: p.data.free_tier,
+      availability_cn: p.data.availability_cn,
+      url: p.data.url ?? null,
+    }));
+  return { ranked, unpublished };
 }
 
 export function jsonHeaders(): Record<string, string> {

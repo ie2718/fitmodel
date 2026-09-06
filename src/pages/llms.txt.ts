@@ -72,6 +72,7 @@ RSS 订阅: ${abs('/rss.xml')}
 
 - JSON API 索引: ${abs('/api/v1/index.json')} — 自描述元信息 + 全部场景三档速查 + 端点清单
 - 单场景完整推荐: ${abs('/api/v1/scenarios/{id}.json').replace('{id}', ':id')}（含权重、排名、90% 误差界、置信度、价格、依据证据）
+- Harness 榜(产品层,SWE-bench 公开提交): ${abs('/api/v1/harness.json')}
 - 模型能力分与价格: ${abs('/api/v1/models.json')}
 - 证据库全量: ${abs('/api/v1/evidence.json')}
 - 全量数据包（一次请求）: ${abs('/api/v1/all.json')}

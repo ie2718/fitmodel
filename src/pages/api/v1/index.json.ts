@@ -18,6 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
         scenario: abs('/api/v1/scenarios/{id}.json').replace('{id}', ':id'),
         models: abs('/api/v1/models.json'),
         evidence: abs('/api/v1/evidence.json'),
+        harness: abs('/api/v1/harness.json'),
         all: abs('/api/v1/all.json'),
         skill: abs('/skill.md'),
       },

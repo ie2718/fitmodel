@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { siteUrl, absoluteUrl, isoDate } from '../lib/meta';
+import { buildHarnessData } from '../lib/api';
 import { getEngine } from '../lib/engine';
 import { confidenceLabel, ci90 } from '../lib/scoring';
 import {
@@ -14,6 +15,7 @@ import {
 } from '../lib/board';
 
 const engine = await getEngine();
+const harness = await buildHarnessData();
 const metrics = await getCollection('metrics');
 const models = await getCollection('models');
 const evidence = await getCollection('evidence');
@@ -143,6 +145,7 @@ const schema = [
       </button>
     ))}
     <button id="tab-agent" data-tab="agent" role="tab" aria-selected="false" aria-controls="panel-agent">Agent</button>
+    <button id="tab-harness" data-tab="harness" role="tab" aria-selected="false" aria-controls="panel-harness">Harness</button>
     <button id="tab-usage" data-tab="usage" role="tab" aria-selected="false" aria-controls="panel-usage">真实用量</button>
     <button id="tab-mirrors" data-tab="mirrors" role="tab" aria-selected="false" aria-controls="panel-mirrors">来源镜像</button>
   </div>
@@ -277,6 +280,73 @@ const schema = [
       </section>
     ))
   }
+
+  <section class="panel" id="panel-harness" role="tabpanel" aria-labelledby="tab-harness" hidden>
+    <h2 class="section-title">Harness 榜（SWE-bench Verified 公开提交）</h2>
+    <p class="note" style="margin:0 0 10px">
+      Agent Harness（编码工具 / 脚手架）在 SWE-bench Verified 上的公开最好成绩，每工具取最优运行。<strong>口径注意</strong>：与模型榜的 bash-only 隔离口径不同——本榜是「harness × 搭配模型」的组合成绩，横向比较含模型因素，搭配模型已逐行明示。
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Harness</th>
+            <th>最优成绩（% Resolved）</th>
+            <th>搭配模型</th>
+            <th>运行日期</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            harness.ranked.map((h, i) => (
+              <tr>
+                <td class="num">{i + 1}</td>
+                <td>{h.name}</td>
+                <td class="num"><strong>{h.score.toFixed(2).replace(/\.?0+$/, '')}</strong></td>
+                <td class="dim">{h.model}</td>
+                <td class="num dim" style="white-space:nowrap">{h.run_date ?? '—'}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <h2 class="section-title">未公开提交的知名 Harness</h2>
+    <p class="note" style="margin:0 0 10px">
+      以下产品未在 SWE-bench 公开提交成绩——列示产品属性、不参与排名；其能力请结合背后模型（见模型库）判断。
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>产品</th>
+            <th>定价</th>
+            <th>免费额度</th>
+            <th>国内可用</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            harness.unpublished.map((p) => (
+              <tr>
+                <td>
+                  {p.url ? (
+                    <a href={p.url} target="_blank" rel="noopener">{p.name} ↗</a>
+                  ) : (
+                    p.name
+                  )}
+                </td>
+                <td>{p.pricing}</td>
+                <td class="dim">{p.free_tier || '—'}</td>
+                <td class="dim">{p.availability_cn === 'direct' ? '直连' : p.availability_cn === 'restricted' ? '受限' : '不可用'}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <section class="panel" id="panel-usage" role="tabpanel" aria-labelledby="tab-usage" hidden>
     <h2 class="section-title">真实用量榜（OpenRouter 周用量）</h2>

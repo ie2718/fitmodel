@@ -1,5 +1,16 @@
 # 更新日志
 
+- id: cl-2026-09-06-harness-board
+  date: 2026-09-06
+  title: Harness 榜单上线：61 个 Agent Harness 按 SWE-bench 公开最好成绩排名；未公开提交产品单列
+  entries:
+    - 新指标 swe_verified_harness_best：各 Agent Harness（编码工具/脚手架）在 SWE-bench Verified 上的公开最好成绩（每工具取最优运行）。口径与模型榜的 bash-only 隔离口径不同——本榜是「harness × 搭配模型」组合成绩，横向比较含模型因素，搭配模型逐行明示；仅展示于 Harness 榜，不进模型能力评分与场景推荐
+    - 数据：浏览器全量提取的官方榜单聚合出 61 个 harness 的最优成绩——Sonar Foundation Agent 79.2 / live-SWE-agent 79.2 / TRAE 78.8（Doubao-Seed-Code）/ EPAM 76.8 / Rovo Dev 76.8 / Warp 75.6 / OpenHands 71.8 等
+    - 榜单页新增「Harness」tab：已提交榜（成绩 + 搭配模型 + 运行日期）+「未公开提交的知名 Harness」单列（Cursor、Claude Code、GitHub Copilot、CodeBuddy、GLM Coding 套餐、v0、Lovable——列产品属性、不排名）；TRAE 因有官方提交进入排名榜
+    - API：/api/v1/harness.json（ranked + unpublished），all.json 与 index.json 端点清单同步纳入；llms.txt 增加入口
+    - 方法论页新增 Harness 榜口径说明；README 路线图标记上线
+    - 构建校验通过；证据总量 542 条。上一笔提交因 changelog 条目「harness=true」字样触发 YAML 冒号解析错误致部署失败，本笔一并修复
+
 - id: cl-2026-09-06-harness-separation
   date: 2026-09-06
   title: Harness 类产品与模型分层：编程场景免费档移除 Cursor 等，规划独立 Harness 榜单
