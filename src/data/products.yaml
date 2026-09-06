@@ -111,6 +111,7 @@
   availability_cn: restricted
   url: https://claude.com/product/claude-code
   notes: 终端 Agent 编程标杆，长任务与工具调用稳定。
+  harness: true
 
 - id: glm-coding-plan
   name: GLM Coding 套餐
@@ -122,6 +123,7 @@
   availability_cn: direct
   url: https://bigmodel.cn
   notes: 面向 Claude Code 等编码工具的国产高性价比模型订阅。
+  harness: true
 
 - id: cursor
   name: Cursor
@@ -133,6 +135,7 @@
   availability_cn: direct
   url: https://cursor.com
   notes: 最主流的 AI IDE，可切换多家模型。
+  harness: true
 
 - id: github-copilot
   name: GitHub Copilot
@@ -144,6 +147,7 @@
   availability_cn: direct
   url: https://github.com/features/copilot
   notes: IDE 集成最广，学生与开源维护者可免费。
+  harness: true
 
 - id: codebuddy
   name: 腾讯 CodeBuddy
@@ -155,6 +159,7 @@
   availability_cn: direct
   url: https://copilot.tencent.com
   notes: 国产 AI IDE，国内网络友好。
+  harness: true
 
 - id: trae
   name: Trae
@@ -166,6 +171,7 @@
   availability_cn: direct
   url: https://www.trae.ai
   notes: 字节系 AI IDE，国内可直接使用。
+  harness: true
 
 - id: v0
   name: v0
@@ -177,6 +183,7 @@
   availability_cn: restricted
   url: https://v0.app
   notes: 描述即生成前端界面，可导出代码。
+  harness: true
 
 - id: lovable
   name: Lovable
@@ -188,6 +195,7 @@
   availability_cn: restricted
   url: https://lovable.dev
   notes: 对话式全栈原型生成，非程序员友好。
+  harness: true
 
 - id: perplexity
   name: Perplexity

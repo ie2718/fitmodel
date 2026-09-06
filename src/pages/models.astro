@@ -106,6 +106,7 @@ const fmt = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(0))
         <thead>
           <tr>
             <th>产品</th>
+            <th>类别</th>
             <th>定价</th>
             <th>免费额度</th>
             <th>国内可用</th>
@@ -123,6 +124,7 @@ const fmt = (x: number | null | undefined) => (x == null ? '—' : x.toFixed(0))
                     p.data.name
                   )}
                 </td>
+                <td class="dim">{p.data.harness ? 'Harness' : '产品'}</td>
                 <td>{p.data.pricing}</td>
                 <td class="dim">{p.data.free_tier || '—'}</td>
                 <td>

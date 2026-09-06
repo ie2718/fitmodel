@@ -254,6 +254,11 @@ if (!d.scoring_disabled && top) {
               )}
               {!top && <div class="callout">证据采集中：该场景暂无足够数据生成排名。</div>}
             </dl>
+            {top && !freePick && (
+              <p class="note">
+                免费入口类工具（Cursor 等 Harness）不在此列——规划中的 Harness 榜单将单独收录与评测。
+              </p>
+            )}
           </section>
 
           {ranked.length > 0 && (

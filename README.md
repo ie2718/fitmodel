@@ -134,6 +134,7 @@ AGENTS.md                # 维护协议:agent 管数据层,人工管观点层
 
 ## 路线图
 
+- [ ] **Harness 榜单**:Cursor / Claude Code / GitHub Copilot 等 AI 编程工具与 Agent 框架的产品层评测(数据层已打 `harness` 标记,与模型榜单分离)
 - [ ] 首轮人工复审:15 个场景 `draft → verified`,数据核实去「待核实」
 - [ ] 补齐 `context_window_k` 等缺口指标,开放会议纪要 / 图像生成场景评分
 - [ ] 模型详情页(数据卡片深化)

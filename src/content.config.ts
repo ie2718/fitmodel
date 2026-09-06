@@ -65,6 +65,8 @@ const products = defineCollection({
     availability_cn: z.enum(['direct', 'restricted', 'unavailable']),
     url: z.string().optional(),
     notes: z.string().default(''),
+    /** Harness 类产品（AI 编程工具 / Agent 框架 / IDE）——不进场景免费档，规划中的 Harness 榜单承载 */
+    harness: z.boolean().default(false),
   }),
 });
 

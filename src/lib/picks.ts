@@ -21,6 +21,8 @@ export interface ProductLike {
     models_used: string[];
     free_tier: string;
     availability_cn: string;
+    /** Harness 类（AI 编程工具 / Agent 框架 / IDE）：不进场景免费档，由规划中的 Harness 榜单承载 */
+    harness?: boolean;
     url?: string;
     [k: string]: unknown;
   };
@@ -71,8 +73,10 @@ export function computePicks(
   const allowedCats = scenarioCategory ? FREE_PRODUCT_CATS[scenarioCategory] : undefined;
   const familyNameOf = (mid: string) =>
     models.find((m) => m.id === mid)?.data.name ?? mid;
+  // Harness 类产品（Cursor 等 AI 编程工具）不进免费档——将由规划中的 Harness 榜单承载
   const freeCandidates = products
     .filter(isFree)
+    .filter((p) => !p.data.harness)
     .filter((p) => !allowedCats || allowedCats.includes(p.data.category))
     .map((p) => ({
       product: p.data,
