@@ -50,7 +50,7 @@ export const GET: APIRoute = async (context) => {
     if (picks.valuePick && picks.valuePick.entity.key !== picks.top?.entity.key) {
       parts.push(`性价比 ${picks.valuePick.entity.variant}`);
     }
-    if (picks.freePick) parts.push(`免费 ${picks.freePick.product.name}`);
+    if (picks.freePick) parts.push(`免费 ${picks.freePick.product.name}（底座 ${picks.freePick.base_family.replace(/\s*系列$/, '')}）`);
     return `- [${s.data.title}](${url}): ${parts.join(' · ')}`;
   });
 

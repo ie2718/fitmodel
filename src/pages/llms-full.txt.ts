@@ -61,7 +61,7 @@ export const GET: APIRoute = async (context) => {
     if (picks.valuePick && picks.valuePick.entity.key !== picks.top?.entity.key) {
       tiers.push(`性价比 ${picks.valuePick.entity.variant}`);
     }
-    if (picks.freePick) tiers.push(`免费 ${picks.freePick.product.name}`);
+    if (picks.freePick) tiers.push(`免费 ${picks.freePick.product.name}（底座 ${picks.freePick.base_family.replace(/\s*系列$/, '')}）`);
 
     const rankLines = picks.ranked
       .map((r, i) => {

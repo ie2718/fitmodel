@@ -154,6 +154,9 @@ const schema = [
                         <p>
                           <span class="tier t-free">免费</span>
                           <span class="v">{free ? free.product.name : '—'}</span>
+                          {free && (
+                            <span class="dim">· 底座 {free.base_family.replace(/\s*系列$/, '')}</span>
+                          )}
                         </p>
                       </div>
                     </>
@@ -174,7 +177,7 @@ const schema = [
     </section>
 
     <p class="note">
-      「免费」= 有免费额度且国内可直接用的产品中最优；性价比与最强为同一模型时不重复列出。指标口径与算法见<a
+      「免费」= 有免费额度且国内可直接用的产品中最优（产品层推荐，标注底座模型家族；性价比与最强为同一模型时不重复列出）。指标口径与算法见<a
         href={siteUrl('/methodology/')}>方法论</a>。
     </p>
   </div>

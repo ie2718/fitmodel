@@ -61,6 +61,7 @@ export interface ApiScenario {
       product: string;
       product_url: string | null;
       free_tier: string;
+      base_family: string;
       base_variant: string;
       fit: number;
     } | null;
@@ -226,6 +227,7 @@ export async function buildApiData(): Promise<ApiData> {
           product: picks.freePick.product.name,
           product_url: picks.freePick.product.url ?? null,
           free_tier: picks.freePick.product.free_tier,
+          base_family: picks.freePick.base_family,
           base_variant: picks.freePick.best.entity.variant,
           fit: round1(picks.freePick.best.fit),
         }

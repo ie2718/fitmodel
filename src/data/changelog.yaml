@@ -1,5 +1,14 @@
 # 更新日志
 
+- id: cl-2026-09-06-free-tier-levels
+  date: 2026-09-06
+  title: 免费档层次修正：产品为主语 + 底座模型家族标注，不再宣称免费档可用具体变体
+  entries:
+    - 修复（响应「Cursor 与模型不是一个层面」反馈）：首页卡片、场景页、llms.txt / llms-full.txt 的免费档展示由「产品名 / 产品名 + 具体底座变体」统一改为「产品 · 底座模型家族」（如「免费 Cursor · 底座 Claude」「免费 智谱清言 · 底座 GLM」）——三档中前两档是模型层、免费档是产品层入口，现在层次显式可读
+    - 语义修正：免费档不再宣称可用某个具体变体（原「底座 claude-opus-4-6-high」是过度声明——产品免费额度并不承诺具体变体）；picks 内部仍用家族最优变体排序，展示只到家族级
+    - API：/api/v1/scenarios/{id}.json 的 picks.free 增加 base_family 字段，base_variant 标注为排序依据；端点描述同步；场景页 FAQ 文案与方法论 FREE 规则措辞同步
+    - 展示层与语义修正，排名算法未动；构建校验通过
+
 - id: cl-2026-09-06-webdev-top20
   date: 2026-09-06
   title: WebDev 榜采集扩展至前 20（官方截图交叉验证）；DeepSeek V4 系与 GPT-5.6 Sol 获编码信号

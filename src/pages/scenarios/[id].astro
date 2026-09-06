@@ -147,7 +147,7 @@ if (!d.scoring_disabled && top) {
       name: `${d.title}有没有免费的工具可用？`,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `免费首选：${freePick.product.name}（${freePick.product.free_tier}），底座模型 ${freePick.best.entity.variant}。三档推荐规则见方法论页。`,
+        text: `免费首选：${freePick.product.name}（${freePick.product.free_tier}），底座模型家族为 ${freePick.base_family}（免费档不承诺具体变体）。三档推荐规则见方法论页。`,
       },
     });
   }
@@ -246,7 +246,8 @@ if (!d.scoring_disabled && top) {
                   <dd>
                     {freePick.product.name}
                     <span class="dim">
-                      底座 {freePick.best.entity.variant} · {freePick.product.free_tier}
+                      底座 {freePick.base_family.replace(/\s*系列$/, '')}（不承诺具体变体） ·{' '}
+                      {freePick.product.free_tier}
                     </span>
                   </dd>
                 </div>

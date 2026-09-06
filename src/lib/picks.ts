@@ -30,7 +30,9 @@ export interface Picks {
   ranked: FitResult[];
   top: FitResult | null;
   valuePick: FitResult | null;
-  freePick: { product: ProductLike['data']; best: FitResult } | null;
+  /** 免费档是「产品层」推荐（有免费额度的入口），best 为排序依据的底座变体；
+   *  base_family 供展示——免费档不承诺具体变体，只承诺家族。 */
+  freePick: { product: ProductLike['data']; best: FitResult; base_family: string } | null;
 }
 
 /** 场景品类 → 免费档可选的产品品类（避免写作场景推荐 IDE 这类错配） */
@@ -67,6 +69,8 @@ export function computePicks(
     !!p.data.free_tier && !p.data.free_tier.startsWith('无');
 
   const allowedCats = scenarioCategory ? FREE_PRODUCT_CATS[scenarioCategory] : undefined;
+  const familyNameOf = (mid: string) =>
+    models.find((m) => m.id === mid)?.data.name ?? mid;
   const freeCandidates = products
     .filter(isFree)
     .filter((p) => !allowedCats || allowedCats.includes(p.data.category))
@@ -74,7 +78,8 @@ export function computePicks(
       product: p.data,
       best: p.data.models_used.map(bestFitOfFamily).filter(Boolean)[0] ?? null,
     }))
-    .filter((x): x is { product: ProductLike['data']; best: FitResult } => x.best !== null);
+    .filter((x): x is { product: ProductLike['data']; best: FitResult } => x.best !== null)
+    .map((x) => ({ ...x, base_family: familyNameOf(x.best.entity.subject) }));
 
   // 免费档优先国内直连产品：存在直连候选时排除访问受限产品
   const direct = freeCandidates.filter((c) => c.product.availability_cn === 'direct');
