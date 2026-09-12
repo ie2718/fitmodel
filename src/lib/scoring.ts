@@ -29,6 +29,8 @@ export interface MetricDef {
    *  注入一条合成先验事实参与聚合。适用场景：现役精选榜（如 AA，官方下架被替代代际）——
    *  缺席本身是「非现役」证据。pct/se 公示于 metrics.yaml，调整需留痕。 */
   absence_prior?: { pct: number; se: number };
+  /** 净信号下限：|值| < 下限的证据视为信号不足（计数噪声内），仅展示不入分（域外降级同路） */
+  signal_floor?: number;
   /** 区间型指标的测量噪声（与指标同单位）：归一化时 σ_eff = √(组内σ² + noise²)。
    *  用于拥挤前沿上的连续分（如 arena Elo：单模型 CI ±10–30 > 组内 σ≈8），
    *  防 z-score 把噪声差放大成大百分位差。取值依据记于 metrics.yaml，调整需留痕。 */
@@ -240,8 +242,12 @@ export function buildScoreEngine(
       throw new Error(`[evidence] ${e.id}: 未注册指标 "${e.metric}"，先在 metrics.yaml 登记`);
     }
     const [lo, hi] = def.plausible;
-    const rejected = e.value < lo || e.value > hi;
-    if (rejected) {
+    // 信号下限：净信号型证据 |值| 低于下限视为信号不足（如社区口碑 |净| < 2 在计数噪声内），
+    // 与域外同路降级为仅展示（不告警——不是错误，是信号强度不足）
+    const underFloor = def.signal_floor !== undefined && Math.abs(e.value) < def.signal_floor;
+    const outOfRange = e.value < lo || e.value > hi;
+    const rejected = outOfRange || underFloor;
+    if (outOfRange) {
       issues.push({
         level: 'warn',
         msg: `${e.id} (${e.variant}/${def.id}) 值 ${e.value} 超出合理域 [${lo}, ${hi}]，仅展示不入分`,

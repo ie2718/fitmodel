@@ -89,6 +89,8 @@ const metrics = defineCollection({
     absence_prior: z.object({ pct: z.number(), se: z.number() }).optional(),
     /** 区间型指标的测量噪声（同单位）：σ_eff = √(组内σ²+noise²)，防拥挤前沿 z-score 放大噪声 */
     noise_sd: z.number().min(0).optional(),
+    /** 信号下限：净信号型指标 |值| < 下限时仅展示不入分（计数噪声内不算有效信号） */
+    signal_floor: z.number().min(0).optional(),
     source: z.string(),
     description: z.string().optional(),
     cohort_size: z.number().optional(),

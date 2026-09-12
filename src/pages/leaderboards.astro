@@ -353,7 +353,7 @@ const schema = [
   <section class="panel" id="panel-cs" role="tabpanel" aria-labelledby="tab-cs" hidden>
     <h2 class="section-title">用户口碑（社区净信号）</h2>
     <p class="note" style="margin:0 0 10px">
-      用户真实反馈的结构化转译（2026-09-12 起接入通用维度评分，tier 3 · weight 1，约 6% 综合话语权）：<strong>净信号 = 正面讨论串数 − 负面讨论串数</strong>，只计针对模型能力与使用体验的具体可归因陈述，混合倾向串不计，定价等真实使用反馈计入而自托管硬件门槛不计，每模型 ≥2 个独立讨论串才入册；无讨论数据的变体不参与本信号（不罚分）。自选样偏差大——它存在的意义是捕捉<strong>仪器分数与真实体验的背离</strong>。逐条引用与原帖链接见下表，分类 rubric 完整公示于<a href={siteUrl('/methodology/')}>方法论</a>。
+      用户真实反馈的结构化转译（2026-09-12 起接入通用维度评分，tier 3 · weight 1，约 6% 综合话语权）：<strong>净信号 = 正面讨论串数 − 负面讨论串数</strong>，只计针对模型能力与使用体验的具体可归因陈述，混合倾向串不计，定价等真实使用反馈计入而自托管硬件门槛不计，每模型 ≥2 个独立讨论串才入册；|净信号| < 2（计数噪声内）仅在下方展示、不入分，无讨论数据的变体亦不参与——避免中性口碑稀释高分模型的不对称惩罚。自选样偏差大——它存在的意义是捕捉<strong>仪器分数与真实体验的背离</strong>。逐条引用与原帖链接见下表，分类 rubric 完整公示于<a href={siteUrl('/methodology/')}>方法论</a>。
     </p>
     <div class="table-wrap">
       <table>
