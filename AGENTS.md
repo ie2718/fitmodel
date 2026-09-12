@@ -64,8 +64,9 @@ npm run sync          # ④ 再跑一次：对比排名快照，输出哪些场�
 | SWE-bench | tier 2 | 真实任务修复率 | https://swebench.com |
 | Artificial Analysis | tier 2（智能指数）/ tier 3（价格速度转载） | AA 自研评测智能指数（独立基准）；价格/速度为官方价转载交叉参考；新模型先行收录通道 | https://artificialanalysis.ai/models |
 | OpenRouter Rankings | tier 2（真实用量，仅展示） | 平台真实路由 token 用量——采用而非质量，不进能力分 | https://openrouter.ai/rankings |
+| 社区口碑（Reddit/HN/知乎/V2EX/linux.do） | tier 3（净信号，修正用） | 用户真实反馈的结构化转译（community_signal）——计数 rubric 见方法论「社区口碑」节；仅记定性结论转译的净串数，禁止从论坛帖取任何能力数值 | 多源，逐条带原帖链接 |
 
-**禁止**：从自媒体、论坛帖子、未署名文章取具体数值。不确定的字段一律标 `verified: false` 或 `needs_verification: true`。
+**禁止**：从自媒体、论坛帖子、未署名文章取**能力数值**（跑分、名次、价格）；社区口碑信号只允许按 rubric 记录正/负讨论串计数与原文引用。不确定的字段一律标 `verified: false` 或 `needs_verification: true`。
 
 ## 校验规则（构建时自动执行）
 

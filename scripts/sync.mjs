@@ -99,6 +99,21 @@ const SOURCES = [
     notes: '自研评测智能指数属独立基准（tier 2），入通用维度评分且指标权重 2×（2026-09-08 人工确认）；价格/速度页为官方价转载（tier 3，仅交叉参考）。页面 JS 渲染，自动检测失败时用浏览器采集。',
   },
   {
+    id: 'community',
+    name: '社区口碑（Reddit / HN / 知乎 / V2EX / linux.do）',
+    tier: 3,
+    method: 'browser',
+    metrics: ['community_signal'],
+    urls: [
+      'https://www.reddit.com/r/LocalLLaMA/',
+      'https://www.reddit.com/r/ClaudeAI/',
+      'https://news.ycombinator.com/',
+      'https://www.v2ex.com/',
+      'https://zhuanlan.zhihu.com/',
+    ],
+    notes: '用户真实反馈净信号（正/负讨论串计数，rubric 见方法论「社区口碑」节）；自选样偏差大，tier 3 weight 1 仅作修正信号；每模型 ≥2 独立串才入册，逐条带原帖链接；浏览器/人工采集。',
+  },
+  {
     id: 'pricing',
     name: '各厂商官方定价页',
     tier: 1,

@@ -339,17 +339,22 @@ export function buildScoreEngine(
   }
 
   // ---- 4.5) 缺席先验注入 + 跨信号一致性折减 ----
-  // a) 缺席先验（absence_prior，如 AA 现役前沿榜）：实体在该指标维度内有其他实测、唯独缺本指标时，
+  // a) 缺席先验（absence_prior，如 AA 现役前沿榜）：实体在该指标维度内有其他能力类实测、唯独缺本指标时，
   //    注入一条先验事实。依据：现役精选榜会下架被替代代际（AA 下架 GPT-5.6 先例），
   //    缺席 ⇒ 非现役 ⇒ 能力期望低于在榜中位且高度不确定（pct/se 公示于 metrics.yaml）。
-  //    注意只对「维度内有实测」的实体注入——全维度缺失的实体走第二段知情先验，不重复收缩。
+  //    注意两点：只对「维度内有实测」的实体注入（全维度缺失走第二段知情先验，不重复收缩）；
+  //    community_signal 是修正信号而非能力实测，不作为触发依据（否则补口碑反而触发非现役收缩）。
+  const TRIGGER_EXEMPT = new Set(['community_signal']);
   for (const def of metrics) {
     const ap = def.absence_prior;
     if (!ap) continue;
     for (const ent of entities.values()) {
       if (ent.facts[def.id]) continue;
       const hasDim = Object.values(ent.facts).some(
-        (f) => !f.stale && defs.get(f.metric)!.dimension === def.dimension,
+        (f) =>
+          !f.stale &&
+          !TRIGGER_EXEMPT.has(f.metric) &&
+          defs.get(f.metric)!.dimension === def.dimension,
       );
       if (!hasDim) continue;
       ent.facts[def.id] = {

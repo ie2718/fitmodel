@@ -64,6 +64,7 @@ const schema = [
         <li><strong>官方一手</strong>（tier 1）：各厂商 API 定价页、模型文档、发布博客。用于价格、上下文窗口等技术规格。</li>
         <li><strong>独立基准</strong>（tier 2）：<a href="https://arena.ai/leaderboard" target="_blank" rel="noopener">arena.ai</a>（原 LMArena）人类盲测投票、<a href="https://swebench.com" target="_blank" rel="noopener">SWE-bench</a> 真实 issue 修复率、<a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">Artificial Analysis</a> 自研评测智能指数（AA-Briefcase、τ³-Banking、Terminal-Bench 等，含 held-out 防污染）。用于能力排名。</li>
         <li><strong>聚合二手</strong>（tier 3）：聚合站转载的内容（如 Artificial Analysis 的价格 / 速度页转载官方价）。仅作交叉参考，可靠度权重减半。注意：AA 的<strong>自研评测智能指数</strong>不算转载，属上方 tier 2。</li>
+        <li><strong>社区口碑</strong>（tier 3）：公开社区用户讨论按预置 rubric 转译的净信号（<a href="https://www.reddit.com/r/LocalLLaMA/" target="_blank" rel="noopener">Reddit</a> / <a href="https://news.ycombinator.com/" target="_blank" rel="noopener">HN</a> / 知乎 / V2EX 等）。只记正/负讨论串计数与原文引用，<strong>禁止从论坛帖取任何能力数值</strong>；规则见下方「社区口碑」节。</li>
       </ul>
 
       <p style="margin-top:18px"><strong>采集规则</strong></p>
@@ -244,6 +245,30 @@ const schema = [
         两者互为制衡；同时承担 arena 未收录新模型的先行入榜通道，并作为<strong>现役前沿锚</strong>——未上榜变体按非现役
         缺席先验收缩（见第四步①③）。版本演进（v4.2→v4.3）数值不可比，
         同变体旧值由 latest 聚合自动替换并在证据 notes 留痕。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">社区口碑（用户真实反馈）</h2>
+      <p>
+        2026-09-12 起接入的第七类来源：Reddit / Hacker News / 知乎 / V2EX / linux.do 等
+        公开社区的用户讨论。它<strong>不是</strong>把论坛意见打成分数——而是把定性反馈按预置规则转译为可回查的净信号
+        （指标 <code class="num">community_signal</code>，tier 3 · weight 1，约 6% 综合话语权）。
+        它存在的意义是捕捉<strong>仪器分数与真实体验的背离</strong>：基准测得好但用户骂、或分数平平但用户称赞的模型，
+        由这个信号显式修正。
+      </p>
+      <p><strong>计数 rubric（预置公示，采集前生效）</strong>：</p>
+      <ul class="plain">
+        <li><strong>净信号 = 正面讨论串数 − 负面讨论串数</strong>；计数单位是独立讨论串（不同帖子 / 不同社区）。</li>
+        <li>只计<strong>针对模型能力与使用体验的具体可归因陈述</strong>（「编码两行 PR 大范围重写」「5 小时额度 20 分钟烧完」）；泛泛站队不计。</li>
+        <li><strong>混合倾向串不计</strong>（同一串内正负都有且无明确主倾向）。</li>
+        <li>定价与成本体验属真实使用反馈（<strong>计入</strong>）；自托管硬件门槛属部署条件（<strong>不计</strong>）；媒体评测与厂商稿件不算用户反馈。</li>
+        <li>每模型 ≥2 个独立讨论串才入册；无讨论数据的变体不参与本信号（不罚分、不加分）。</li>
+      </ul>
+      <p>
+        <strong>已知偏差（诚实声明）</strong>：自选样（发帖人≠全体用户）、语言偏差（英文社区为主，辅以中文社区）、无法盲测、
+        情绪易被发布会周期放大。因此它只拿 tier 3 / weight 1 的修正信号权重，正负计数与原文引用全部进证据库、
+        逐条可回查原帖（榜单页「用户口碑」tab）。每轮周同步复核一次，口碑随时间衰减（时效窗口 30 天）。
       </p>
     </section>
 

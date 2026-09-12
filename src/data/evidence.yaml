@@ -6219,3 +6219,118 @@
   retrieved_at: 2026-09-08
   verified: false
   notes: 散点图读数（≈27，柱状榜未列）；AA 图例归属 Xiaomi，models.yaml 厂商字段待人工确认
+
+# ===== 社区口碑净信号 2026-09-12（应「更大范围搜索用户真实反馈」指令，多源人工采集）=====
+# rubric（预置于方法论页）：净信号 = 正面讨论串数 − 负面讨论串数；只计针对模型能力/使用体验的
+# 具体可归因陈述；混合倾向串不计；定价属于真实使用反馈（计入），自托管硬件门槛不计；
+# 每模型 ≥2 个独立讨论串才入册。正负计数与代表引用见各条 notes，逐条可回查原帖。
+
+- id: ev-cs-001
+  metric: community_signal
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 1
+  source: Reddit（r/ClaudeAI · r/ClaudeCode）
+  source_url: https://www.reddit.com/r/ClaudeAI/comments/1w4qgue/fable_51_and_mythos_51_release_discussion_hub/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 4 · 负 3；正面「measurably stronger than Fable 5」「one-shotting my entire backlog」「uses the harness much more effectively」「写作更少套话」；负面「5 小时额度 15–20 分钟烧完」「token 消耗约为 Fable 5 五倍」「更聪明但整体行为更差（过度主动）」「gimmick 争议串」；能力与成本体验两极分化，混合串未计
+
+- id: ev-cs-002
+  metric: community_signal
+  subject: gpt
+  variant: gpt-6-astra-max
+  value: 1
+  source: Reddit 多帖（2026-09-06 本站口碑采集，详见研究文档）
+  source_url: https://github.com/ie2718/fitmodel/blob/main/docs/research-2026-09.md
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 2 · 负 1；正面 r/ClaudeAI 编码「大幅提升」、r/OpenAI 3D/Blender 生成「mind blowing」；负面 r/better_claw 质疑 $10/$50 定价与发布初期基础设施稳定性；本次搜索查询超时，沿用 2026-09-06 采集记录，下轮 sync 补原帖直链
+
+- id: ev-cs-003
+  metric: community_signal
+  subject: kimi
+  variant: kimi-k3-max
+  value: 3
+  source: Reddit（r/LocalLLaMA · r/LocalLLM）
+  source_url: https://www.reddit.com/r/LocalLLaMA/comments/1v8364f/kimi_k3_weights_now_released/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 3 · 负 0；「weights now released」开放权重庆祝串、「Kimi K3 Shows Open-Weight Models Are About to Overtake」称接近 Fable 水平、社区报告其开放权重版登 Code Arena 榜首；2.8T 参数自托管门槛抱怨不计（属部署条件非模型体验）
+
+- id: ev-cs-004
+  metric: community_signal
+  subject: glm
+  variant: glm-5.3-max
+  value: 2
+  source: Reddit（r/ZaiGLM）· 什么值得买（68 人体验汇总）
+  source_url: https://www.reddit.com/r/ZaiGLM/comments/1vra31r/glm_53_is_a_beast/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 3 · 负 1；「GLM 5.3 is a beast（自主迭代复杂任务）」「most capable open-weights for coding，5–10x 便宜」、中文社区共识复杂系统工程与长程 Agent 更稳；负面 HN 权重发布曾因安全调整延期引发开放版一致性疑虑
+
+- id: ev-cs-005
+  metric: community_signal
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 0
+  source: Reddit（r/google_antigravity · r/GeminiAI · r/hermesagent）
+  source_url: https://www.reddit.com/r/GeminiAI/comments/1w5w360/is_it_just_me_or_is_38_flash_a_massive_downgrade/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 2 · 负 2；正面「really good when it comes to quality」「awesome as the main agent」；负面「massive downgrade（简单问题翻车）」「censorship ridiculous（审查比同行更重）」；两混合倾向串未计
+
+- id: ev-cs-006
+  metric: community_signal
+  subject: deepseek
+  variant: deepseek-v4-pro-0813-max
+  value: 0
+  source: Hacker News · Reddit（r/opencodeCLI · r/DeepSeek）
+  source_url: https://news.ycombinator.com/item?id=47977026
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 2 · 负 2；正面 HN 定价体验「2M tokens 30¢」、r/opencodeCLI「mindblowing」；负面 r/DeepSeek「V4 Pro feels so much less capable（规划/构建任务）」、第三方提及 AA-Omniscience 幻觉率 94% 引发争议；SillyTavern 混合串未计
+
+- id: ev-cs-007
+  metric: community_signal
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 1
+  source: Reddit（r/opencode）
+  source_url: https://www.reddit.com/r/opencode/comments/1tu2kz4/deepseek_v4_flash_is_magical/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 2 · 负 1；「DeepSeek V4 Flash is magical（生物仿真任务胜 V4 Pro 与 GLM 5.2）」「more than enough（日常编码够用）」；负面「i don't get the hype（0731 快照）」
+
+- id: ev-cs-008
+  metric: community_signal
+  subject: qwen
+  variant: qwen3.8-max
+  value: -2
+  source: Reddit（r/LocalLLaMA）
+  source_url: https://www.reddit.com/r/LocalLLaMA/comments/1v21s7a/qwen_38_max_first_impressions_model_is_moderate/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 1 · 负 3；正面「Qwen 3.8 Max now ranked as best overall model（转述榜单）」；负面「model is moderate（思考时间体验差）」「damn good coder but terrible collaborator（两行 PR 大范围重写）」「overtrained on Claude Code style」；榜单转述类正面计 1，实际体验抱怨为主
+
+- id: ev-cs-009
+  metric: community_signal
+  subject: qwen
+  variant: qwen3.8-27b-high
+  value: 2
+  source: Reddit（r/LocalLLaMA）
+  source_url: https://www.reddit.com/r/LocalLLaMA/comments/1vonuu0/qwen_38_27b_is_a_game_changer/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 4 · 负 2；「game changer（恶意软件分析胜 Opus）」「long review：very good」「actual local programming 整应用搭建」「24GB 显存 agentic coding」；负面「编码权重相对 3.6 提升存疑」「agent 循环上下文消耗激进」；本尺寸级口碑最佳
+
+- id: ev-cs-010
+  metric: community_signal
+  subject: qwen
+  variant: qwen3.8-flash-next
+  value: 2
+  source: Reddit（r/LocalLLaMA · Strix Halo 用户）
+  source_url: https://www.reddit.com/r/LocalLLaMA/comments/1w8h0cb/qwen_38_flash_next_max_is_impressive_just_to_talk/
+  retrieved_at: 2026-09-12
+  verified: false
+  notes: 正 2 · 负 0；「can replace Opus 4.6–4.8 for agentic coding（代价是 2–3x 时长）」「impressive just to talk」；125B MoE 本地部署口碑佳
