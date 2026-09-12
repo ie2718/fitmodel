@@ -27,7 +27,8 @@ export const CANONICAL_WEIGHT_LINE = Object.entries(CANONICAL_WEIGHTS)
 export const BOARD_DIMS = ['general', 'coding', 'writing', 'long_context'] as const;
 
 export const DIM_DESC: Record<string, string> = {
-  general: 'Arena 总榜人类盲测 Elo——综合人类偏好的最强信号。',
+  general:
+    '四个 arena 人类偏好信号（总榜 Elo / 总榜名次 / 难题榜 / 指令遵循榜）+ AA 智能指数，按指标权重 × 可靠度加权。AA 智能指数（Artificial Analysis 自研基准，held-out 防污染）权重 2×（2026-09-08 人工确认）：独立方法论与 arena 盲测互为制衡，并承担 arena 未收录新模型的先行入榜通道；原始榜见「AA 智能指数」tab。',
   coding:
     'Arena 编码类目盲测 + WebDev 类目盲测 + SWE-bench Verified 真实 issue 修复率，三信号可靠度加权。注意：SWE 最新官方运行为 2026-02，早于部分当前旗舰发布，其单项名次请结合区间与「依据」列解读。',
   writing: 'Arena 创意写作类目盲测排名。',

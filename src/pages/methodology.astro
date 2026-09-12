@@ -63,7 +63,7 @@ const schema = [
       <ul class="plain">
         <li><strong>官方一手</strong>（tier 1）：各厂商 API 定价页、模型文档、发布博客。用于价格、上下文窗口等技术规格。</li>
         <li><strong>独立基准</strong>（tier 2）：<a href="https://arena.ai/leaderboard" target="_blank" rel="noopener">arena.ai</a>（原 LMArena）人类盲测投票、<a href="https://swebench.com" target="_blank" rel="noopener">SWE-bench</a> 真实 issue 修复率、<a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">Artificial Analysis</a> 自研评测智能指数（AA-Briefcase、τ³-Banking、Terminal-Bench 等，含 held-out 防污染）。用于能力排名。</li>
-        <li><strong>聚合二手</strong>（tier 3）：Artificial Analysis 等聚合站。仅作为交叉参考，权重降低。</li>
+        <li><strong>聚合二手</strong>（tier 3）：聚合站转载的内容（如 Artificial Analysis 的价格 / 速度页转载官方价）。仅作交叉参考，可靠度权重减半。注意：AA 的<strong>自研评测智能指数</strong>不算转载，属上方 tier 2。</li>
       </ul>
 
       <p style="margin-top:18px"><strong>采集规则</strong></p>
@@ -125,9 +125,11 @@ const schema = [
     <section>
       <h2 class="section-title">第四步：维度聚合与场景评分</h2>
 
-      <p><strong>可靠度加权聚合</strong>——同一维度下有多条指标证据时，越可信、越新鲜、越无争议的证据话语权越大：</p>
-      <div class="formula">证据可靠度  w = 来源层级 × 时效衰减 × 一致性
+      <p><strong>可靠度加权聚合</strong>——同一维度下有多条指标证据时，越可信、越新鲜、越无争议的证据话语权越大；公示的指标权重在可靠度之外提供第二重话语权：</p>
+      <div class="formula">证据权重  w = 指标权重 × 来源层级 × 时效衰减 × 一致性
 
+  指标权重   metrics.yaml 公示，缺省 1.0
+             （AA 智能指数 = 2.0，2026-09-08 经人工确认上调）
   来源层级   tier 1 = 1.0 · tier 2 = 0.85 · tier 3 = 0.5
   时效衰减   1 − 0.5 × (数据年龄 / 时效窗口)     ← 窗口内线性 1.0 → 0.5
   一致性     存在同日冲突证据 × 0.85
@@ -171,7 +173,7 @@ const schema = [
   price_median  = 同组混合价中位数
   <span class="op">→ 适配分相同但价格更低 → 性价比更高；上限 2× 防极端低价虚高</span></div>
 
-      <p><strong>综合能力指数</strong>（榜单页）：以公示权重 general 40% · coding 30% · writing 20% · long_context 10% 对全部变体计算 Fit。仿 Artificial Analysis 的做法——权重必须公示，改动必须在更新日志留痕。通用维度现在是「arena Elo + arena 名次 + 难题榜 + 指令遵循榜 + AA 智能指数」多信号可靠度加权；长上下文维度由 arena 长查询类目驱动（用户偏好信号）。arena 未收录的新模型（如 GPT-6）经 AA 先行入榜、低置信度展示，收录后自动增强。</p>
+      <p><strong>综合能力指数</strong>（榜单页）：以公示权重 general 40% · coding 30% · writing 20% · long_context 10% 对全部变体计算 Fit。仿 Artificial Analysis 的做法——权重必须公示，改动必须在更新日志留痕。通用维度现在是「arena Elo + arena 名次 + 难题榜 + 指令遵循榜（各权重 1）+ AA 智能指数（权重 2，2026-09-08 人工确认上调）」按指标权重 × 可靠度加权——AA 独立自研、held-out 防污染，与 arena 盲测方法论正交，占通用维度约 1/3 话语权；长上下文维度由 arena 长查询类目驱动（用户偏好信号）。arena 未收录的新模型（如 GPT-6）经 AA 先行入榜、低置信度展示，收录后自动增强。</p>
     </section>
 
     <section>
@@ -210,6 +212,18 @@ const schema = [
         SWE-bench Verified 上的公开最好成绩。口径与模型榜不同——模型榜用 bash-only（mini-SWE-agent）统一环境隔离模型能力，
         Harness 榜是「工具 × 其搭配模型」的组合成绩，<strong>横向比较含模型因素</strong>，搭配模型逐行明示。每工具取公开最优运行。
         未公开提交的知名产品（Cursor、Claude Code、GitHub Copilot 等）单列展示产品属性、不参与排名。Harness 成绩不进入模型能力评分与场景推荐。
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">AA 智能指数（外部榜单）</h2>
+      <p>
+        榜单页的「AA 智能指数」tab 镜像 <a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">Artificial Analysis</a>
+        的 Intelligence Index 原始榜（当前 v4.3：AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、
+        Humanity's Last Exam、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1 共 10 项评测加权合成，含私有 held-out 防污染）。
+        它是唯一一个<strong>进入能力评分且带显式指标权重（2×）</strong>的外部榜单：独立自研基准与 arena 人类盲测方法论正交，
+        两者互为制衡；同时承担 arena 未收录新模型的先行入榜通道。版本演进（v4.2→v4.3）数值不可比，
+        同变体旧值由 latest 聚合自动替换并在证据 notes 留痕。
       </p>
     </section>
 

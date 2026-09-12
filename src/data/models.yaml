@@ -62,27 +62,75 @@
 
 - id: muse-spark
   name: Muse Spark
-  vendor: 待核实
+  vendor: Meta（AA 榜单图例归属，待人工确认）
   origin: global
   context: 待核实
   api_pricing: 待采集
   availability_cn: restricted
-  strengths: [Arena 总榜前十（2026-08）]
-  current_version: muse-spark-1.2
+  strengths: [Arena 总榜前十（2026-08）, AA 智能指数第 5（muse-spark-1.3-max，2026-09-08）]
+  current_version: muse-spark-1.3（max，AA v4.3 第 5）/ 1.2 / 1.1
   needs_verification: true
-  notes: Arena 榜单新面孔，厂商与国内可用性核实中；产品映射暂缺。
+  notes: Arena 榜单新面孔；AA v4.3 图例将 Muse 系归入 Meta，国内可用性核实中；产品映射暂缺。
 
 - id: mimo
   name: MiMo 系列
-  vendor: 待核实
+  vendor: 小米（AA 榜单图例归属，待人工确认）
   origin: global
   context: 待核实
   api_pricing: 待采集
   availability_cn: restricted
-  strengths: [Arena 总榜第 41（mimo-v2.5-pro，2026-09-05）]
+  strengths: [Arena 总榜第 41（mimo-v2.5-pro，2026-09-05）, AA 智能指数 27（散点读数，2026-09-08）]
   current_version: mimo-v2.5-pro
   needs_verification: true
-  notes: Arena 榜单新面孔，厂商与国内可用性核实中；产品映射暂缺。
+  notes: Arena 榜单新面孔；AA v4.3 图例将 MiMo 归入 Xiaomi，国内可用性核实中；产品映射暂缺。
+
+- id: thinking-machines
+  name: Thinking Machines
+  vendor: Thinking Machines Lab
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA 智能指数第 18（inkling，2026-09-08）]
+  current_version: Inkling
+  needs_verification: true
+  notes: AA v4.3 榜单新面孔（2026-09-08 入库）；定价与国内可用性核实中。
+
+- id: nvidia
+  name: Nemotron 系列
+  vendor: NVIDIA
+  origin: global
+  context: 待核实
+  api_pricing: 开放权重可自部署（待核实）
+  availability_cn: restricted
+  strengths: [AA 智能指数第 19（nemotron-3-ultra，2026-09-08）]
+  current_version: Nemotron 3 Ultra
+  needs_verification: true
+  notes: AA v4.3 榜单新面孔（2026-09-08 入库）；API 定价与国内可用性核实中。
+
+- id: mistral
+  name: Mistral
+  vendor: Mistral AI
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA 智能指数第 22（mistral-medium-3.5，2026-09-08）]
+  current_version: Mistral Medium 3.5
+  needs_verification: true
+  notes: AA v4.3 榜单新面孔（2026-09-08 入库）；定价与国内可用性核实中。
+
+- id: muse-glimmer
+  name: Muse Glimmer
+  vendor: Meta（AA 榜单图例归属，待人工确认）
+  origin: global
+  context: 待核实
+  api_pricing: 待采集（AA 成本图位于低价区，<$0.1/任务档）
+  availability_cn: restricted
+  strengths: [AA v4.3 最具性价比象限（muse-glimmer-high 18 分，2026-09-08）]
+  current_version: Muse Glimmer
+  needs_verification: true
+  notes: AA v4.3 榜单新面孔（2026-09-08 入库）；与 Muse Spark 同属 AA 图例 Meta 组，产品映射暂缺。
 
 - id: glm
   name: GLM 系列
@@ -115,7 +163,7 @@
   api_pricing: 火山方舟按量计费（待采集）
   availability_cn: direct
   strengths: [中文日常写作, 多模态, App 体验]
-  current_version: Grok 4.6（high，Arena WebDev 榜第 8，2026-09-05，待核实）
+  current_version: 待核实（2026-09-08 清理：原字段误粘贴为 Grok 4.6 榜单战绩，已复位）
   needs_verification: true
 
 - id: hunyuan

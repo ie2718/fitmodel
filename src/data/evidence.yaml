@@ -5940,3 +5940,282 @@
   retrieved_at: 2026-09-06
   verified: false
   notes: 该 harness 的公开最好成绩；运行日期 2025-01-18（运行日期为来源站口径，非本站采集日期）
+
+# ===== AA 智能指数 v4.3 全量重采 2026-09-08（用户供图，artificialanalysis.ai 榜单页快照）=====
+# v4.3 = 10 项评测加权合成，数值整体低于 v4.2（版本间不可比），同变体旧值由 latest 聚合自动替换。
+# 柱状榜为准确读数；标注「散点图读数」的条目来自 Intelligence Index vs Cost 图，约有 ±1 误差。
+
+- id: ev-aa-014
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-fable-5.1-max
+  value: 53
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 1，标签「Claude Fable 5.1 (max with fallback)」；v4.2 值 57（旧版口径）已被替换
+
+- id: ev-aa-015
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-6-astra-max
+  value: 53
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 2（与第 1 同分）；v4.2 值 55 已被替换
+
+- id: ev-aa-016
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-opus-5-max
+  value: 51
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 3；v4.2 值 54 已被替换
+
+- id: ev-aa-017
+  metric: aa_intelligence_index
+  subject: claude
+  variant: claude-fable-5
+  value: 50
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 4，标签「Claude Fable 5 (with fallback)」（无推理力度后缀，对应既有变体 claude-fable-5）
+
+- id: ev-aa-018
+  metric: aa_intelligence_index
+  subject: muse-spark
+  variant: muse-spark-1.3-max
+  value: 48
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 5（max 档；arena 收录的是 xhigh 档，两个评分实体并存）；AA 图例归属 Meta，models.yaml 厂商字段待人工确认
+
+- id: ev-aa-019
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-5.6-sol-max
+  value: 47
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 6（max 档；本站已有 sol / sol-xhigh 实体，max 为新评分实体）
+
+- id: ev-aa-020
+  metric: aa_intelligence_index
+  subject: glm
+  variant: glm-5.3-max
+  value: 44
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 7；v4.2 值 49 已被替换
+
+- id: ev-aa-021
+  metric: aa_intelligence_index
+  subject: grok
+  variant: grok-4.6-high
+  value: 44
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 8（与第 7、9 同分并列区间）
+
+- id: ev-aa-022
+  metric: aa_intelligence_index
+  subject: kimi
+  variant: kimi-k3-max
+  value: 44
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 9，开源权重前列；v4.2 值 50 已被替换
+
+- id: ev-aa-023
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-5.6-terra-max
+  value: 42
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 10（max 档；本站已有 terra / terra-xhigh 实体，max 为新评分实体）
+
+- id: ev-aa-024
+  metric: aa_intelligence_index
+  subject: glm
+  variant: glm-5.3-flash
+  value: 42
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 11（与第 10 同分）；榜单页无推理力度后缀，对应既有变体
+
+- id: ev-aa-025
+  metric: aa_intelligence_index
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 41
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 12；arena 已收录同款变体，通用维度双信号齐备
+
+- id: ev-aa-026
+  metric: aa_intelligence_index
+  subject: qwen
+  variant: qwen3.8-max
+  value: 40
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 13，标签「Qwen38 2.4T A95B」（即 Qwen3.8-Max 2.4T-A95B，沿用 ev-aa-008 口径）；v4.2 值 47 已被替换
+
+- id: ev-aa-027
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-5.6-luna-max
+  value: 38
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 14（max 档；本站已有 gpt-5.6-luna 实体，max 为新评分实体）
+
+- id: ev-aa-028
+  metric: aa_intelligence_index
+  subject: deepseek
+  variant: deepseek-v4-pro-0813-max
+  value: 36
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 15，标签「DeepSeek V4 Pro 0813 (max)」；0813 快照版本单列评分实体（沿用 qwen3.8-max-0902 先例），与既有 deepseek-v4-pro 分立
+
+- id: ev-aa-029
+  metric: aa_intelligence_index
+  subject: qwen
+  variant: qwen3.8-27b-high
+  value: 34
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 16，标签「Qwen38 27B (high)」（小尺寸档；本站已有 qwen3.8-27b 无后缀实体）
+
+- id: ev-aa-030
+  metric: aa_intelligence_index
+  subject: minimax
+  variant: minimax-m3
+  value: 30
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 17；变体已存在（swe_verified 有同款）
+
+- id: ev-aa-031
+  metric: aa_intelligence_index
+  subject: thinking-machines
+  variant: inkling
+  value: 26
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 18，Thinking Machines Lab 新家族入库（AA 图例归属）
+
+- id: ev-aa-032
+  metric: aa_intelligence_index
+  subject: nvidia
+  variant: nemotron-3-ultra
+  value: 23
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 19，NVIDIA Nemotron 家族入库
+
+- id: ev-aa-033
+  metric: aa_intelligence_index
+  subject: gemini
+  variant: gemini-3.5-flash-lite
+  value: 23
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 20，标签「Gemini 3.5 Flash-Lite」（无推理力度后缀；与既有 gemini-3.5-flash-high 分立）
+
+- id: ev-aa-034
+  metric: aa_intelligence_index
+  subject: muse-glimmer
+  variant: muse-glimmer-high
+  value: 18
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 21，Muse Glimmer 新家族入库（AA 图例归属 Meta，与 Muse Spark 同门）；价格低于 $0.1/任务，位于最具吸引力象限
+
+- id: ev-aa-035
+  metric: aa_intelligence_index
+  subject: mistral
+  variant: mistral-medium-3.5
+  value: 15
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 22，Mistral 家族入库
+
+- id: ev-aa-036
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-oss-120b-high
+  value: 12
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: v4.3 总榜第 23，标签「gpt-oss-120b (high)」，OpenAI 开放权重线（挂在 gpt 家族下）
+
+- id: ev-aa-037
+  metric: aa_intelligence_index
+  subject: gpt
+  variant: gpt-6-astra-xhigh
+  value: 50
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: 散点图读数（≈50，正落 50 刻度线；柱状榜前 23 未单列该配置）；替换 v4.2 值 54
+
+- id: ev-aa-038
+  metric: aa_intelligence_index
+  subject: mimo
+  variant: mimo-v2.5-pro
+  value: 27
+  source: Artificial Analysis Intelligence Index v4.3
+  source_url: https://artificialanalysis.ai/models
+  retrieved_at: 2026-09-08
+  verified: false
+  notes: 散点图读数（≈27，柱状榜未列）；AA 图例归属 Xiaomi，models.yaml 厂商字段待人工确认

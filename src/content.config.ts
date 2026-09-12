@@ -83,6 +83,8 @@ const metrics = defineCollection({
     freshness_days: z.number(),
     plausible: z.tuple([z.number(), z.number()]),
     aggregator: z.string(),
+    /** 指标在维度内的相对权重（缺省 1.0）；调整需人工确认并留痕（见 metrics.yaml 头注） */
+    weight: z.number().min(0).default(1),
     source: z.string(),
     description: z.string().optional(),
     cohort_size: z.number().optional(),

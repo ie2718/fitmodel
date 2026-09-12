@@ -92,11 +92,11 @@ const SOURCES = [
   {
     id: 'aa',
     name: 'Artificial Analysis',
-    tier: 3,
+    tier: 2,
     method: 'http',
     metrics: ['aa_intelligence_index'],
     urls: ['https://artificialanalysis.ai/models'],
-    notes: '仅交叉参考，不入分；与 tier1/2 冲突时提请人工复核。',
+    notes: '自研评测智能指数属独立基准（tier 2），入通用维度评分且指标权重 2×（2026-09-08 人工确认）；价格/速度页为官方价转载（tier 3，仅交叉参考）。页面 JS 渲染，自动检测失败时用浏览器采集。',
   },
   {
     id: 'pricing',

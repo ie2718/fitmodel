@@ -1,5 +1,16 @@
 # 更新日志
 
+- id: cl-2026-09-08-aa-weight-board
+  date: 2026-09-08
+  title: AA 智能指数权重上调至 2× 并全量重采 v4.3；榜单页新增「AA 智能指数」外部榜单 tab
+  entries:
+    - "算法层（经用户确认「这个榜单权重应更高、参考价值更高」）：metrics.yaml 新增指标 weight 字段（缺省 1.0），维度聚合话语权由「可靠度」扩为「指标权重 × 可靠度」（置信度因子分配同口径）；aa_intelligence_index 设 weight 2，占通用维度约 1/3 话语权（4 个 arena 信号各 1 + AA 2）——AA 独立自研、held-out 防污染，与 arena 盲测方法论正交，选型依据留痕于 docs/research-2026-09.md；方法论页聚合公式同步"
+    - "数据（用户供图，AA 榜单页 v4.3 快照，25 条新证据 ev-aa-014~038，verified 待抽查）：v4.3 为 10 项评测新口径（AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、HLE、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1），数值整体低于 v4.2、版本间不可比，同变体旧值由 latest 聚合自动替换；23 条柱状榜准确读数 + 2 条散点图读数（GPT-6 Astra xhigh ≈50、MiMo-V2.5-Pro ≈27，±1 误差已在 notes 标注）"
+    - "榜单（响应「作为外部榜单也要展示在网上」）：/leaderboards 新增「AA 智能指数」tab——原始值镜像（25 行）+ 来源逐条回查 + 口径说明（含 v4.2→v4.3 版本不可比提示、入分且 2× 权重声明）；结构化数据 keywords/描述同步"
+    - "新家族入库（AA v4.3 新面孔）：Thinking Machines（Inkling，总榜第 18）、NVIDIA（Nemotron 3 Ultra，第 19）、Muse Glimmer（第 21，AA 成本图低价象限）、Mistral（Medium 3.5，第 22）；Muse 系与 MiMo 厂商按 AA 图例归属标注「待人工确认」；顺带修正 doubao current_version 误粘贴的 Grok 战绩"
+    - "采集一致性修正：scripts/sync.mjs 中 AA 来源 tier 3→2（与 metrics.yaml 2026-09-06 的升级对齐，此前漏改，原注释「仅交叉参考不入分」与实际入分矛盾）；新证据 id 起初与 2026-09-06 的 GPT-6 价格证据冲突（ev-aa-011~013 重复触发覆盖告警），已整体重编号修复并复查全部 id 唯一"
+    - "构建校验通过（567 条证据，无域外/过期/冲突告警）；A/B 验证权重机制生效——kimi-k3-max 通用维度 se 20.6→18.9，综合榜 opus-4-7-high 升至 #2、fable-5.1-max 升至 #7 而 Top1 不变；波及分析——12 个场景三档推荐与改动前基线（2026-09-06 快照）一致无变化，本轮为权重与数据层更新、推荐结论稳健"
+
 - id: cl-2026-09-06-harness-board
   date: 2026-09-06
   title: Harness 榜单上线：61 个 Agent Harness 按 SWE-bench 公开最好成绩排名；未公开提交产品单列

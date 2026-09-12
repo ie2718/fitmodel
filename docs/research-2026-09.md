@@ -66,6 +66,10 @@
 - **BenchLM 判定：不入白名单**。核查其首页：证据标注「3 source families」「Provisional-ranked lane」、数据 credit 指向 Artificial Analysis——是聚合站而非自研评测，且无运营方信息、方法论页内容未公开呈现。聚合站的聚合会让来源责任无法追溯，与白名单「可回查原始出处」原则冲突。
 - **用户反馈多平台采集（2026-09-06，响应「用户反馈/用户认可」反馈）**：① arena 用户偏好类目全列采集——Hard Prompts / Instruction Following / Longer Query 名次入册（143 条），其中 Longer Query 填补 long_context 维度缺口；② OpenRouter 真实用量榜可采集（Hy4 Preview 14.1T 周用量居首，GLM 5.3 Flash / DeepSeek V4 Flash / GPT-5.6 Luna 领跑——用量由价格与生态驱动，官方声明「衡量采用而非质量」，设为仅展示不进能力分）；③ 社区口碑（Reddit 多帖，定性记录）：GPT-6 Astra 反响分裂——r/ClaudeAI 用户认可编码「大幅提升」，r/better_claw 质疑 $10/$50 定价（Fable 缓存输入便宜 4 倍）与发布初期基础设施稳定性，r/ArtificialInteligence 存在基准独立性争论，r/OpenAI 用户称 3D/Blender 生成「mind blowing」；定性口碑不进入评分（无法诚实地自动化量化），由人工维护渠道沉淀于本文。
 - **Agent 榜接入评估：暂缓**。来源站 2026-09 起改用胜率口径（与库内净改进率口径冲突，混用会破坏跨模型可比性），且现有证据仅 10 条、场景 schema 未含 agent 维度。处置：榜单冻结更新并标注口径变更；待来源口径稳定且覆盖 ≥15 模型后由人工评估是否新增 `arena_agent_winrate` 指标与场景维度。
+- **AA 权重上调与 v4.3 全量重采（2026-09-08，用户指令「这个榜单的权重要高一些，参考价值更高」）**：
+  ① **指标权重机制上线**——metrics.yaml 新增 `weight` 字段（缺省 1.0），维度聚合的话语权由「可靠度」扩为「指标权重 × 可靠度」，置信度因子分配同口径；`aa_intelligence_index` 设 weight: 2，在通用维度五信号中占约 1/3 话语权（4 个 arena 信号 + AA@2× → 2/6）。选型依据：AA 是独立自研基准（held-out 防污染、方法论文情公示），与 arena 盲测**方法论正交**而非同源叠加——arena 四信号同源（同一投票人群与方法论），AA 是唯一第三方测量，给更高权重可降低单一来源绑架排名的风险；同时它是 arena 缺位新模型的先行通道，权重过低会削弱该通道的信号质量。
+  ② **v4.3 全量重采（25 条）**：v4.3 = 10 项评测（AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、HLE、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1）。数值整体低于 v4.2（Fable 5.1 57→53、Astra max 55→53），**版本间不可比**，同变体旧值由 latest 聚合整体替换；`claude-opus-5-high` 暂留 v4.2 值（v4.3 榜未见该配置，notes 已标注）。柱状榜 23 条为准确读数，Astra xhigh（≈50）与 MiMo-V2.5-Pro（≈27）取自散点图（±1）。
+  ③ **外部榜单上网**：榜单页新增「AA 智能指数」tab（原始值镜像 + 来源回查），与方法论页新小节同步；models.yaml 新增 Thinking Machines（Inkling）/ NVIDIA（Nemotron 3 Ultra）/ Mistral / Muse Glimmer 四家族，Muse 系与 MiMo 的厂商归属按 AA 图例标注「待人工确认」。
 
 **排除饱和基准**（Vellum 实践）与**真实用量正交信号**（OpenRouter 实践）列为指标注册的后续评估项，新增指标按 AGENTS.md 需人工审批。
 

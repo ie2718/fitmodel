@@ -1,7 +1,7 @@
 /**
  * FitModel 评分引擎（构建时运行，纯函数，无副作用）。
  *
- * 流水线：校验 → 去重/冲突检测 → Beta 后验百分位归一化 → 可靠度加权维度聚合 → 场景适配分/误差界/置信度/性价比。
+ * 流水线：校验 → 去重/冲突检测 → Beta 后验百分位归一化 → 指标权重×可靠度加权维度聚合 → 场景适配分/误差界/置信度/性价比。
  * 方法选型依据 docs/research-2026-09.md（LMArena 的置信区间表达、Artificial Analysis 的多基准聚合、
  * 经验贝叶斯收缩、时间衰减加权）。设计原则：
  * 1. 没有 evidence.yaml 记录的数据不得参与评分（防幽灵数据）；
@@ -22,6 +22,9 @@ export interface MetricDef {
   aggregator: string;
   source: string;
   description?: string;
+  /** 指标在维度内的相对权重（缺省 1）：可靠度之外的第二重话语权，取值公示于 metrics.yaml；
+   *  调整需人工确认并同步方法论页与 changelog（算法层改动留痕） */
+  weight?: number;
   /** 名次型指标的固定前沿参考系大小（与采集政策一致，如 arena 前沿 50）：
    *  百分位按「名次 / 参考系」计算而非按已采集条数——采集范围扩大时分数不再漂移 */
   cohort_size?: number;
@@ -327,13 +330,15 @@ export function buildScoreEngine(
       byDim.get(dim)!.push(f);
     }
     for (const [dim, fs] of byDim) {
-      const wSum = fs.reduce((a, f) => a + f.reliability, 0) || 1;
-      const score = fs.reduce((a, f) => a + f.reliability * f.score, 0) / wSum;
+      // 证据话语权 = 指标权重 × 可靠度（weight 缺省 1；如 AA 智能指数 2×，公示于 metrics.yaml）
+      const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
+      const wSum = fs.reduce((a, f) => a + ew(f), 0) || 1;
+      const score = fs.reduce((a, f) => a + ew(f) * f.score, 0) / wSum;
       // 指标内估计误差 + 指标间分歧（加权样本方差），单一指标时保底
-      const withinVar = fs.reduce((a, f) => a + (f.reliability * f.se) ** 2, 0) / (wSum * wSum);
+      const withinVar = fs.reduce((a, f) => a + (ew(f) * f.se) ** 2, 0) / (wSum * wSum);
       const betweenVar =
         fs.length > 1
-          ? fs.reduce((a, f) => a + f.reliability * (f.score - score) ** 2, 0) / wSum
+          ? fs.reduce((a, f) => a + ew(f) * (f.score - score) ** 2, 0) / wSum
           : 0;
       const se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
       ent.dimScores[dim] = { score, se, n: fs.length };
@@ -383,13 +388,14 @@ export function buildScoreEngine(
       accMeasured += w * ds.score;
       varAcc += (w * ds.se) ** 2;
       measuredFactWeights.push({ w, ds });
-      // 该维度下的有效事实（与聚合口径一致）
+      // 该维度下的有效事实（与聚合口径一致：话语权 = 指标权重 × 可靠度）
       const fs = Object.values(ent.facts).filter(
         (f) => !f.stale && defs.get(f.metric)!.dimension === dim,
       );
-      const fw = fs.reduce((a, f) => a + f.reliability, 0) || 1;
+      const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
+      const fw = fs.reduce((a, f) => a + ew(f), 0) || 1;
       for (const f of fs) {
-        const ww = (w * f.reliability) / fw;
+        const ww = (w * ew(f)) / fw;
         const def = defs.get(f.metric)!;
         const age = daysBetween(now, f.retrievedAt);
         srcNum += ww * (TIER_WEIGHT[f.tier] ?? 0.5);

@@ -93,6 +93,19 @@ for (const e of evidence.filter((x) => x.data.metric === usageMetric)) {
 }
 const usageRows = [...usageLatest.values()].sort((a, b) => b.value - a.value);
 
+/** AA 智能指数榜（外部独立基准）：通用维度入分且指标权重 2×（2026-09-08 人工确认），
+ *  与其他外部榜单一样保留原始值镜像，供逐条回查来源 */
+const aaMetric = 'aa_intelligence_index';
+const aaLatest = new Map<string, (typeof evidence)[number]['data'] & { id: string }>();
+for (const e of evidence.filter((x) => x.data.metric === aaMetric)) {
+  const key = `${e.data.subject}::${e.data.variant}`;
+  const prev = aaLatest.get(key);
+  if (!prev || e.data.retrieved_at > prev.retrieved_at) {
+    aaLatest.set(key, { ...e.data, id: e.id });
+  }
+}
+const aaRows = [...aaLatest.values()].sort((a, b) => b.value - a.value);
+
 const site = Astro.site!;
 const dataAsOf = evidence.reduce(
   (max, e) => (e.data.retrieved_at > max ? e.data.retrieved_at : max),
@@ -105,11 +118,11 @@ const schema = [
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: 'FitModel · 模型能力指数与公开评测镜像',
-    description: `综合能力指数由多来源公开证据（权重：${CANONICAL_WEIGHT_LINE}）经归一化加权计算，每个分数带 90% 误差界；另含 Arena 人类偏好榜与 SWE-bench Verified 的原始镜像，每条可回查来源。`,
+    description: `综合能力指数由多来源公开证据（权重：${CANONICAL_WEIGHT_LINE}）经归一化加权计算，每个分数带 90% 误差界；另含 AA 智能指数、Arena 人类偏好榜与 SWE-bench Verified 的原始镜像，每条可回查来源。`,
     url: absoluteUrl('/leaderboards/', site),
     inLanguage: 'zh-CN',
     isAccessibleForFree: true,
-    keywords: ['LLM 排行榜', 'Arena', 'Elo', 'SWE-bench', '模型能力指数', 'AI 选型'],
+    keywords: ['LLM 排行榜', 'Arena', 'Elo', 'SWE-bench', 'AA 智能指数', 'Artificial Analysis', '模型能力指数', 'AI 选型'],
     license: 'https://creativecommons.org/licenses/by/4.0/',
     creator: { '@type': 'Organization', name: 'FitModel', url: absoluteUrl('/', site) },
     variableMeasured: boardMetrics.map((m) => m.data.label),
@@ -145,6 +158,7 @@ const schema = [
       </button>
     ))}
     <button id="tab-agent" data-tab="agent" role="tab" aria-selected="false" aria-controls="panel-agent">Agent</button>
+    <button id="tab-aa" data-tab="aa" role="tab" aria-selected="false" aria-controls="panel-aa">AA 智能指数</button>
     <button id="tab-harness" data-tab="harness" role="tab" aria-selected="false" aria-controls="panel-harness">Harness</button>
     <button id="tab-usage" data-tab="usage" role="tab" aria-selected="false" aria-controls="panel-usage">真实用量</button>
     <button id="tab-mirrors" data-tab="mirrors" role="tab" aria-selected="false" aria-controls="panel-mirrors">来源镜像</button>
@@ -280,6 +294,44 @@ const schema = [
       </section>
     ))
   }
+
+  <section class="panel" id="panel-aa" role="tabpanel" aria-labelledby="tab-aa" hidden>
+    <h2 class="section-title">AA 智能指数（Artificial Analysis）</h2>
+    <p class="note" style="margin:0 0 10px">
+      外部独立基准榜：Artificial Analysis 自研 10 项评测加权合成（含私有 held-out 防污染），当前口径 <strong>v4.3</strong>（2026-09-08 快照）。它与其他外部榜单的不同在于<strong>直接进入通用维度评分，且指标权重 2×</strong>（2026-09-08 经人工确认上调）：独立方法论的第三方测量与 arena 人类盲测互为制衡，并承担 arena 未收录新模型的先行入榜通道。v4.2→v4.3 数值整体下移（版本间不可比），同变体旧值已由 latest 聚合自动替换；来源柱状榜为准确读数，备注标「散点图读数」的条目约有 ±1 误差。
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>模型</th>
+            <th>智能指数</th>
+            <th>来源</th>
+            <th>采集</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            aaRows.map((r, i) => (
+              <tr>
+                <td class="num">{i + 1}</td>
+                <td>
+                  {r.variant}
+                  <div class="sub">{modelById.get(r.subject)?.name ?? r.subject}{r.notes && ` · ${r.notes}`}</div>
+                </td>
+                <td class="num"><strong>{r.value}</strong></td>
+                <td>
+                  <a href={r.source_url} target="_blank" rel="noopener">{r.source} ↗</a>
+                </td>
+                <td class="num dim">{r.retrieved_at.toLocaleDateString('zh-CN')}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <section class="panel" id="panel-harness" role="tabpanel" aria-labelledby="tab-harness" hidden>
     <h2 class="section-title">Harness 榜（SWE-bench Verified 公开提交）</h2>
