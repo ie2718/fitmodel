@@ -87,6 +87,8 @@ const metrics = defineCollection({
     weight: z.number().min(0).default(1),
     /** 缺席先验：现役精选榜缺席 ⇒ 非现役收缩（pct/se 公示，见 scoring.ts 4.5） */
     absence_prior: z.object({ pct: z.number(), se: z.number() }).optional(),
+    /** 区间型指标的测量噪声（同单位）：σ_eff = √(组内σ²+noise²)，防拥挤前沿 z-score 放大噪声 */
+    noise_sd: z.number().min(0).optional(),
     source: z.string(),
     description: z.string().optional(),
     cohort_size: z.number().optional(),

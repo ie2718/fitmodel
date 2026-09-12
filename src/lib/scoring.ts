@@ -29,6 +29,10 @@ export interface MetricDef {
    *  注入一条合成先验事实参与聚合。适用场景：现役精选榜（如 AA，官方下架被替代代际）——
    *  缺席本身是「非现役」证据。pct/se 公示于 metrics.yaml，调整需留痕。 */
   absence_prior?: { pct: number; se: number };
+  /** 区间型指标的测量噪声（与指标同单位）：归一化时 σ_eff = √(组内σ² + noise²)。
+   *  用于拥挤前沿上的连续分（如 arena Elo：单模型 CI ±10–30 > 组内 σ≈8），
+   *  防 z-score 把噪声差放大成大百分位差。取值依据记于 metrics.yaml，调整需留痕。 */
+  noise_sd?: number;
   /** 名次型指标的固定前沿参考系大小（与采集政策一致，如 arena 前沿 50）：
    *  百分位按「名次 / 参考系」计算而非按已采集条数——采集范围扩大时分数不再漂移 */
   cohort_size?: number;
@@ -153,6 +157,7 @@ function normalizeScores(
   direction: 'higher' | 'lower',
   unit: string,
   cohortSize?: number,
+  noiseSd?: number,
 ): Map<string, { pct: number; se: number }> {
   const out = new Map<string, { pct: number; se: number }>();
   const n = values.length;
@@ -198,8 +203,11 @@ function normalizeScores(
     for (const v of values) out.set(v.key, { pct: 50, se: 28.9 });
     return out;
   }
+  // 测量噪声膨胀：组内 σ 小于指标自身噪声时（拥挤前沿），按 σ_eff 归一，
+  // 噪声量级内的差异不再放大成大百分位差
+  const sdEff = Math.sqrt(sd * sd + (noiseSd && !useLog ? noiseSd * noiseSd : 0));
   for (let i = 0; i < values.length; i++) {
-    let z = (xs[i] - mean) / sd;
+    let z = (xs[i] - mean) / sdEff;
     if (direction === 'lower') z = -z;
     z = Math.max(-2.6, Math.min(2.6, z)); // 温缩极端值，防离群点独占 0/100
     const pct = normalCdf(z) * 100;
@@ -291,6 +299,7 @@ export function buildScoreEngine(
         def.direction,
         def.unit,
         def.cohort_size,
+        def.noise_sd,
       ),
     );
   }

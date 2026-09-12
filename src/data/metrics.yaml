@@ -20,8 +20,13 @@
   freshness_days: 90
   plausible: [800, 1700]
   aggregator: latest
+  # weight 0.5：与总榜名次/难题/指令构成高相关同源家族（同一投票人群），家族预算合计 = AA 权重（2.0），
+  # 通用维度内偏好:能力 = 50:50。noise_sd 15：LMArena 单模型 CI 通常 ±10–30 Elo，而组内 σ 仅 ≈8——
+  # 噪声膨胀防止 z-score 把 ±5 Elo（纯噪声）放大成 25+ 百分位差（2026-09-12 留痕）。调整需人工确认。
+  weight: 0.5
+  noise_sd: 15
   source: arena.ai（原 LMArena）人类盲测投票
-  description: 真人盲测对比投票产生的 Elo 排名，反映综合人类偏好。
+  description: 真人盲测对比投票产生的 Elo 排名，反映综合人类偏好。与 arena_rank_overall 同源（名次即 Elo 排序），归一化含 ±15 Elo 测量噪声膨胀。
 
 - id: arena_rank_overall
   label: Arena 总榜名次
@@ -32,6 +37,8 @@
   freshness_days: 90
   plausible: [1, 400]
   cohort_size: 50
+  # weight 0.5：arena 通用同源家族预算（与 Elo/名次/类目高相关），家族合计 = AA 权重（2026-09-12 留痕）
+  weight: 0.5
   aggregator: latest
   source: arena.ai Text 总榜 Overall 名次
   description: Text 总榜 Overall 名次。arena 页面仅前 10 名展示 Elo 数值，11 名以后以名次入分；与 arena_elo_overall 构成通用维度的双信号。2026-09-05 经用户反馈确认新增（GPT 系列此前无法进入通用维度）。
@@ -125,6 +132,8 @@
   freshness_days: 90
   plausible: [1, 400]
   cohort_size: 50
+  # weight 0.5：arena 通用同源家族预算（与 Elo/名次/类目高相关），家族合计 = AA 权重（2026-09-12 留痕）
+  weight: 0.5
   aggregator: latest
   source: arena.ai Hard Prompts 类目（最难提示词子集）
   description: 最难提示词类目的用户盲测排名，通用维度的用户偏好信号之一。2026-09-06 经用户反馈确认新增。
@@ -138,6 +147,8 @@
   freshness_days: 90
   plausible: [1, 400]
   cohort_size: 50
+  # weight 0.5：arena 通用同源家族预算（与 Elo/名次/类目高相关），家族合计 = AA 权重（2026-09-12 留痕）
+  weight: 0.5
   aggregator: latest
   source: arena.ai Instruction Following 类目
   description: 指令遵循类目的用户盲测排名，通用维度的用户偏好信号之一。2026-09-06 经用户反馈确认新增。
