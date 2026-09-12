@@ -12,6 +12,7 @@ import {
   DIM_LABEL,
   DIM_DESC,
   ciOverlaps,
+  fmtScore,
 } from '../lib/board';
 
 const engine = await getEngine();
@@ -208,7 +209,7 @@ const schema = [
                     <div class="sub">{modelById.get(r.entity.subject)?.name ?? r.entity.subject}</div>
                   </td>
                   <td class="num scorecell">
-                    <strong>{fmt(r.fit ?? 0)}</strong>
+                    <strong>{fmtScore(r.fit ?? 0, r.se)}</strong>
                     <div class="scorebar" style={`--fit:${r.fit};--lo:${r.ci[0]};--hi:${r.ci[1]}`}>
                       <span class="fill" />
                       <span class="ci" />
@@ -281,7 +282,7 @@ const schema = [
                         </div>
                       </td>
                       <td class="num scorecell">
-                        <strong>{fmt(row.score)}</strong>
+                        <strong>{fmtScore(row.score, row.se)}</strong>
                         <div class="scorebar" style={`--fit:${row.score};--lo:${ci[0]};--hi:${ci[1]}`}>
                           <span class="fill" />
                           <span class="ci" />

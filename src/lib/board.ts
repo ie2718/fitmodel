@@ -108,3 +108,11 @@ export const HARNESS_NAMES: Record<string, string> = {
 export function ciOverlaps(a: [number, number], b: [number, number]): boolean {
   return a[0] <= b[1] && b[0] <= a[1];
 }
+
+/** 展示精度纪律（P6，Miller 2024《Adding Error Bars to Evals》有效位原则）：
+ *  分数的呈现位数由 90% CI 宽度决定——区间宽 ≥8 分时整数即可分辨，显示小数是假精度。 */
+export function fmtScore(score: number, se: number): string {
+  const ciWidth = 2 * 1.645 * se;
+  if (ciWidth >= 8) return String(Math.round(score));
+  return score.toFixed(1);
+}

@@ -194,6 +194,70 @@ function taskCard(row) {
   };
 }
 
+// ---------- 3.5) 信号效度诊断（Campbell-Fiske 多方法矩阵思想） ----------
+// 同一维度内不同指标（不同仪器）在共享变体上的 Spearman 相关：仪器应测量同一构念，
+// ρ 持续 < 0.3 或为负说明某仪器与构念背离（如类目覆盖滞后、口径漂移），提请人工复核。
+// 诊断性输出，不改变评分。
+function spearman(pairs) {
+  const rank = (arr) => {
+    const sorted = [...arr].map((v, i) => [v, i]).sort((a, b) => a[0] - b[0]);
+    const r = new Array(arr.length);
+    for (let i = 0; i < sorted.length; ) {
+      let j = i;
+      while (j + 1 < sorted.length && sorted[j + 1][0] === sorted[i][0]) j += 1;
+      const avg = (i + j) / 2 + 1;
+      for (let k = i; k <= j; k += 1) r[sorted[k][1]] = avg;
+      i = j + 1;
+    }
+    return r;
+  };
+  const n = pairs.length;
+  if (n < 5) return null;
+  const rx = rank(pairs.map((p) => p[0]));
+  const ry = rank(pairs.map((p) => p[1]));
+  const mx = rx.reduce((a, b) => a + b, 0) / n;
+  const my = ry.reduce((a, b) => a + b, 0) / n;
+  const num = rx.reduce((a, x, i) => a + (x - mx) * (ry[i] - my), 0);
+  const den = Math.sqrt(
+    rx.reduce((a, x) => a + (x - mx) ** 2, 0) * ry.reduce((a, y) => a + (y - my) ** 2, 0),
+  );
+  return den ? num / den : null;
+}
+
+function validityDiag() {
+  const latest = new Map(); // metric -> Map(key -> value)
+  for (const e of evidence) {
+    if (!latest.has(e.metric)) latest.set(e.metric, new Map());
+    const m = latest.get(e.metric);
+    const key = `${e.subject}::${e.variant}`;
+    if (!m.has(key) || e.retrieved_at > m.get(key).retrieved_at) m.set(key, e);
+  }
+  const byDim = new Map();
+  for (const def of metrics) {
+    if (!byDim.has(def.dimension)) byDim.set(def.dimension, []);
+    byDim.get(def.dimension).push(def.id);
+  }
+  const dirOf = new Map(metrics.map((m) => [m.id, m.direction]));
+  const out = [];
+  for (const [dim, ids] of byDim) {
+    for (let i = 0; i < ids.length; i += 1) {
+      for (let j = i + 1; j < ids.length; j += 1) {
+        const a = latest.get(ids[i]);
+        const b = latest.get(ids[j]);
+        if (!a || !b) continue;
+        const shared = [...a.keys()].filter((k) => b.has(k));
+        // 统一方向：lower-is-better 取反，全部变成「越大越好」再相关（否则同仪器双编码会假性负相关）
+        const val = (m, k) => m.get(k).value * (dirOf.get(m.get(k).metric) === 'lower' ? -1 : 1);
+        const rho = spearman(shared.map((k) => [val(a, k), val(b, k)]));
+        if (rho === null) continue;
+        out.push({ dimension: dim, metrics: `${ids[i]} × ${ids[j]}`, shared: shared.length, rho: Math.round(rho * 100) / 100 });
+      }
+    }
+  }
+  const flags = out.filter((r) => r.rho < 0.3);
+  return { pairs: out, flags };
+}
+
 // ---------- 4) 排名影响（需要 dist/api/v1/all.json，即先 npm run build） ----------
 function rankDiff() {
   const dist = path.join(root, 'dist', 'api', 'v1', 'all.json');
@@ -244,6 +308,7 @@ const report = {
   })),
   sources: checks,
   tasks: todo.map(taskCard),
+  validity: validityDiag(),
   rank_diff: rankDiff(),
   pending_manual_review: unverified,
 };
@@ -281,6 +346,20 @@ if (asJson) {
       console.log(`   写入模板: ${JSON.stringify(t.template, null, 0).slice(0, 240)}…`);
     }
   }
+  console.log('\n== 3.5 信号效度（同维度跨仪器 Spearman，Campbell-Fiske） ==');
+  if (report.validity.pairs.length === 0) {
+    console.log('共享变体不足，无法诊断。');
+  } else {
+    for (const p of report.validity.pairs) {
+      const mark = p.rho < 0.3 ? '[LOW ]' : '[  ok]';
+      console.log(`${mark} ${p.metrics.padEnd(62)} ρ=${String(p.rho).padStart(5)} (n=${p.shared})`);
+    }
+    if (report.validity.flags.length > 0) {
+      console.log('⚠ 低相关仪器对提请人工复核（可能是覆盖滞后、口径漂移或构念背离）：');
+      for (const f of report.validity.flags) console.log(`  - ${f.metrics}（ρ=${f.rho}）`);
+    }
+  }
+
   console.log('\n== 4. 排名影响 ==');
   const rd = report.rank_diff;
   if (!rd.ready) {

@@ -406,7 +406,9 @@ export function buildScoreEngine(
     // 该实体的缺席先验事实（如有）：供纯名次维度收缩用
     const entPrior = Object.values(ent.facts).find((f) => f.prior);
     for (const [dim, fs] of byDim) {
-      // 证据话语权 = 指标权重 × 可靠度（weight 缺省 1；如 AA 智能指数 2×，公示于 metrics.yaml）
+      // 证据话语权 = 指标权重 × 可靠度（weight 缺省 1；如 AA 智能指数 2×，公示于 metrics.yaml）。
+      // 注：不用逆方差（IVW）精度加权——本站三种 se 口径（Beta 后验 / delta 法 / 结构先验）不可通约，
+      // 实测会折价缺席先验与社区修正信号、架空非现役收缩（2026-09-12 A/B 拒绝，见 research-papers §L4）。
       const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
       const wSum = fs.reduce((a, f) => a + ew(f), 0) || 1;
       let score = fs.reduce((a, f) => a + ew(f) * f.score, 0) / wSum;

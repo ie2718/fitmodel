@@ -273,6 +273,46 @@ const schema = [
     </section>
 
     <section>
+      <h2 class="section-title">基准污染与饱和登记表</h2>
+      <p>
+        评测文献的核心共识之一是「基准会饱和、会泄漏、会被博弈」（<a href="https://arxiv.org/abs/2502.17521" target="_blank" rel="noopener">污染综述</a>、<a href="https://arxiv.org/abs/2504.20879" target="_blank" rel="noopener">The Leaderboard Illusion</a>、
+        <a href="https://arxiv.org/abs/2406.19314" target="_blank" rel="noopener">LiveBench</a>）。本站对各基准的已知状态与对策公示如下，随采集轮次更新：
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>基准 / 信号</th><th>已知问题</th><th>本站对策</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>arena.ai 盲测</td><td>风格 / 位置噪声；私有变体测试与不对称数据访问（Leaderboard Illusion）；类目覆盖滞后于新旗舰</td>
+              <td>不单一依赖（多仪器制衡）；同源家族折价（0.5×4）；Elo 噪声膨胀 ±15；类目覆盖滞后折减 ×0.5</td>
+            </tr>
+            <tr>
+              <td>SWE-bench Verified</td><td>饱和 + SOTA 模型被指「记忆而非推理」（SWE-bench Illusion）；官方最新运行 2026-02 早于当前旗舰</td>
+              <td>bash-only 统一口径 + 运行日期逐条留痕；旗舰缺此证据不视为弱（知情先验），警示语公示于编码维度</td>
+            </tr>
+            <tr>
+              <td>AA 智能指数</td><td>版本间数值不可比（v4.2→v4.3 整体下移）；榜单为现役精选（会下架旧代）</td>
+              <td>版本口径留痕 + latest 聚合替换；现役锚 + 缺席先验（非现役 30±24）</td>
+            </tr>
+            <tr>
+              <td>社区口碑</td><td>无法盲测、自选样、语言偏差、发布周期情绪放大</td><td>tier 3 / weight 1（约 6%）修正信号；rubric 预置；逐条回查原帖；时效 30 天</td>
+            </tr>
+            <tr>
+              <td>官方定价 / 规格</td><td>促销价有期限；动态渲染页易漏更新</td><td>tier 1 一手来源；到期前一周复核；JS 页标注需二次采集</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-sub" style="margin-top:14px">
+        本站评分引擎的十条测量原则（区间必备、同源折价、收缩先验、精度纪律等）及其 100 篇文献依据见
+        <a href="https://github.com/ie2718/fitmodel/blob/main/docs/research-papers-2026-09.md" target="_blank" rel="noopener">docs/research-papers-2026-09.md</a>（P1–P10）；
+        跨仪器一致性（Spearman）随每周巡检输出在 <code class="num">npm run sync</code> 报告中，低相关仪器对提请人工复核。
+      </p>
+    </section>
+
+    <section>
       <h2 class="section-title">Agent 数据通道</h2>
       <p>
         全部结论都有机器可读版本：<a href={siteUrl('/api/')}>静态 JSON API（/api/v1/*）</a>与
