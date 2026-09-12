@@ -201,7 +201,7 @@ function pickOf(r: FitResult, familyName: string): ApiPick {
     price: priceOf(r),
     value_score: r.value === null ? null : round1(r.value),
     evidence: Object.values(r.entity.facts)
-      .filter((f) => !f.stale)
+      .filter((f) => !f.stale && !f.prior)
       .map((f) => f.evidId),
   };
 }
@@ -243,7 +243,7 @@ export async function buildApiData(): Promise<ApiData> {
     price: priceOf(r),
     value_score: r.value === null ? null : round1(r.value),
     evidence: Object.values(r.entity.facts)
-      .filter((f) => !f.stale)
+      .filter((f) => !f.stale && !f.prior)
       .map((f) => f.evidId),
   }));
 
@@ -265,7 +265,7 @@ export async function buildApiData(): Promise<ApiData> {
       ...withFamily(r),
       note:
         Object.values(r.entity.facts)
-          .filter((f) => !f.stale)
+          .filter((f) => !f.stale && !f.prior)
           .map((f) => metricMeta.get(f.metric)?.label ?? f.metric)
           .slice(0, 3)
           .join(' · ') || null,
@@ -310,7 +310,7 @@ export async function buildApiData(): Promise<ApiData> {
         ? isoDate(
             ranked
               .flatMap((r) => Object.values(r.entity.facts))
-              .filter((f) => !f.stale)
+              .filter((f) => !f.stale && !f.prior)
               .reduce<Date | null>(
                 (max, f) => (!max || f.retrievedAt > max ? f.retrievedAt : max),
                 null,

@@ -97,6 +97,10 @@
   plausible: [0, 100]
   aggregator: latest
   weight: 2
+  # 缺席先验：AA 为现役精选口径（官方下架被替代代际，如 GPT-5.6 先例）。
+  # 有其他通用实测、唯独不在 AA v4.3 榜上的变体按「非现役」收缩——期望低于在榜中位（百分位 30）、
+  # 高度不确定（±24）。纯名次维度同时与之 50/50 收缩（见 scoring.ts 4.5 节）。调整需人工确认并留痕。
+  absence_prior: { pct: 30, se: 24 }
   source: Artificial Analysis Intelligence Index v4.3
   description: Artificial Analysis 自研评测集（AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、Humanity's Last Exam、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1 共 10 项，含私有 held-out 防污染）加权合成的智能指数——自研评测属独立基准（tier 2），非聚合转载。指标权重 2（通用维度内话语权约为单信号 2 倍，占通用维度约 1/3）：独立方法论与 arena 盲测互为制衡，且承担 arena 未收录新模型的先行入榜通道。2026-09-08 经用户确认权重上调并全量重采 v4.3（v4.2→v4.3 数值整体下移、版本间不可比，latest 聚合自动替换）。2026-09-06 经用户反馈确认新增并升为 tier 2。
 

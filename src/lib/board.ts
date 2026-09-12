@@ -28,7 +28,7 @@ export const BOARD_DIMS = ['general', 'coding', 'writing', 'long_context'] as co
 
 export const DIM_DESC: Record<string, string> = {
   general:
-    '四个 arena 人类偏好信号（总榜 Elo / 总榜名次 / 难题榜 / 指令遵循榜）+ AA 智能指数，按指标权重 × 可靠度加权。AA 智能指数（Artificial Analysis 自研基准，held-out 防污染）权重 2×（2026-09-08 人工确认）：独立方法论与 arena 盲测互为制衡，并承担 arena 未收录新模型的先行入榜通道；原始榜见「AA 智能指数」tab。',
+    '四个 arena 人类偏好信号（总榜 Elo / 总榜名次 / 难题榜 / 指令遵循榜）+ AA 智能指数，按指标权重 × 可靠度加权。AA 智能指数（Artificial Analysis 自研基准，held-out 防污染）权重 2×（2026-09-08 人工确认）且为现役前沿锚：未见于 AA v4.3 榜的变体按「非现役」缺席先验（30±24）收缩，其纯名次维度与先验 50/50 收缩——AA 官方会下架被替代代际（GPT-5.6 先例），缺席本身即证据。名次显著低于自身其余证据共识的类目（覆盖滞后）可靠度减半并在「依据」列标注。原始榜见「AA 智能指数」tab。',
   coding:
     'Arena 编码类目盲测 + WebDev 类目盲测 + SWE-bench Verified 真实 issue 修复率，三信号可靠度加权。注意：SWE 最新官方运行为 2026-02，早于部分当前旗舰发布，其单项名次请结合区间与「依据」列解读。',
   writing: 'Arena 创意写作类目盲测排名。',

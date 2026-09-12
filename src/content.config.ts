@@ -85,6 +85,8 @@ const metrics = defineCollection({
     aggregator: z.string(),
     /** 指标在维度内的相对权重（缺省 1.0）；调整需人工确认并留痕（见 metrics.yaml 头注） */
     weight: z.number().min(0).default(1),
+    /** 缺席先验：现役精选榜缺席 ⇒ 非现役收缩（pct/se 公示，见 scoring.ts 4.5） */
+    absence_prior: z.object({ pct: z.number(), se: z.number() }).optional(),
     source: z.string(),
     description: z.string().optional(),
     cohort_size: z.number().optional(),

@@ -25,6 +25,10 @@ export interface MetricDef {
   /** 指标在维度内的相对权重（缺省 1）：可靠度之外的第二重话语权，取值公示于 metrics.yaml；
    *  调整需人工确认并同步方法论页与 changelog（算法层改动留痕） */
   weight?: number;
+  /** 缺席先验：指标在引擎内有数据、实体在该指标维度内有其他实测、唯独缺本指标时，
+   *  注入一条合成先验事实参与聚合。适用场景：现役精选榜（如 AA，官方下架被替代代际）——
+   *  缺席本身是「非现役」证据。pct/se 公示于 metrics.yaml，调整需留痕。 */
+  absence_prior?: { pct: number; se: number };
   /** 名次型指标的固定前沿参考系大小（与采集政策一致，如 arena 前沿 50）：
    *  百分位按「名次 / 参考系」计算而非按已采集条数——采集范围扩大时分数不再漂移 */
   cohort_size?: number;
@@ -63,6 +67,10 @@ export interface Fact {
   reliability: number; // 来源层级 × 时效衰减 × 一致性，0–1
   cohort: number; // 该指标组内参与比较的实体数
   notes?: string;
+  /** 合成先验事实（非实测）：展示层与 API 应过滤，不作为「依据」展示 */
+  prior?: boolean;
+  /** 类目覆盖滞后折减标记：名次显著（>40 百分位）低于自身其余实测的共识，可靠度已 ×0.5 */
+  outlier?: boolean;
 }
 
 export interface DimScore {
@@ -321,6 +329,58 @@ export function buildScoreEngine(
     };
   }
 
+  // ---- 4.5) 缺席先验注入 + 跨信号一致性折减 ----
+  // a) 缺席先验（absence_prior，如 AA 现役前沿榜）：实体在该指标维度内有其他实测、唯独缺本指标时，
+  //    注入一条先验事实。依据：现役精选榜会下架被替代代际（AA 下架 GPT-5.6 先例），
+  //    缺席 ⇒ 非现役 ⇒ 能力期望低于在榜中位且高度不确定（pct/se 公示于 metrics.yaml）。
+  //    注意只对「维度内有实测」的实体注入——全维度缺失的实体走第二段知情先验，不重复收缩。
+  for (const def of metrics) {
+    const ap = def.absence_prior;
+    if (!ap) continue;
+    for (const ent of entities.values()) {
+      if (ent.facts[def.id]) continue;
+      const hasDim = Object.values(ent.facts).some(
+        (f) => !f.stale && defs.get(f.metric)!.dimension === def.dimension,
+      );
+      if (!hasDim) continue;
+      ent.facts[def.id] = {
+        metric: def.id,
+        value: ap.pct,
+        score: ap.pct,
+        se: ap.se,
+        evidId: `prior::${def.id}`,
+        source: `${def.source}（缺席先验）`,
+        sourceUrl: '',
+        retrievedAt: now,
+        tier: def.source_tier,
+        stale: false,
+        disputed: false,
+        reliability: TIER_WEIGHT[def.source_tier] ?? 0.5,
+        cohort: cohortByMetric.get(def.id) ?? 1,
+        prior: true,
+        notes: `缺席先验：未见于现役榜，按 ${ap.pct}±${ap.se} 收缩`,
+      };
+    }
+  }
+  // b) 类目覆盖滞后折减：名次型事实低于同一实体其余实测（不含先验/价格）可靠度加权中位数 40 分以上、
+  //    且其余实测 ≥4 条 —— 新旗舰进入类目榜滞后的典型形态（同 Text 总榜曾缺 GPT-6）。
+  //    可靠度 ×0.5 并打标，不删证据、可回查；只单向向下（覆盖滞后只会表现为名次异常低）。
+  for (const ent of entities.values()) {
+    const cap = Object.values(ent.facts).filter(
+      (f) => !f.prior && !f.stale && defs.get(f.metric)!.dimension !== 'cost',
+    );
+    if (cap.length < 5) continue;
+    for (const f of cap) {
+      if (defs.get(f.metric)!.unit !== 'rank') continue;
+      const others = cap.filter((x) => x !== f);
+      const consensus = median(others.map((x) => x.score));
+      if (consensus - f.score > 40) {
+        f.reliability *= 0.5;
+        f.outlier = true;
+      }
+    }
+  }
+
   for (const ent of entities.values()) {
     const byDim = new Map<string, Fact[]>();
     for (const f of Object.values(ent.facts)) {
@@ -329,18 +389,31 @@ export function buildScoreEngine(
       if (!byDim.has(dim)) byDim.set(dim, []);
       byDim.get(dim)!.push(f);
     }
+    // 该实体的缺席先验事实（如有）：供纯名次维度收缩用
+    const entPrior = Object.values(ent.facts).find((f) => f.prior);
     for (const [dim, fs] of byDim) {
       // 证据话语权 = 指标权重 × 可靠度（weight 缺省 1；如 AA 智能指数 2×，公示于 metrics.yaml）
       const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
       const wSum = fs.reduce((a, f) => a + ew(f), 0) || 1;
-      const score = fs.reduce((a, f) => a + ew(f) * f.score, 0) / wSum;
+      let score = fs.reduce((a, f) => a + ew(f) * f.score, 0) / wSum;
       // 指标内估计误差 + 指标间分歧（加权样本方差），单一指标时保底
       const withinVar = fs.reduce((a, f) => a + (ew(f) * f.se) ** 2, 0) / (wSum * wSum);
       const betweenVar =
         fs.length > 1
           ? fs.reduce((a, f) => a + ew(f) * (f.score - score) ** 2, 0) / wSum
           : 0;
-      const se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
+      let se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
+      // c) 非现役实体的纯名次维度收缩：维度证据全部是名次型（偏好类目）时，
+      //    偏好名次对「现役能力」的代表性已被 AA 缺席部分否定 → 与缺席先验 50/50 收缩，
+      //    先验不确定性并入维度误差。含区间型实测（SWE/AA/规格）的维度不受影响。
+      if (
+        entPrior &&
+        dim !== 'cost' &&
+        fs.every((f) => defs.get(f.metric)!.unit === 'rank')
+      ) {
+        score = (score + entPrior.score) / 2;
+        se = Math.max(SE_FLOOR, Math.sqrt(se * se + (entPrior.se / 2) ** 2));
+      }
       ent.dimScores[dim] = { score, se, n: fs.length };
     }
   }

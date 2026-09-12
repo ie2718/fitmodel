@@ -42,7 +42,7 @@ const primaryProduct = (subject: string) =>
 
 function factLine(r: FitResult, n = 2): string {
   return Object.values(r.entity.facts)
-    .filter((f) => !f.stale)
+    .filter((f) => !f.stale && !f.prior)
     .sort((a, b) => b.score - a.score)
     .slice(0, n)
     .map((f) => {
@@ -60,7 +60,7 @@ const priceStr = (r: FitResult) => {
 
 const citationIds = new Set<string>();
 for (const r of ranked.slice(0, 8)) {
-  for (const f of Object.values(r.entity.facts)) citationIds.add(f.evidId);
+  for (const f of Object.values(r.entity.facts)) if (!f.prior) citationIds.add(f.evidId);
 }
 const evidenceEntries = (await getCollection('evidence'))
   .filter((e) => citationIds.has(e.data.id))

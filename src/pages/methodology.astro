@@ -137,6 +137,21 @@ const schema = [
   维度分 = Σ(w × pct) / Σw
   维度误差 = √( 指标内误差² + 指标间分歧² )，下限 6 分</div>
 
+      <p><strong>缺席先验与一致性折减（2026-09-12 新增）</strong>——修复「旧代模型靠类目名次压过现役旗舰」的结构性偏差：</p>
+      <div class="formula">① 缺席先验   指标注册 absence_prior 时（当前仅 AA 智能指数 30 ± 24）
+             实体在该维度有其他实测、唯独缺该指标 → 注入先验事实参与聚合
+             依据：AA 为现役精选口径，官方下架被替代代际（GPT-5.6 先例）
+             缺席本身即「非现役」证据，期望低于在榜中位且高度不确定
+
+② 覆盖滞后折减  名次型事实低于同一实体其余实测共识（加权中位数）40 分以上
+             且其余实测 ≥4 条 → 可靠度 ×0.5，依据列标注「类目覆盖存疑」
+             依据：新旗舰进入类目榜滞后（同 Text 总榜曾缺 GPT-6），
+             覆盖滞后只会表现为名次异常低，故只单向向下折减
+
+③ 纯名次维度收缩  非现役实体（触发①）的维度若全部由名次型证据构成
+             → 维度分与缺席先验 50/50 收缩，先验不确定性并入误差界
+             含区间型实测（SWE-bench / AA / 规格值）的维度不受影响</div>
+
       <p><strong>场景适配分（Fit Score）</strong>——每个场景公示一组维度权重（和 = 1）：</p>
       <div class="formula">例：「IDE 内日常编码」  coding 65% · general 25% · long_context 10%
 
@@ -173,7 +188,7 @@ const schema = [
   price_median  = 同组混合价中位数
   <span class="op">→ 适配分相同但价格更低 → 性价比更高；上限 2× 防极端低价虚高</span></div>
 
-      <p><strong>综合能力指数</strong>（榜单页）：以公示权重 general 40% · coding 30% · writing 20% · long_context 10% 对全部变体计算 Fit。仿 Artificial Analysis 的做法——权重必须公示，改动必须在更新日志留痕。通用维度现在是「arena Elo + arena 名次 + 难题榜 + 指令遵循榜（各权重 1）+ AA 智能指数（权重 2，2026-09-08 人工确认上调）」按指标权重 × 可靠度加权——AA 独立自研、held-out 防污染，与 arena 盲测方法论正交，占通用维度约 1/3 话语权；长上下文维度由 arena 长查询类目驱动（用户偏好信号）。arena 未收录的新模型（如 GPT-6）经 AA 先行入榜、低置信度展示，收录后自动增强。</p>
+      <p><strong>综合能力指数</strong>（榜单页）：以公示权重 general 40% · coding 30% · writing 20% · long_context 10% 对全部变体计算 Fit。仿 Artificial Analysis 的做法——权重必须公示，改动必须在更新日志留痕。通用维度现在是「arena Elo + arena 名次 + 难题榜 + 指令遵循榜（各权重 1）+ AA 智能指数（权重 2，2026-09-08 人工确认上调）」按指标权重 × 可靠度加权——AA 独立自研、held-out 防污染，与 arena 盲测方法论正交，占通用维度约 1/3 话语权；长上下文维度由 arena 长查询类目驱动（用户偏好信号）。arena 未收录的新模型（如 GPT-6）经 AA 先行入榜、低置信度展示，收录后自动增强；被 AA 现役榜下架的旧代变体（如 opus-4.x、GPT-5.6 系）按非现役收缩，不再以历史类目名次冒充现役能力（2026-09-12，响应「综合榜不客观」反馈，波及分析与触发清单见更新日志）。</p>
     </section>
 
     <section>
@@ -222,7 +237,8 @@ const schema = [
         的 Intelligence Index 原始榜（当前 v4.3：AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、
         Humanity's Last Exam、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1 共 10 项评测加权合成，含私有 held-out 防污染）。
         它是唯一一个<strong>进入能力评分且带显式指标权重（2×）</strong>的外部榜单：独立自研基准与 arena 人类盲测方法论正交，
-        两者互为制衡；同时承担 arena 未收录新模型的先行入榜通道。版本演进（v4.2→v4.3）数值不可比，
+        两者互为制衡；同时承担 arena 未收录新模型的先行入榜通道，并作为<strong>现役前沿锚</strong>——未上榜变体按非现役
+        缺席先验收缩（见第四步①③）。版本演进（v4.2→v4.3）数值不可比，
         同变体旧值由 latest 聚合自动替换并在证据 notes 留痕。
       </p>
     </section>
