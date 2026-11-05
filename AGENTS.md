@@ -109,3 +109,4 @@ npm run sync          # ④ 再跑一次：对比排名快照，输出哪些场�
 - 排名是构建时产物，改数据后重新构建即刷新
 - **Agent 通道是构建产物，不要手改**：`/api/v1/*.json`、`/skill.md`、`llms.txt`、`llms-full.txt` 全部由构建从数据生成；改数据 → 重建即自动更新。唯一手工维护的源文件是 `skills/fitmodel-model-pick/SKILL.md`（场景清单占位区由构建注入）
 - **算法层改动留痕**：`src/lib/scoring.ts` / `board.ts`（综合指数权重等）调整时，必须同步方法论页与 `docs/research-2026-09.md` 的选型依据，并在 changelog 记录
+- **验证协议**：`.cursor/skills/fitmodel-verify/SKILL.md` 记录了完整的功能验证清单与检查命令；改动后运行验证确保数据完整性与 API 健康

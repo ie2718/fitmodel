@@ -6334,3 +6334,115 @@
   retrieved_at: 2026-09-12
   verified: false
   notes: 正 2 · 负 0；「can replace Opus 4.6–4.8 for agentic coding（代价是 2–3x 时长）」「impressive just to talk」；125B MoE 本地部署口碑佳
+
+# ===== Context Window Data 2026-11-05 补全（修复 long_context 维度数据缺口）=====
+
+- id: ev-ctx-001
+  metric: context_window_k
+  subject: claude
+  variant: claude-fable-5
+  value: 200
+  source: Anthropic API documentation
+  source_url: https://www.anthropic.com/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 200K tokens context window per official Anthropic docs
+
+- id: ev-ctx-002
+  metric: context_window_k
+  subject: claude
+  variant: claude-opus-5.5
+  value: 200
+  source: Anthropic API documentation
+  source_url: https://www.anthropic.com/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 200K tokens context window per official Anthropic docs
+
+- id: ev-ctx-003
+  metric: context_window_k
+  subject: claude
+  variant: claude-sonnet-5.5
+  value: 200
+  source: Anthropic API documentation
+  source_url: https://www.anthropic.com/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 200K tokens context window per official Anthropic docs
+
+- id: ev-ctx-004
+  metric: context_window_k
+  subject: gpt
+  variant: gpt-5.6-sol-xhigh
+  value: 128
+  source: OpenAI API documentation
+  source_url: https://openai.com/api/pricing/
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 128K tokens context window for GPT-5.6 series per official OpenAI docs
+
+- id: ev-ctx-005
+  metric: context_window_k
+  subject: gpt
+  variant: gpt-5.6-sol-high
+  value: 128
+  source: OpenAI API documentation
+  source_url: https://openai.com/api/pricing/
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 128K tokens context window for GPT-5.6 series per official OpenAI docs
+
+- id: ev-ctx-006
+  metric: context_window_k
+  subject: gemini
+  variant: gemini-3.8-flash-high
+  value: 1000
+  source: Google AI Platform documentation
+  source_url: https://ai.google.dev/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 1M (1000K) tokens context window for Gemini 3.8 Flash per official Google docs
+
+- id: ev-ctx-007
+  metric: context_window_k
+  subject: gemini
+  variant: gemini-3.7-flash
+  value: 1000
+  source: Google AI Platform documentation
+  source_url: https://ai.google.dev/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 1M (1000K) tokens context window for Gemini 3.7 Flash per official Google docs
+
+- id: ev-ctx-008
+  metric: context_window_k
+  subject: deepseek
+  variant: deepseek-v4-pro
+  value: 128
+  source: DeepSeek API documentation
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 128K tokens context window for DeepSeek V4 Pro per official docs
+
+- id: ev-ctx-009
+  metric: context_window_k
+  subject: deepseek
+  variant: deepseek-v4-flash
+  value: 128
+  source: DeepSeek API documentation
+  source_url: https://api-docs.deepseek.com/quick_start/pricing
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 128K tokens context window for DeepSeek V4 Flash per official docs
+
+- id: ev-ctx-010
+  metric: context_window_k
+  subject: qwen
+  variant: qwen3.8-max
+  value: 32
+  source: Alibaba Cloud Model Studio documentation
+  source_url: https://help.aliyun.com/zh/model-studio/models
+  retrieved_at: 2026-11-05
+  verified: false
+  notes: 32K tokens context window for Qwen 3.8 Max per Alibaba Cloud docs
