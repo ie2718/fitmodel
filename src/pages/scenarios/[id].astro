@@ -42,7 +42,7 @@ const primaryProduct = (subject: string) =>
 
 function factLine(r: FitResult, n = 2): string {
   return Object.values(r.entity.facts)
-    .filter((f) => !f.stale && !f.prior)
+    .filter((f) => !f.stale && !f.prior && !f.inactive && !f.outlier)
     .sort((a, b) => b.score - a.score)
     .slice(0, n)
     .map((f) => {

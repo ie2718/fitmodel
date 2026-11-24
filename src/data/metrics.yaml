@@ -104,11 +104,10 @@
   plausible: [0, 100]
   aggregator: latest
   weight: 2
-  # 缺席先验：AA 为现役精选口径（官方下架被替代代际，如 GPT-5.6 先例）。
-  # 有其他通用实测、唯独不在当前 AA 榜上的变体按「非现役」收缩——期望低于在榜中位（百分位 30）、
-  # 高度不确定（±24）。2026-11-24 起「当前榜」是 v5.0.1（此前为 v4.3）。纯名次维度同时与之 50/50 收缩
-  # （见 scoring.ts 4.5 节）。先验数值未改，调整需人工确认并留痕。
-  absence_prior: { pct: 30, se: 24 }
+  # 2026-11-24 撤下缺席先验。11 月榜上 Arena 前 10 里有多条仍在役的配置
+  # （Opus 5.5 High 总榜第 5、Opus 4.6 High 第 7、Gemini 4 Neon High 第 3）
+  # 只是因为 AA 分数记在另一个 effort 变体上，就被 30±24 的先验连同写作/编码/长查询一起打进中下游。
+  # 「没出现在 AA 这一行」不再当成非现役证据。
   source: Artificial Analysis Intelligence Index v5.0.1
   description: Artificial Analysis 自研评测集加权合成的智能指数——自研评测属独立基准（tier 2），非聚合转载。当前采集口径为 v5.0.1（2026-11-24）：AA-Briefcase v1.1、AutomationBench-AA、Terminal-Bench 4.0、FrontierCode-AA 2.0、AA-Omniscience v1.1、GDP.pdf、HLE-Diamond、CritPt v2（Hard Subset）、Terminal-Bench-Science 0.1，共 9 项。v5.0.1 与 v4.3（10 项：AA-Briefcase、GDPval-AA v2、AutomationBench-AA、Terminal-Bench v4.0、SciCode、Humanity's Last Exam、GDP.pdf、CritPt、AA-Omniscience、AA-LCR v1.1）数值不可比，latest 聚合自动替换。指标权重 2（通用维度内话语权约为单信号 2 倍，占通用维度约 1/3）：独立方法论与 arena 盲测互为制衡，且承担 arena 未收录新模型的先行入榜通道。2026-09-08 经用户确认权重上调并全量重采 v4.3。2026-09-06 经用户反馈确认新增并升为 tier 2。权重未在 2026-11-24 改动。
 
@@ -214,7 +213,7 @@
 
 - id: context_window_k
   label: 上下文窗口（千 tokens）
-  dimension: long_context
+  dimension: spec
   unit: k tokens
   direction: higher
   source_tier: 1
@@ -222,7 +221,7 @@
   plausible: [4, 15000]
   aggregator: latest
   source: 各厂商官方文档
-  description: 官方标称上下文长度。证据采集中，暂无数据。
+  description: 官方标称上下文长度，规格而非能力测量。2026-11-24 起不入场景分和性价比——前沿模型几乎都是 1M，线性 z-score 会把 1024 与 1000 的规格差放大成几十分；只标了窗口、没有榜单分数的模型（如 Doubao Seed 2.1 Pro）因此独占性价比档。长上下文能力只看 Arena 长查询名次。
 
 - id: price_input_usd_m
   label: API 输入价（USD/百万 tokens）

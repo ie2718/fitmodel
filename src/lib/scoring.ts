@@ -75,8 +75,10 @@ export interface Fact {
   notes?: string;
   /** 合成先验事实（非实测）：展示层与 API 应过滤，不作为「依据」展示 */
   prior?: boolean;
-  /** 类目覆盖滞后折减标记：名次显著（>40 百分位）低于自身其余实测的共识，可靠度已 ×0.5 */
+  /** 类目覆盖滞后：名次显著（>40 百分位）低于自身其余实测的共识，不进入聚合，仍可展示 */
   outlier?: boolean;
+  /** 与已入分的同源指标重复（总榜 Elo × 总榜名次），不进入聚合，仍可展示 */
+  inactive?: boolean;
 }
 
 export interface DimScore {
@@ -105,6 +107,8 @@ export interface FitResult {
 }
 
 const TIER_WEIGHT: Record<number, number> = { 1: 1, 2: 0.85, 3: 0.5 };
+/** 能进入场景分 / 性价比的能力维度。规格（上下文窗口）与价格、用量不在此列。 */
+const SCORE_DIMS = new Set(['general', 'coding', 'writing', 'long_context', 'agent']);
 /** 90% 误差界的正态分位数 */
 const Z90 = 1.645;
 /** 同组比较样本量因子：参与比较的实体 ≥10 个记满分，不足按比例降置信 */
@@ -344,12 +348,11 @@ export function buildScoreEngine(
     };
   }
 
-  // ---- 4.5) 缺席先验注入 + 跨信号一致性折减 ----
-  // a) 缺席先验（absence_prior，如 AA 现役前沿榜）：实体在该指标维度内有其他能力类实测、唯独缺本指标时，
-  //    注入一条先验事实。依据：现役精选榜会下架被替代代际（AA 下架 GPT-5.6 先例），
-  //    缺席 ⇒ 非现役 ⇒ 能力期望低于在榜中位且高度不确定（pct/se 公示于 metrics.yaml）。
-  //    注意两点：只对「维度内有实测」的实体注入（全维度缺失走第二段知情先验，不重复收缩）；
-  //    community_signal 是修正信号而非能力实测，不作为触发依据（否则补口碑反而触发非现役收缩）。
+  // ---- 4.5) 可选缺席先验 + 类目覆盖滞后 ----
+  // 缺席先验只在指标登记了 absence_prior 时注入。2026-11-24 起 AA 不再登记：
+  // 「这一行没有 AA 分」经常只是分数记在另一个 effort 变体上，不是下架。
+  // 纯名次维度向缺席先验 50/50 收缩已删除，写作/编码/长查询跟各自的 Arena 类目走。
+  // community_signal 不是能力实测，不作为注入缺席先验的触发依据。
   const TRIGGER_EXEMPT = new Set(['community_signal']);
   for (const def of metrics) {
     const ap = def.absence_prior;
@@ -382,35 +385,42 @@ export function buildScoreEngine(
       };
     }
   }
-  // b) 类目覆盖滞后折减：名次型事实低于同一实体其余实测（不含先验/价格）可靠度加权中位数 40 分以上、
-  //    且其余实测 ≥4 条 —— 新旗舰进入类目榜滞后的典型形态（同 Text 总榜曾缺 GPT-6）。
-  //    可靠度 ×0.5 并打标，不删证据、可回查；只单向向下（覆盖滞后只会表现为名次异常低）。
+  // 总榜 Elo 与总榜名次是同一张榜的两种编码。名次保留公开顺序；
+  // Elo 的 z-score 在拥挤前沿会把第 9 名打成百分位 48。两者同时存在时 Elo 只展示、不投票。
   for (const ent of entities.values()) {
-    const cap = Object.values(ent.facts).filter(
-      (f) => !f.prior && !f.stale && defs.get(f.metric)!.dimension !== 'cost',
-    );
-    if (cap.length < 5) continue;
+    const rank = ent.facts['arena_rank_overall'];
+    const elo = ent.facts['arena_elo_overall'];
+    if (rank && !rank.stale && elo && !elo.stale) elo.inactive = true;
+  }
+
+  // b) 类目覆盖滞后：名次型事实低于同一实体其余能力实测中位数 40 分以上，
+  //    且其余实测 ≥2 条。这种名次不进入聚合（维度改由其余事实决定；若它是该维度唯一事实，
+  //    维度视为缺失，走知情先验）。证据仍展示并标注。只单向向下。
+  //    2026-11-24：门槛从「其余 ≥4」降到「其余 ≥2」，否则 AA 第 2 的编码名次 #48
+  //    （百分位 6）因事实条数不够而整段编码分被拖到 46。
+  for (const ent of entities.values()) {
+    const cap = Object.values(ent.facts).filter((f) => {
+      if (f.prior || f.stale || f.inactive) return false;
+      return SCORE_DIMS.has(defs.get(f.metric)!.dimension);
+    });
+    if (cap.length < 3) continue;
     for (const f of cap) {
       if (defs.get(f.metric)!.unit !== 'rank') continue;
       const others = cap.filter((x) => x !== f);
       const consensus = median(others.map((x) => x.score));
-      if (consensus - f.score > 40) {
-        f.reliability *= 0.5;
-        f.outlier = true;
-      }
+      if (consensus - f.score > 40) f.outlier = true;
     }
   }
 
   for (const ent of entities.values()) {
     const byDim = new Map<string, Fact[]>();
     for (const f of Object.values(ent.facts)) {
-      if (f.stale) continue;
+      if (f.stale || f.inactive || f.outlier) continue;
       const dim = defs.get(f.metric)!.dimension;
+      if (!SCORE_DIMS.has(dim)) continue;
       if (!byDim.has(dim)) byDim.set(dim, []);
       byDim.get(dim)!.push(f);
     }
-    // 该实体的缺席先验事实（如有）：供纯名次维度收缩用
-    const entPrior = Object.values(ent.facts).find((f) => f.prior);
     for (const [dim, fs] of byDim) {
       // 证据话语权 = 指标权重 × 可靠度（weight 缺省 1；如 AA 智能指数 2×，公示于 metrics.yaml）。
       // 注：不用逆方差（IVW）精度加权——本站三种 se 口径（Beta 后验 / delta 法 / 结构先验）不可通约，
@@ -424,18 +434,7 @@ export function buildScoreEngine(
         fs.length > 1
           ? fs.reduce((a, f) => a + ew(f) * (f.score - score) ** 2, 0) / wSum
           : 0;
-      let se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
-      // c) 非现役实体的纯名次维度收缩：维度证据全部是名次型（偏好类目）时，
-      //    偏好名次对「现役能力」的代表性已被 AA 缺席部分否定 → 与缺席先验 50/50 收缩，
-      //    先验不确定性并入维度误差。含区间型实测（SWE/AA/规格）的维度不受影响。
-      if (
-        entPrior &&
-        dim !== 'cost' &&
-        fs.every((f) => defs.get(f.metric)!.unit === 'rank')
-      ) {
-        score = (score + entPrior.score) / 2;
-        se = Math.max(SE_FLOOR, Math.sqrt(se * se + (entPrior.se / 2) ** 2));
-      }
+      const se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
       ent.dimScores[dim] = { score, se, n: fs.length };
     }
   }
@@ -485,7 +484,7 @@ export function buildScoreEngine(
       measuredFactWeights.push({ w, ds });
       // 该维度下的有效事实（与聚合口径一致：话语权 = 指标权重 × 可靠度）
       const fs = Object.values(ent.facts).filter(
-        (f) => !f.stale && defs.get(f.metric)!.dimension === dim,
+        (f) => !f.stale && !f.inactive && !f.outlier && defs.get(f.metric)!.dimension === dim,
       );
       const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
       const fw = fs.reduce((a, f) => a + ew(f), 0) || 1;
@@ -511,10 +510,27 @@ export function buildScoreEngine(
     // 按证据可靠度（来源层级 × 样本量）打折——证据越薄越向中位回落，夹在 [30, 70]。
     // 对比盲先验：AA 总榜第 2 的新模型不再被「缺编码/写作数据」拖到中游冒充实排。
     const measuredMean = usedW > 0 ? accMeasured / usedW : null;
-    const priorConfidence = sourceFactor * sampleFactor;
+    // 证据广度：只测到 1 个能力维度时，缺失维度少跟着走（×0.45）；2 个 ×0.75；≥3 全额。
+    // 否则一条 SWE 或一条 WebDev 名次会把其余维度抬到上限。规格与价格不计。
+    const nDims = new Set(
+      Object.values(ent.facts)
+        .filter(
+          (f) =>
+            !f.prior &&
+            !f.stale &&
+            !f.inactive &&
+            !f.outlier &&
+            SCORE_DIMS.has(defs.get(f.metric)!.dimension),
+        )
+        .map((f) => defs.get(f.metric)!.dimension),
+    ).size;
+    const breadth = nDims >= 3 ? 1 : nDims === 2 ? 0.75 : 0.45;
+    const priorConfidence = sourceFactor * sampleFactor * breadth;
+    // 上限 85（原 70）：测得很满、只缺一个被判为覆盖滞后的维度时，不再被夹到 70。
+    // 单维度模型靠上面的广度系数回落到中位附近，不会吃到这个上限。
     const informedPrior =
       measuredMean !== null
-        ? Math.max(30, Math.min(70, 50 + (measuredMean - 50) * priorConfidence))
+        ? Math.max(30, Math.min(85, 50 + (measuredMean - 50) * priorConfidence))
         : PRIOR_SCORE;
     let inclW = 0;
     let acc = 0;
@@ -546,7 +562,7 @@ export function buildScoreEngine(
     // 性价比分：只用「有真实能力证据」的变体 + 实测适配分（不含先验收缩）——
     // 否则纯价格证据的变体会以 fit=先验 50 × 价格比上限 2 满分齐平，档位失去信息量
     const hasCapability = Object.values(ent.facts).some(
-      (f) => !f.stale && defs.get(f.metric)!.dimension !== 'cost',
+      (f) => !f.stale && !f.prior && SCORE_DIMS.has(defs.get(f.metric)!.dimension),
     );
     const fitMeasured = usedW > 0 ? accMeasured / usedW : null;
     let value: number | null = null;

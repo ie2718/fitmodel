@@ -1,5 +1,15 @@
 # 更新日志
 
+- id: cl-2026-11-24-score-audit
+  date: 2026-11-24
+  title: 评分规则对照 11 月 Arena / AA 修订——现役模型不再被缺席先验和规格分打乱
+  entries:
+    - "对照：Arena 风格控制 Text 榜（2026-11-22）与 AA v5.0.1。改规则前，总榜第 3 的 Gemini 4 Neon High 综合第 35，总榜第 5 的 Opus 5.5 High 综合第 45，AA 第 1 的 Fable 5.2 Max 综合第 26，AA 第 2 的 GPT-6.2 Astra Max 综合第 18。Doubao Seed 2.1 Pro 没有能力榜分数，性价比排第一。"
+    - "撤下 AA 缺席先验（30±24）和纯名次维度的 50/50 对折。11 月 Arena 前 10 里，Opus 5.5 High、Neon High、Opus 4.6 High 都还在榜，只是 AA 分数记在另一个 effort 上。写作/编码/长查询重新跟各自的 Arena 类目。"
+    - "名次若低于该模型其余能力实测中位数 40 分以上、且其余至少 2 条，则不进聚合（依据列仍标注）。Fable 5.2 Max 的文本编码第 31、GPT-6.2 Astra 的编码第 48 属于这种情形。总榜 Elo 在已有名次时不再第二次投票。"
+    - "官方上下文窗口从 long_context 改到 spec，不进场景分和性价比。长上下文榜只保留 Arena 长查询名次。知情先验上限 70→85，并按已测能力维度数打折（1 维 ×0.45，2 维 ×0.75，≥3 ×1），避免一条旧 SWE 把其余维度抬满。"
+    - "同一批证据下综合指数前 8：Gemini 4 Carbon High、Opus 5.5 Max、Gemini 4 Neon High、Fable 5、Gemini 4 Argon High、Fable 5.2 Max、GPT-6.2 Astra Max、GPT-6.2 Sol Max。长文档场景第一名回到长查询榜前列。性价比第一不再是只有窗口和价格的 Doubao。权重未改。依据见 docs/research-2026-09.md 2026-11-24 增补。"
+
 - id: cl-2026-11-24-fable5-supersede
   date: 2026-11-24
   title: Fable 5 的 9 月总榜第 1 被 11 月实测替换，不再和 Fable 5.2 分成两个互不相干的实体
