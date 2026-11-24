@@ -1196,7 +1196,7 @@
 - id: ev-arena-072
   metric: arena_agent_improvement
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 11.57
   source: arena.ai leaderboard
   source_url: https://arena.ai/leaderboard/agent
@@ -6444,23 +6444,23 @@
 - id: ev-arena-366
   metric: arena_elo_overall
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 1504
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 6，评分 1504.1（区间 1499.9–1508.2），票数 45277。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 6，评分 1504.1（区间 1499.9–1508.2），票数 45277。"
 - id: ev-arena-367
   metric: arena_rank_overall
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 6
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 6，评分 1504.1（区间 1499.9–1508.2），票数 45277。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 6，评分 1504.1（区间 1499.9–1508.2），票数 45277。"
 - id: ev-arena-368
   metric: arena_elo_overall
   subject: claude
@@ -7914,13 +7914,13 @@
 - id: ev-arena-513
   metric: arena_rank_coding
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 4
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text/coding
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 4，评分 1551.3（区间 1544.9–1557.8），票数 11602。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 4，评分 1551.3（区间 1544.9–1557.8），票数 11602。"
 - id: ev-arena-514
   metric: arena_rank_coding
   subject: claude
@@ -8714,13 +8714,13 @@
 - id: ev-arena-593
   metric: arena_rank_writing
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 6
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text/creative-writing
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 6，评分 1501.3（区间 1494.1–1508.5），票数 9786。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 6，评分 1501.3（区间 1494.1–1508.5），票数 9786。"
 - id: ev-arena-594
   metric: arena_rank_writing
   subject: claude
@@ -9504,13 +9504,13 @@
 - id: ev-arena-672
   metric: arena_rank_hard_prompts
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 7
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text/hard-prompts
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 7，评分 1529.5（区间 1524.7–1534.3），票数 29391。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 7，评分 1529.5（区间 1524.7–1534.3），票数 29391。"
 - id: ev-arena-673
   metric: arena_rank_hard_prompts
   subject: claude
@@ -10254,13 +10254,13 @@
 - id: ev-arena-747
   metric: arena_rank_instruction
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 6
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text/instruction-following
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 6，评分 1508.8（区间 1503.0–1514.6），票数 15958。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 6，评分 1508.8（区间 1503.0–1514.6），票数 15958。"
 - id: ev-arena-748
   metric: arena_rank_instruction
   subject: claude
@@ -10974,13 +10974,13 @@
 - id: ev-arena-819
   metric: arena_rank_longer_query
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 3
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/chat/text/longer-query
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 3，评分 1522.3（区间 1516.8–1527.8），票数 20886。"
+  notes: "Arena 官方 leaderboard dataset（text_style_control / latest，leaderboard_publish_date 2026-11-22），与 arena.ai 页面默认 style control 榜一致。Elo 为发布分四舍五入整数。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 3，评分 1522.3（区间 1516.8–1527.8），票数 20886。"
 - id: ev-arena-820
   metric: arena_rank_longer_query
   subject: gemini
@@ -12034,13 +12034,13 @@
 - id: ev-webdev-052
   metric: arena_rank_webdev
   subject: claude
-  variant: claude-fable-5-high
+  variant: claude-fable-5
   value: 32
   source: "arena.ai leaderboard"
   source_url: https://arena.ai/leaderboard/code/webdev
   retrieved_at: 2026-11-24
   verified: false
-  notes: "Arena 官方 leaderboard dataset（webdev / category=webdev，leaderboard_publish_date 2026-11-22）。站点另有 frontend / fullstack 分榜，本指标沿用 webdev 类目名次。 展示名「Claude Fable 5 (High)」，组织 anthropic，名次 32，评分 1625.9（区间 1619.9–1631.9），票数 16857。"
+  notes: "Arena 官方 leaderboard dataset（webdev / category=webdev，leaderboard_publish_date 2026-11-22）。站点另有 frontend / fullstack 分榜，本指标沿用 webdev 类目名次。 展示名「Claude Fable 5 (High)」。9 月采集的 claude-fable-5 没有力度后缀，本条续写同一评分实体，替换当时的总榜第 1，组织 anthropic，名次 32，评分 1625.9（区间 1619.9–1631.9），票数 16857。"
 - id: ev-webdev-053
   metric: arena_rank_webdev
   subject: qwen
@@ -13531,26 +13531,6 @@
   retrieved_at: 2026-11-24
   verified: false
   notes: "标准档基础价（非 Fast、不含缓存）。与 2026-08-22 采集相同。 官方价按模型计，不按推理力度分价，故记到榜单变体上。"
-- id: ev-price-069
-  metric: price_input_usd_m
-  subject: claude
-  variant: claude-fable-5-high
-  value: 10
-  source: "Anthropic 官方定价文档"
-  source_url: https://platform.claude.com/docs/en/about-claude/pricing
-  retrieved_at: 2026-11-24
-  verified: false
-  notes: "标准档基础价（非 Fast、不含缓存）。与 2026-08-22 采集相同。 官方价按模型计，不按推理力度分价，故记到榜单变体上。"
-- id: ev-price-070
-  metric: price_output_usd_m
-  subject: claude
-  variant: claude-fable-5-high
-  value: 50
-  source: "Anthropic 官方定价文档"
-  source_url: https://platform.claude.com/docs/en/about-claude/pricing
-  retrieved_at: 2026-11-24
-  verified: false
-  notes: "标准档基础价（非 Fast、不含缓存）。与 2026-08-22 采集相同。 官方价按模型计，不按推理力度分价，故记到榜单变体上。"
 - id: ev-price-071
   metric: price_input_usd_m
   subject: claude
@@ -14025,16 +14005,6 @@
   metric: context_window_k
   subject: claude
   variant: claude-fable-5
-  value: 1000
-  source: "Anthropic 官方定价文档"
-  source_url: https://platform.claude.com/docs/en/about-claude/pricing
-  retrieved_at: 2026-11-24
-  verified: false
-  notes: "官方定价页写明：Claude 4.6 及之后的模型（Claude Haiku 5.5 除外）与 Claude Mythos Preview 在标准价下包含完整 100 万 token 上下文。取值 1000（千 tokens）。"
-- id: ev-ctx-007
-  metric: context_window_k
-  subject: claude
-  variant: claude-fable-5-high
   value: 1000
   source: "Anthropic 官方定价文档"
   source_url: https://platform.claude.com/docs/en/about-claude/pricing

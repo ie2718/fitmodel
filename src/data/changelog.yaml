@@ -1,5 +1,13 @@
 # 更新日志
 
+- id: cl-2026-11-24-fable5-supersede
+  date: 2026-11-24
+  title: Fable 5 的 9 月总榜第 1 被 11 月实测替换，不再和 Fable 5.2 分成两个互不相干的实体
+  entries:
+    - "页面上看到的仍是 2026-09-12 的构建（GitHub Pages 只从 main 部署）。那一版把 claude-fable-5 放在综合第 1，用的是 9 月 5 日总榜第 1。"
+    - "11 月 22 日 Arena 上这条模型的标签是 Claude Fable 5 (High)，总榜第 6、编码第 4、写作第 6（45277 票）。上一轮把它写成了新变体 claude-fable-5-high，9 月的第 1 名还挂在 claude-fable-5 上继续入分。现把 11 月名次续写到 claude-fable-5，latest 聚合替换 9 月名次。重复的价格和上下文行已删。"
+    - "Fable 5.2 是另一代。Max 配置：AA v5.0.1 第 1（64.56）、Arena 总榜第 8（5842 票）、写作第 1、文本编码第 31（958 票，样本明显薄于 Fable 5 High 的 11602 票）。WebDev 第 1 在 xhigh 配置上，不并进 max。编码第 31 仍按名次入分，不手工抬综合名次。综合指数 claude-fable-5 从靠 9 月名次撑住的第 2（88.7）降到第 8（80）；claude-fable-5.2-max 在第 26（69.7）。场景三档推荐相对上一笔快照无变化。"
+
 - id: cl-2026-11-24-weekly-sync
   date: 2026-11-24
   title: 周同步：Arena 11-22 榜、AA v5.0.1、官方价格与 OpenRouter 周用量
