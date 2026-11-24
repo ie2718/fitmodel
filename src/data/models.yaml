@@ -7,11 +7,11 @@
   vendor: Anthropic
   origin: global
   context: 以官方文档为准（证据采集中）
-  api_pricing: 旗舰 Opus/Fable $5–10/百万输入、$25–50/百万输出；Sonnet 5 $2/$10 已转长期标准价（官方，2026-08-22）
+  api_pricing: Fable 5.2 $8/$40；Fable 5 与 5.1 $10/$50；Opus 5.5 $4/$20；Opus 4.6–5 $5/$25；Sonnet 5 与 5.5 $2/$10；Haiku 5.5 短上下文 $0.10/$0.50（官方标准档，2026-11-24）
   subscription: Claude Pro 约 $20/月（待核实）
   availability_cn: restricted
   strengths: [Arena 总榜第一梯队, 编码与写作类目领先]
-  current_version: Fable 5.1（max，Arena 总榜第 3，2026-09-05）/ Opus 4.x–4.8 / Opus 5 系列
+  current_version: Fable 5.2（max，AA v5.0.1 64.56，Arena 总榜第 8，2026-11-22）/ Opus 5.5 / Fable 5
   needs_verification: false
 
 - id: gpt
@@ -19,11 +19,11 @@
   vendor: OpenAI
   origin: global
   context: 长上下文档另有加价（官方文档）
-  api_pricing: 5.6 系 $0.2–4/百万输入、$1.2–20/百万输出；sol 于 2026-08 间降价（官方，2026-08-22）
+  api_pricing: 6.2 Astra 标准档 $8/$40；6.2 Sol $2/$10；6 Astra $10/$50；6.1 Terra $1/$5；6 Luna $0.10/$0.50；5.6 Sol 仍为 $4/$20 且页面写明促销到 2026-11-30（官方，2026-11-24）
   subscription: ChatGPT Plus 约 $20/月（待核实）
   availability_cn: restricted
   strengths: [GPT-6 Astra 居 AA 智能指数第 2, Arena Agent 榜第 4（sol-xhigh）, 生态与工具集成广]
-  current_version: GPT-6 Astra（max/xhigh，AA 智能指数第 2/3，2026-09-06，arena 收录中）；上一代 5.6（sol 总榜第 17）与 5.5/5.4 系列并行在榜
+  current_version: GPT-6.2 Astra（max，AA v5.0.1 62.14，2026-11-24）/ 6.2 Sol / 6 Astra；5.6 仍在售
   needs_verification: false
 
 - id: gemini
@@ -31,11 +31,11 @@
   vendor: Google
   origin: global
   context: 以官方文档为准（证据采集中）
-  api_pricing: 3.7/3.6 Flash $0.75/$3.75（促销至 2026-12-31）；3.1 Pro Preview $2/$12（官方，2026-08-22）
+  api_pricing: 4 Carbon / 4 Argon 标准档现价 $2/$10（促销至 2026-11-30，之后 $4/$20）；4 Neon $3/$15；3.8 与 3.6 Flash $0.75/$3.75（促销至 2026-12-31）；3.1 Pro Preview 短上下文 $2/$12（官方，2026-11-24）
   subscription: Google AI 会员（待核实）
   availability_cn: restricted
   strengths: [Flash 档价格低, 免费额度慷慨, 多模态]
-  current_version: 3.8 Flash（high，Arena 总榜第 8，2026-09-05）；3.7/3.6 Flash 并行供应
+  current_version: Gemini 4 Carbon（high，Arena 总榜第 1，2026-11-22）/ 4 Argon / 4 Neon；3.8 Flash 仍在榜。3.7 Flash 已不在官方定价页
   needs_verification: false
 
 - id: deepseek
@@ -43,10 +43,10 @@
   vendor: 深度求索
   origin: cn
   context: 以官方文档为准（证据采集中）
-  api_pricing: V4 峰谷计价（2026-08-16 起）：Flash 峰 $0.44/$1.32、谷 $0.22/$0.66；Pro 峰 $1.32/$3.96、谷 $0.66/$1.98（官方，2026-08-22）
+  api_pricing: V4.1 Flash（模型名 deepseek-flash；旧名 v4-flash 按此价承接）峰时缓存未命中 $0.30/$1.20；V4 Pro 峰时 $1.32/$3.96（官方，2026-11-24；峰谷口径延续 2026-08-16）
   availability_cn: direct
   strengths: [价格显著低于同档, 网页端免费]
-  current_version: V4 系列
+  current_version: V4.1 Flash 1017 / V4 Pro 0813
   needs_verification: false
 
 - id: qwen
@@ -54,10 +54,10 @@
   vendor: 阿里巴巴
   origin: cn
   context: 多档位（证据采集中）
-  api_pricing: 待采集（百炼平台）
+  api_pricing: Qwen4-Max 北京标准价 10/30 元每百万 token（约 $1.50/$4.50，按 2026-11-24 汇率 6.67 折算）
   availability_cn: direct
   strengths: [Arena 总榜前 20（qwen3.8-max，2026-09-05 第 22 名）, 全尺寸开源, WebDev 榜第 2（3.8-max-0902 快照，待核实）]
-  current_version: Qwen3.8-Max（Arena 榜，2026-09）
+  current_version: Qwen4-Max（2026-11）/ Qwen3.8 仍在 Arena
   needs_verification: false
 
 - id: muse-spark
@@ -137,22 +137,22 @@
   vendor: 智谱
   origin: cn
   context: 以官方为准（证据采集中）
-  api_pricing: 待采集（定价页为动态渲染，需人工/agent 二次采集）
+  api_pricing: GLM-5.3 8/28 元每百万 token（约 $1.20/$4.20）；Flash 0.8/2.8 元（官方文档，2026-11-24，按 6.67 折算）
   subscription: GLM Coding 套餐（待核实）
   availability_cn: direct
   strengths: [编程与 Agent 定位, 订阅制编码套餐]
-  current_version: GLM-5.3 系列（max 总榜第 20；flash 编码榜第 9，2026-09-05）
+  current_version: GLM-5.3 / 5.3-Flash（2026-11-24 官方仍在售）
   needs_verification: true
 
 - id: kimi
   name: Kimi
   vendor: 月之暗面
   origin: cn
-  context: 以长文本著称（官方窗口数据待采集）
-  api_pricing: 待采集（K3/K2.x 定价页为分页动态渲染）
+  context: K3 系列官方上下文 1,048,576 tokens（2026-11-24）
+  api_pricing: 待采集（定价页静态表格为空，本轮不记价）
   availability_cn: direct
   strengths: [长文档处理, 中文写作]
-  current_version: K3 / K2.x 系列（待核实）
+  current_version: K3.1 Pro / K3（K2 系列官方计划 2026-12 底下线）
   needs_verification: true
 
 - id: doubao
@@ -160,10 +160,10 @@
   vendor: 字节跳动
   origin: cn
   context: 以官方为准（证据采集中）
-  api_pricing: 火山方舟按量计费（待采集）
+  api_pricing: Seed 2.1 Pro 在线推理常规 6/30 元每百万 token（约 $0.90/$4.50；火山方舟 2026-11-19，按 6.67 折算）
   availability_cn: direct
   strengths: [中文日常写作, 多模态, App 体验]
-  current_version: 待核实（2026-09-08 清理：原字段误粘贴为 Grok 4.6 榜单战绩，已复位）
+  current_version: Doubao Seed 2.1 Pro（2026-11-19 价格表）
   needs_verification: true
 
 - id: hunyuan
@@ -174,7 +174,7 @@
   api_pricing: 待采集
   availability_cn: direct
   strengths: [腾讯生态集成]
-  current_version: hy4-preview（Arena WebDev 榜第 10，2026-09-05，待核实）
+  current_version: Hy4（AA v5.0.1 34.56）；OpenRouter 周用量另有 Hy4 flash（2026-11-23）
   needs_verification: true
 
 - id: ernie
@@ -196,7 +196,7 @@
   api_pricing: 待采集
   availability_cn: direct
   strengths: [长文本, 语音与视频多模态]
-  current_version: 待核实
+  current_version: M3.1 Flash（OpenRouter 周用量）/ M3（AA v5.0.1 18.88）
   needs_verification: true
 
 - id: grok
@@ -208,7 +208,7 @@
   subscription: X Premium 捆绑（待核实）
   availability_cn: restricted
   strengths: [实时信息接入 X]
-  current_version: 待核实
+  current_version: Grok 4.7（xhigh，AA v5.0.1 35.49）；4.20 仍在 Arena。xAI 定价页不在本轮任务卡，价格未采
   needs_verification: true
 
 - id: llama
@@ -219,5 +219,221 @@
   api_pricing: 开放权重，可免费自部署
   availability_cn: direct
   strengths: [开放权重, 可本地部署与微调]
-  current_version: 待核实
+  current_version: Llama 4 Maverick / Scout 仍见于 Arena 长尾（2026-11-22），旗舰位已是 Muse 系
   needs_verification: true
+
+- id: muse-wonder
+  name: Muse Wonder
+  vendor: Meta（AA 与 Arena 图例归属，待人工确认）
+  origin: global
+  context: 约 1M（Arena 页面，非官方定价页）
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [Arena 总榜第 4（max，2026-11-22）, AA v5.0.1 Wonder Full 50.08]
+  current_version: Muse Wonder（max）/ Wonder Full
+  needs_verification: true
+  notes: 2026-11-24 入库。与 Muse Spark、Muse Ember、Muse Glimmer 分开建家族。
+
+- id: muse-ember
+  name: Muse Ember
+  vendor: Meta（AA 图例归属，待人工确认）
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 36.02]
+  current_version: Muse Ember（max）
+  needs_verification: true
+  notes: 2026-11-24 随 AA v5.0.1 入库。
+
+- id: k2
+  name: K2 Horizon
+  vendor: Institute of Foundation Models（AA creator slug ifm，待人工确认）
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 K2 Horizon 375B 17.82]
+  current_version: K2 Horizon 375B A23B
+  needs_verification: true
+  notes: 2026-11-24 入库。不要和 Kimi K2 混成一个家族。
+
+- id: inclusionai
+  name: Ling
+  vendor: InclusionAI
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Ling 3.1 Flash 29.57]
+  current_version: Ling 3.1 Flash 1019
+  needs_verification: true
+  notes: 2026-11-24 随 AA v5.0.1 入库。
+
+- id: reflection
+  name: Beam
+  vendor: Reflection
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Beam 1.0 17.73]
+  current_version: Beam 1.0
+  needs_verification: true
+  notes: 2026-11-24 随 AA v5.0.1 入库。
+
+- id: ibm
+  name: Granite
+  vendor: IBM
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 有 Granite 4.2 小模型分数]
+  current_version: Granite 4.2
+  needs_verification: true
+  notes: 2026-11-24 随 AA v5.0.1 入库。Arena 长尾另有 Granite 4.1 8B。
+
+- id: unisound
+  name: U2
+  vendor: 云知声
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: direct
+  strengths: [Arena 类目约第 41（U2 Flash，2026-11-22）]
+  current_version: U2 Flash
+  needs_verification: true
+  notes: 2026-11-24 因 Arena 前 50 出现而入库，厂商中文名待人工确认。
+
+- id: cohere
+  name: Cohere
+  vendor: Cohere
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 长尾有 Command A+]
+  current_version: Command A+
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: stepfun
+  name: Step
+  vendor: 阶跃星辰
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: direct
+  strengths: [AA v5.0.1 Step 5 Preview 28.53]
+  current_version: Step 5 Preview
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: china-mobile
+  name: JT
+  vendor: 中国移动
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: direct
+  strengths: [AA v5.0.1 有 JT 系列分数]
+  current_version: JT-4.1 Flash
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: lg
+  name: EXAONE
+  vendor: LG
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 长尾有 K-EXAONE]
+  current_version: K-EXAONE 2.0
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: liquidai
+  name: LFM
+  vendor: Liquid AI
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 长尾有 LFM3]
+  current_version: LFM3
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: upstage
+  name: Solar
+  vendor: Upstage
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Solar Pro 4]
+  current_version: Solar Pro 4
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: apodex
+  name: Apodex
+  vendor: Apodex
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Apodex 1.1]
+  current_version: Apodex 1.1
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: nanbeige
+  name: Nanbeige
+  vendor: Nanbeige
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Nanbeige4.3-33B]
+  current_version: Nanbeige4.3-33B
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库，厂商归属待人工确认。
+
+- id: joy-ai
+  name: JoyAI
+  vendor: JoyAI
+  origin: cn
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 JoyAI-VL Preview]
+  current_version: JoyAI-VL-Preview
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: agnes-ai
+  name: Agnes
+  vendor: Agnes AI
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 Agnes 2.5 Pro Theta]
+  current_version: Agnes 2.5 Pro Theta
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。
+
+- id: sk-telecom
+  name: A.X
+  vendor: SK Telecom
+  origin: global
+  context: 待核实
+  api_pricing: 待采集
+  availability_cn: restricted
+  strengths: [AA v5.0.1 A.X-K2]
+  current_version: A.X-K2
+  needs_verification: true
+  notes: 2026-11-24 随 AA release 级指数入库。不要和 K2 Horizon 或 Kimi K2 合并。

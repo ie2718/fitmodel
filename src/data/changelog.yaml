@@ -1,5 +1,22 @@
 # 更新日志
 
+- id: cl-2026-11-24-weekly-sync
+  date: 2026-11-24
+  title: 周同步：Arena 11-22 榜、AA v5.0.1、官方价格与 OpenRouter 周用量
+  entries:
+    - "巡检：上一轮证据停在 2026-09-12。过期的是价格、AA 智能指数、OpenRouter 周用量、社区口碑、Arena Agent 净改进率；Arena 类目与 SWE-bench 过半。本轮按白名单重采能核对到的来源。"
+    - "Arena（text_style_control，官方 leaderboard dataset，发布日 2026-11-22，与页面默认 style control 榜一致）：总榜 / 编码 / 写作 / 难题 / 指令 / 长查询 / WebDev 各取前 50，并补已在库变体。总榜第 1 为 Gemini 4 Carbon (High)，Elo 1527；Argon High 第 2；Neon High 第 3；Muse Wonder Max 第 4；Opus 5.5 High 第 5。WebDev 类目第 1 为 Claude Fable 5.2 (xHigh)。Elo 取发布分四舍五入整数。"
+    - "AA 智能指数改为 v5.0.1（9 项评测，与 v4.3 的 10 项不可比，latest 聚合替换旧值）。默认图表 28 个配置用页面嵌入值（Fable 5.2 max 64.56、GPT-6.2 Astra max 62.14、Gemini 4 Neon xhigh 61.40、Gemini 4 Carbon high 60.03）。另从模型页 releases 列表补了 42 个图表没展开的 release 级分数（含 Gemini 4 Argon 50.41，挂在 high）。FAQ 写受评模型 127 个，本轮只拿到 70 个非空分数，没上这 70 个、又没有旧 AA 证据的变体仍会吃缺席先验。权重仍是 2，先验仍是 30±24，没有改算法。"
+    - "官方价格（标准档，不含缓存和批量）。Anthropic：Fable 5.2 $8/$40，Opus 5.5 $4/$20，Haiku 5.5 短上下文 $0.10/$0.50，Sonnet 5 的 $2/$10 被确认为长期标准价。OpenAI：6.2 Astra $8/$40，6.2 Sol $2/$10，6.1 Terra $1/$5，6 Luna $0.10/$0.50；5.6 Sol 仍是 $4/$20，页面写明促销到 2026-11-30。Google：4 Carbon / Argon 现价 $2/$10，2026-12-01 起改为 $4/$20（到期前一周，本条记的是今天的在售价）；4 Neon $3/$15；3.8 / 3.6 Flash 仍是 $0.75/$3.75 到 2026-12-31。3.7 Flash 已不在定价页。DeepSeek：Flash 峰时缓存未命中改为 $0.30/$1.20，旧模型名 deepseek-v4-flash 由 V4.1-Flash-1017 承接并按新价计；Pro 峰时仍是 $1.32/$3.96。"
+    - "人民币价按 2026-11-24 在岸收盘约 6.6667、取 6.67 折成 USD，原价写在 notes。智谱 GLM-5.3 8/28 元（约 $1.20/$4.20），Flash 0.8/2.8 元。百炼 Qwen4-Max 北京 10/30 元（约 $1.50/$4.50）。火山方舟 Doubao Seed 2.1 Pro 常规 6/30 元（约 $0.90/$4.50，文档 2026-11-19）。Kimi 定价页静态表是空的，只记下 K3 系列上下文 1,048,576，没有记价格。方舟转售的其他厂商价没有写入那些家族。"
+    - "OpenRouter 周用量截至 2026-11-23：DeepSeek V4.1 Flash 1017 66.8T、Hy4 flash 23.5T、DeepSeek V4.1 Flash 15.5T、GLM 5.3 Flash 12.9T、GPT-6 Luna 8.34T，前 10 入账。只展示，不进能力分。"
+    - "上下文：Claude 4.6 及之后（Haiku 5.5 除外）官方写明 1M；DeepSeek、GLM-5.3、Qwen4-Max、Gemini 4 与 3.8/3.6 文档写明 1M 的记 1000；Doubao Seed 2.1 Pro 价格档上限记 1024。"
+    - "没有改的来源：SWE-bench Verified 的 mini-SWE-agent 可比集最新运行仍是 2026-02-26，没有新分数，不把旧分刷成今天。Harness 榜还在 365 天窗口内。Arena Agent 榜现在是 0–1 的分数（Fable 5.2 max 约 0.27），和已注册的净改进率不是一个口径，不混写，指标继续过期，等人工决定要不要新指标。社区口碑检索到的 HN 帖是作者自述或评测稿，没有凑满每模型至少 2 条独立、可归因的用户讨论串，本轮不入册，指标继续过期。"
+    - "新家族（needs_verification）：Muse Wonder、Muse Ember、K2 Horizon、Ling、Beam、Granite，以及 AA 长尾的 Cohere / Step / 中国移动 JT / LG / Liquid / Upstage / Apodex / Nanbeige / JoyAI / Agnes / SK Telecom，还有 Arena 前 50 的 U2。场景正文和权重没动。"
+    - "构建通过（1505 条证据，无域外、无同日冲突）。综合指数前 8：gemini-4-carbon-high 92.7、claude-fable-5 88.7、claude-opus-5.5-max 88.2、gpt-6.2-sol-max 86.9、gemini-4-argon-high 86.3、muse-wonder-full-max 82.2、kimi-k3.1-pro 81.4、claude-sonnet-5.5-max 81.3。"
+    - "波及分析（对比本轮采集前的 2026-11-24 基线）：13 个场景的三档推荐有变化。TOP 多从 claude-fable-5 换成 gemini-4-carbon-high 或 gemini-4-argon-high；deep-research 与 doc-analysis 的 TOP 换成 kimi-k3.1-pro。VALUE 从空档（价格过期后没有性价比分）变成 doubao-seed-2.1-pro，prototyping 与 spreadsheets 是 qwen4-max。这是算法输出：Doubao 只有官方上下文长度和价格、没有能力榜分数，长上下文维度仍把窗口长度当成能力，再乘价格比上限 2，性价比分会很高，置信度是低。FREE 多从 kimi-k3-max 换成 kimi-k3.1-pro（同一 Kimi 产品、底座变体更新）。"
+    - "待人工：全部新证据 verified 仍为 false。下周必须复核 11 月 30 日到期的 Gemini 4 Carbon/Argon 与 GPT-5.6 Sol 促销价。Agent 榜口径和社区口碑缺口留给人工。"
+
 - id: cl-2026-09-12-signal-floor
   date: 2026-09-12
   title: 口碑信号下限修复——中性口碑不再稀释高分模型（fable-5.1 vs fable-5 通用分差 6 → 1.3）
