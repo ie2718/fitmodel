@@ -100,7 +100,9 @@
 
 知情先验上限从 70 调到 85，并按已测能力维度数打折（1 维 ×0.45，2 维 ×0.75，≥3 ×1）。测满了、只是某一维的名次被第 2 条规则拿掉时，不再被夹死在 70；只剩一条 SWE 或一条 WebDev 的旧记录也不能把其余维度抬满。
 
-改完后的综合指数（同一批 11 月证据）：Gemini 4 Carbon High、Opus 5.5 Max、Gemini 4 Neon High、Fable 5、Gemini 4 Argon High、Fable 5.2 Max、GPT-6.2 Astra Max、GPT-6.2 Sol Max。AA 第 1 从第 26 回到第 6，和总榜第 1 的差距来自它的编码类目被规则 2 排除、编码维改走知情先验，不是手调名次。长文档场景的第一名回到长查询榜前列（Argon / Carbon），不再是只标了窗口的模型。性价比第一不再是 Doubao。
+同一批 11 月证据上，通用榜前几名回到 Arena 总榜的顺序（Carbon、Argon、Neon High），Fable 5.2 Max 因为 AA 第 1 插在 Opus 5.5 High 旁边。写作榜与创意写作类目一致，长查询榜与 Longer Query 一致，编码榜前两名与编码类目一致（Carbon、Neon High）。
+
+补一条：只拿到 AA、没有 Arena 名次的变体，缺席的名次榜按中位 50、一半可靠度计入，不再用 AA 百分位独占通用分。GPT-6.2 Astra 的 Text 名次是第 57，采集只收了前 50，旧算法让它的通用分成了第 1。综合指数随之变为：Gemini 4 Carbon High、Gemini 4 Neon High、Fable 5、Gemini 4 Argon High、Fable 5.2 Max、Opus 4.6 High、Opus 4.7 High、Opus 5.5 High。AA 第 1 在第 5（编码类目第 31 被规则 2 排除，该维缺失）。性价比第一是 Qwen4-Max，不再是只有窗口和价格的 Doubao。
 
 ## 四、给 Agent 的数据通道（调研结论 → 落地）
 

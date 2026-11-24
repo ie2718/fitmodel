@@ -1,5 +1,13 @@
 # 更新日志
 
+- id: cl-2026-11-24-boards
+  date: 2026-11-24
+  title: 缺席的 Arena 名次按中位计入，榜单改跟 11 月权威榜
+  entries:
+    - "上一笔撤掉缺席先验之后，只剩 AA 分数、Text 名次在采集前 50 之外的变体用 AA 百分位独占通用分。GPT-6.2 Astra（Text 第 57）因此成为通用榜第 1，Opus 5.5 Max（没有 Text 名次，只有 AA 和 WebDev）综合第 2，WebDev 第 1 的 Fable 5.2 xHigh 独占编码榜。"
+    - "规则：某张 Arena 名次榜已有采集队列，而该变体在同一维度已有别的实测、唯独缺这张榜，按中位 50、一半可靠度计入。完全没有该维度事实的不补。AA 仍不因缺席扣分。"
+    - "榜单（同一批 11 月证据）：综合前 8 为 Gemini 4 Carbon High、Gemini 4 Neon High、Fable 5、Gemini 4 Argon High、Fable 5.2 Max、Opus 4.6 High、Opus 4.7 High、Opus 5.5 High。通用榜前三与 Arena 总榜前三一致（Carbon、Argon、Neon High）。写作榜前三与创意写作类目一致（Fable 5.2 Max、Argon、Opus 5.5 High）。长查询榜前三与 Longer Query 一致（Argon、Carbon、Fable 5）。编码榜前两名与编码类目一致（Carbon、Neon High）。长文档场景最强是 Gemini 4 Argon High。综合指数的性价比第一是 Qwen4-Max。"
+
 - id: cl-2026-11-24-score-audit
   date: 2026-11-24
   title: 评分规则对照 11 月 Arena / AA 修订——现役模型不再被缺席先验和规格分打乱

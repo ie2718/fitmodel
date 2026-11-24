@@ -30,9 +30,9 @@ export const BOARD_DIMS = ['general', 'coding', 'writing', 'long_context'] as co
 
 export const DIM_DESC: Record<string, string> = {
   general:
-    'Arena 总榜名次、难题榜、指令遵循榜，加 AA 智能指数（权重 2×）。总榜 Elo 与总榜名次是同一张榜，名次入分，Elo 只展示。没有 AA 分数不再按「非现役」扣分（2026-11-24 撤下缺席先验：Arena 前 10 里多条现役配置只是分数记在另一个 effort 上）。名次远低于该模型其余证据的类目不进入聚合，仍在「依据」列标注。原始 AA 榜见「AA 智能指数」tab。',
+    'Arena 总榜名次、难题榜、指令遵循榜，加 AA 智能指数（权重 2×）。总榜 Elo 与名次是同一张榜，名次入分，Elo 只展示。没进 Arena 采集前沿的名次按中位计入，避免只剩 AA 分数的变体独占本榜。没有 AA 分数不另扣「非现役」。名次远低于该模型其余证据的类目不进聚合，仍在依据列标注。',
   coding:
-    'Arena 编码类目盲测 + WebDev 类目盲测 + SWE-bench Verified 真实 issue 修复率，三信号可靠度加权。注意：SWE 最新官方运行为 2026-02，早于部分当前旗舰发布，其单项名次请结合区间与「依据」列解读。',
+    'Arena 编码类目、WebDev 类目和 SWE-bench Verified。没进对应 Arena 采集前沿的名次按中位计入，单一 WebDev 名次不再独占本榜。SWE 最新官方运行仍是 2026-02，早于当前旗舰。',
   writing: 'Arena 创意写作类目盲测排名——写作维度唯一证据（无 AA/SWE 等能力锚覆盖），单仪器读数，综合指数权重据此降为 0.1；写作类场景页仍以本维度为主（场景独立权重）。',
   long_context:
     'Arena 长查询类目的人类偏好名次。官方上下文窗口是规格，单独展示，不进这个分数，也不进性价比。',

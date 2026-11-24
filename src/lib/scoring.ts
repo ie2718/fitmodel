@@ -412,6 +412,48 @@ export function buildScoreEngine(
     }
   }
 
+  // 前沿名次榜已有队列时，缺席不是「当成没这张榜」。
+  // 只拿到 AA、没进 Arena 采集前沿的变体，原先用 AA 百分位独占通用分，
+  // 会排到既有 AA 又有总榜名次的模型前面（GPT-6.2 Astra 通用第 1，而它的 Text 名次在第 57）。
+  // 该维度里已经有一条真实能力事实时，缺席的名次榜按中位 50、半可靠度计入。
+  // 完全没有该维度事实的实体不补（避免空模型变成满分覆盖的 50 分）。
+  // AA 不在此列：它经常只记一个 effort，缺席不等于没进前沿。
+  const MISSING_RANK_PCT = 50;
+  const MISSING_RANK_SE = 22;
+  for (const ent of entities.values()) {
+    const liveDims = new Set<string>();
+    for (const f of Object.values(ent.facts)) {
+      if (f.stale || f.prior || f.inactive || f.outlier) continue;
+      const dim = defs.get(f.metric)!.dimension;
+      if (SCORE_DIMS.has(dim)) liveDims.add(dim);
+    }
+    for (const def of metrics) {
+      if (def.unit !== 'rank' || !def.cohort_size) continue;
+      if (!SCORE_DIMS.has(def.dimension)) continue;
+      if ((cohortByMetric.get(def.id) ?? 0) < 4) continue;
+      const existing = ent.facts[def.id];
+      if (existing && !existing.stale) continue;
+      if (!liveDims.has(def.dimension)) continue;
+      ent.facts[def.id] = {
+        metric: def.id,
+        value: MISSING_RANK_PCT,
+        score: MISSING_RANK_PCT,
+        se: MISSING_RANK_SE,
+        evidId: `missing::${def.id}`,
+        source: `${def.source}（未入前沿）`,
+        sourceUrl: '',
+        retrievedAt: now,
+        tier: def.source_tier,
+        stale: false,
+        disputed: false,
+        reliability: (TIER_WEIGHT[def.source_tier] ?? 0.5) * 0.5,
+        cohort: cohortByMetric.get(def.id) ?? 1,
+        prior: true,
+        notes: `未进入该榜采集前沿（前 ${def.cohort_size}），按中位 ${MISSING_RANK_PCT} 计入`,
+      };
+    }
+  }
+
   for (const ent of entities.values()) {
     const byDim = new Map<string, Fact[]>();
     for (const f of Object.values(ent.facts)) {
@@ -435,7 +477,7 @@ export function buildScoreEngine(
           ? fs.reduce((a, f) => a + ew(f) * (f.score - score) ** 2, 0) / wSum
           : 0;
       const se = Math.max(SE_FLOOR, Math.sqrt(withinVar + betweenVar));
-      ent.dimScores[dim] = { score, se, n: fs.length };
+      ent.dimScores[dim] = { score, se, n: fs.filter((f) => !f.prior).length };
     }
   }
 
@@ -484,7 +526,8 @@ export function buildScoreEngine(
       measuredFactWeights.push({ w, ds });
       // 该维度下的有效事实（与聚合口径一致：话语权 = 指标权重 × 可靠度）
       const fs = Object.values(ent.facts).filter(
-        (f) => !f.stale && !f.inactive && !f.outlier && defs.get(f.metric)!.dimension === dim,
+        (f) =>
+          !f.stale && !f.inactive && !f.outlier && !f.prior && defs.get(f.metric)!.dimension === dim,
       );
       const ew = (f: Fact) => f.reliability * (defs.get(f.metric)?.weight ?? 1);
       const fw = fs.reduce((a, f) => a + ew(f), 0) || 1;
@@ -507,7 +550,7 @@ export function buildScoreEngine(
     const agreeFactor = disputed ? 0.9 : 1;
     // ---- 第二段：缺失维度用「知情先验」收缩 ----
     // 先验不再是盲目的 50，而是该实体自身实测水平（已知强 → 其他维度按同水平估计），
-    // 按证据可靠度（来源层级 × 样本量）打折——证据越薄越向中位回落，夹在 [30, 70]。
+    // 按证据可靠度（来源层级 × 样本量）和已测维度数打折，夹在 [30, 85]。
     // 对比盲先验：AA 总榜第 2 的新模型不再被「缺编码/写作数据」拖到中游冒充实排。
     const measuredMean = usedW > 0 ? accMeasured / usedW : null;
     // 证据广度：只测到 1 个能力维度时，缺失维度少跟着走（×0.45）；2 个 ×0.75；≥3 全额。
